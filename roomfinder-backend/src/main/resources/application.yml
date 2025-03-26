@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: roomfinder-backend
+  profiles:
+    active: local, no-auth # Start in local profile on default for development
+  threads:
+    virtual:
+      enabled: true

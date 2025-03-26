@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:3000"
+  backend:
+    image: roomfinder-backend:local
+  db:
+    image: postgres:13-alpine
+

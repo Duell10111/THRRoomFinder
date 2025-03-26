@@ -1,0 +1,45 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = "postgresql://user:password@localhost:5432/roomFinderDB" // Local database for generation
+  extensions = [postgis(version: "3.4.3")]
+}
+
+model Room {
+  id       String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name     String               @unique
+  uuid     String               @unique
+  location Unsupported("point")
+
+  building_id String
+
+  Building     Building       @relation(fields: [building_id], references: [id])
+  ErrorReports ErrorReports[]
+
+  @@map("room") // Needed for Spring compatibility
+}
+
+model Building {
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name String @unique
+
+  Room Room[]
+
+  @@map("building") // Needed for Spring compatibility
+}
+
+model ErrorReports {
+  // Random ID
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  description String
+
+  room_id String? @db.Uuid
+
+  room Room? @relation(fields: [room_id], references: [id])
+
+  @@map("error_reports")
+}

@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgis/postgis:17-3.4-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=roomFinderDB
+
