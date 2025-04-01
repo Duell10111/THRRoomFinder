@@ -10,12 +10,13 @@ datasource db {
 }
 
 model Room {
-  id       String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name     String               @unique
-  uuid     String               @unique
-  location Unsupported("point")
+  id         String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String               @unique
+  location   Unsupported("point")
+  source     Source
+  updated_at DateTime             @default(now())
 
-  building_id String
+  building_id String @db.Uuid
 
   Building     Building       @relation(fields: [building_id], references: [id])
   ErrorReports ErrorReports[]
@@ -23,13 +24,29 @@ model Room {
   @@map("room") // Needed for Spring compatibility
 }
 
+enum Source {
+  UNKNOWN
+  OSM
+}
+
 model Building {
   id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name String @unique
 
-  Room Room[]
+  Room         Room[]
+  BuildingNode BuildingNode[]
 
   @@map("building") // Needed for Spring compatibility
+}
+
+model BuildingNode {
+  building_id String @db.Uuid
+  node_id     String
+
+  building Building @relation(fields: [building_id], references: [id])
+
+  @@id([building_id, node_id])
+  @@map("building_nodes")
 }
 
 model ErrorReports {

@@ -6,3 +6,19 @@ spring:
   threads:
     virtual:
       enabled: true
+
+logging:
+  level:
+#    reactor.netty.http.client.HttpClient: DEBUG
+    com.kospaeth.roomfinder: DEBUG
+
+room-finder:
+  splan:
+    url: "ddd"
+  osm:
+    over-pass-url: "foo"
+    building-way-ids:
+      # Hauptgebäude
+      - 28400949 # Building A
+  admin-ids:
+    - test

@@ -7,6 +7,7 @@ plugins {
     id("org.springframework.boot") version "3.4.3"
     id("com.google.cloud.tools.jib") version "3.4.4"
     id("com.diffplug.spotless") version "6.25.0"
+    id("jacoco")
 }
 
 group = "com.kospaeth"
@@ -28,6 +29,7 @@ dependencies {
     annotationProcessor(platform(SpringBootPlugin.BOM_COORDINATES))
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // Spring Extensions
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -40,7 +42,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")
     runtimeOnly("org.postgresql:postgresql")
-    runtimeOnly("org.postgresql:r2dbc-postgresql")
+    implementation("org.postgresql:r2dbc-postgresql") // Implementation needed for Config Adaptions
 
     // Springdoc
     implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.7.0")
@@ -55,6 +57,7 @@ dependencies {
     // Tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("io.mockk:mockk:1.13.17")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
@@ -77,7 +80,7 @@ tasks.withType<Test> {
 
 spotless {
     kotlin {
-        ktlint()
+        ktlint().setEditorConfigPath("./.editorconfig")
     }
 }
 
@@ -87,5 +90,12 @@ kapt {
         // https://kotlinlang.org/docs/reference/kapt.html#annotation-processor-arguments
         // https://mapstruct.org/documentation/stable/reference/html/#configuration-options
         arg("mapstruct.defaultComponentModel", "spring")
+    }
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
     }
 }

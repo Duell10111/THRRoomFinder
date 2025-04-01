@@ -1,5 +1,6 @@
 package com.kospaeth.roomfinder
 
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.PostgreSQLContainer
@@ -7,6 +8,7 @@ import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
 
+@ActiveProfiles("test")
 @Testcontainers
 abstract class DatabaseTestBase {
     companion object {
