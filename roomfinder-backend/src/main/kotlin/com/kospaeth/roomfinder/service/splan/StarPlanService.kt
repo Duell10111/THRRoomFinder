@@ -1,0 +1,124 @@
+package com.kospaeth.roomfinder.service.splan
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.kospaeth.roomfinder.config.SPlanProperties
+import io.github.oshai.kotlinlogging.KotlinLogging
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
+import org.springframework.core.io.ByteArrayResource
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
+import org.springframework.stereotype.Service
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.awaitBody
+import org.springframework.web.reactive.function.client.awaitExchange
+import java.time.LocalDate
+import java.time.LocalTime
+
+private val logger = KotlinLogging.logger {}
+
+@Service
+class StarPlanService(
+    private val webClient: WebClient,
+    private val properties: SPlanProperties,
+    private val objectMapper: ObjectMapper
+) {
+    // TODO: Add fkt to parse iCal fkts and enhance with room latlongs
+
+    // TODO: Extend for future location selection
+    suspend fun getScheduleForRoom(location: StarPlanLocation, room: String): List<RoomSchedule> {
+        return getRoom(location, room)?.id.let { roomId ->
+            webClient.get()
+                .uri("https://splan.th-rosenheim.de/splan/json?m=getTT&sel=ro&pu=41&ro=${roomId}&sd=true&dfc=2025-04-03&loc=${location.locationId}&sa=false&cb=o")
+                .awaitExchange { response ->
+                    val roomData = response.awaitBody<String>()
+
+                    parseRoomData(roomData, location)
+                }
+        }
+    }
+
+    private val WIDTH_EXTRACT_REGEX = """width:(\d+)px;""".toRegex()
+
+    private fun parseRoomData(roomData: String, location: StarPlanLocation): List<RoomSchedule> {
+        val parsedData = Jsoup.parse(roomData)
+
+        val weekDayEntries = parsedData.getElementsByClass("ttweekdaycell")
+        val days = weekDayEntries.map { weekDay ->
+            weekDay.getElementsByAttribute("data-date").attr("data-date").let { LocalDate.parse(it) }
+        }
+
+        val boxWidth = weekDayEntries.find {
+            it.hasAttr("style")
+        }?.attribute("style")?.value?.let {
+            WIDTH_EXTRACT_REGEX.find(it)?.groupValues?.get(1)?.toInt()
+        } ?: throw IllegalStateException("Can't parse room width of SPLAN calendar")
+
+        val timeEvents = parsedData.getElementsByClass("ttevent").mapNotNull { timeEvent ->
+            val day = timeEvent.getCalendarIndex(boxWidth)?.let { days[it] }
+                ?: return@mapNotNull null // TODO: Add error log entry here
+
+            // Use Tooltip information as they are contain no shortcuts
+            timeEvent.getElementsByClass("tooltip").textNodes().let { textNodes ->
+                runCatching {
+                    val (start, end) = textNodes.last().wholeText.split("-").map { LocalTime.parse(it) }.map { day.atTime(it) }
+                    RoomSchedule(
+                        location = location,
+                        name = textNodes.gett(0).wholeText,
+                        lecturer = textNodes.subList(1, textNodes.size - 3).map { it.wholeText }.joinToString(","),
+                        relevantDegrees = textNodes.gett(-3).wholeText,
+                        room = textNodes.gett(-2).wholeText,
+                        startTime = start,
+                        endTime = end
+                    )
+                }.onFailure {
+                    logger.error(it) { "Error while parsing room data" }
+                }.getOrNull()
+            }
+        }
+
+        return timeEvents
+    }
+
+    private fun Element.getCalendarIndex(timeBoxWidth: Int) : Int? {
+        return styleWidth?.let { Math.floorDiv(it, timeBoxWidth) }
+    }
+
+    private val Element.styleWidth : Int?
+        get() = attr("style").let { WIDTH_EXTRACT_REGEX.find(it)?.groupValues?.get(1)?.toInt() }
+
+    /**
+     * Helper fkt to allow accessing a list from the end with negative indexes
+     */
+    private fun <E> List<E>.gett(index: Int): E = if (index < 0) {
+        this[size + index]
+    } else {
+        this[index]
+    }
+
+    // TODO: Cache?!
+    suspend fun getRoom(location: StarPlanLocation, room: String): SPlanRoomResponseItem? {
+        return getAvailableRooms(location).firstOrNull { it.shortName == room }
+    }
+
+    suspend fun getAvailableRooms(location: StarPlanLocation): List<SPlanRoomResponseItem> {
+        return webClient.get()
+            .uri("${properties.url}?m=getros&loc=${location.locationId}")
+            .headers { headers ->
+                headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            }
+            .awaitExchange { response ->
+                // Parse byteArray manually as sever return unsupported ISO_8859_1 Charset
+                val str = response.awaitBody<ByteArrayResource>().byteArray.toString(Charsets.ISO_8859_1)
+                // Nested list
+                val value : List<List<SPlanRoomResponseItem>> = objectMapper.readValue(str)
+
+                value.firstOrNull() ?: emptyList()
+            }
+    }
+}
+
+enum class StarPlanLocation(val locationId: Int) {
+    RO(3)
+}

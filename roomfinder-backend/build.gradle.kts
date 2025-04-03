@@ -51,6 +51,9 @@ dependencies {
     implementation("org.mapstruct:mapstruct:1.6.0")
     kapt("org.mapstruct:mapstruct-processor:1.6.0")
 
+    // HTML Parser
+    implementation("org.jsoup:jsoup:1.19.1")
+
     // Logging
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.0")
 
@@ -58,6 +61,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("io.mockk:mockk:1.13.17")
+    testImplementation("org.wiremock:wiremock-standalone:3.12.1")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")

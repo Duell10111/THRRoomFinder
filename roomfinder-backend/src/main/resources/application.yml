@@ -16,7 +16,7 @@ room-finder:
   splan:
     url: "ddd"
   osm:
-    over-pass-url: "foo"
+    over-pass-url: "https://overpass-api.de/api/interpreter"
     building-way-ids:
       # Hauptgebäude
       - 28400949 # Building A
