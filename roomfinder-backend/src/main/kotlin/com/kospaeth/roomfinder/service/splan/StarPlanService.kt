@@ -66,7 +66,7 @@ class StarPlanService(
                     RoomSchedule(
                         location = location,
                         name = textNodes.gett(0).wholeText,
-                        lecturer = textNodes.subList(1, textNodes.size - 3).map { it.wholeText }.joinToString(","),
+                        lecturer = textNodes.subList(1, textNodes.size - 3).map { it.wholeText }.joinToString(", "),
                         relevantDegrees = textNodes.gett(-3).wholeText,
                         room = textNodes.gett(-2).wholeText,
                         startTime = start,

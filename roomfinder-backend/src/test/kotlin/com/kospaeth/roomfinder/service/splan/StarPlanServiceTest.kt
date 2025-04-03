@@ -27,7 +27,7 @@ class StarPlanServiceTest{
 
     @BeforeEach
     fun setUp() {
-        val properties = SPlanProperties("https://splan.th-rosenheim.de/splan/json")
+        val properties = SPlanProperties("${wireMockExtension.baseUrl()}/splan/json")
         val httpClient = HttpClient
             .create()
             .wiretap(

@@ -2,6 +2,7 @@ package com.kospaeth.roomfinder.controller
 
 import com.kospaeth.roomfinder.data.dto.RoomDTO
 import com.kospaeth.roomfinder.service.RoomService
+import com.kospaeth.roomfinder.service.splan.RoomSchedule
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -22,5 +23,10 @@ class RoomController(
         return roomService.getLocationForRoom(roomName)?.let {
             ResponseEntity.ok(it)
         } ?: ResponseEntity.notFound().build()
+    }
+
+    @GetMapping("/{roomName}/schedule")
+    suspend fun getScheduleForRoom(@PathVariable roomName: String) : ResponseEntity<List<RoomSchedule>> {
+        return roomService.getRoomScheduleForRoom(roomName).let { ResponseEntity.ok(it) }
     }
 }

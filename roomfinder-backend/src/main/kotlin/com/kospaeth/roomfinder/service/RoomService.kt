@@ -5,14 +5,16 @@ import com.kospaeth.roomfinder.data.dto.RoomDTO
 import com.kospaeth.roomfinder.data.entities.Room
 import com.kospaeth.roomfinder.data.entities.Source
 import com.kospaeth.roomfinder.data.mapper.RoomMapper
-import com.kospaeth.roomfinder.data.repository.BuildingRepository
 import com.kospaeth.roomfinder.data.repository.RoomRepository
 import com.kospaeth.roomfinder.service.osm.OSMExtractorService
 import com.kospaeth.roomfinder.service.osm.locationPoint
+import com.kospaeth.roomfinder.service.splan.RoomSchedule
+import com.kospaeth.roomfinder.service.splan.StarPlanLocation
+import com.kospaeth.roomfinder.service.splan.StarPlanService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 private val logger = KotlinLogging.logger {}
 
@@ -23,12 +25,17 @@ class RoomService(
     private val roomRepository: RoomRepository,
     private val buildingService: BuildingService,
     private val osmExtractorService: OSMExtractorService,
+    private val starPlanService: StarPlanService,
 ) {
     suspend fun getLocationForRoom(roomName: String): RoomDTO? {
         val roomData = roomRepository.findRoomByName(roomName) ?: fetchRoomFromOSM(roomName)
         return roomData?.let {
             roomMapper.toDTO(it)
         }
+    }
+
+    suspend fun getRoomScheduleForRoom(roomName: String): List<RoomSchedule> {
+        return starPlanService.getScheduleForRoom(StarPlanLocation.RO, roomName)
     }
 
     // TODO: Only check once in specific time

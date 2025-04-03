@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.kospaeth"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1-SNAPSHOT" // TODO: Make dynamic to release env?
 
 java {
     toolchain {
@@ -103,3 +103,5 @@ tasks.jacocoTestReport {
         html.required.set(true)
     }
 }
+
+// TODO: Add spottless depend when building

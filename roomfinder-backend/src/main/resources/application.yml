@@ -14,7 +14,7 @@ logging:
 
 room-finder:
   splan:
-    url: "ddd"
+    url: "https://splan.th-rosenheim.de/splan/json"
   osm:
     over-pass-url: "https://overpass-api.de/api/interpreter"
     building-way-ids:
