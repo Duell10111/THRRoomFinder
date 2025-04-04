@@ -29,8 +29,12 @@ class StarPlanService(
     // TODO: Extend for future location selection
     suspend fun getScheduleForRoom(location: StarPlanLocation, room: String): List<RoomSchedule> {
         return getRoom(location, room)?.id.let { roomId ->
+            val splanURL = "https://splan.th-rosenheim.de/splan/json?m=getTT&sel=ro&pu=41&ro=${roomId}&sd=true&dfc=${LocalDate.now()}&loc=${location.locationId}&sa=false&cb=o"
+
+            logger.info { "Fetching SPlan Schedule via url $splanURL" }
+
             webClient.get()
-                .uri("https://splan.th-rosenheim.de/splan/json?m=getTT&sel=ro&pu=41&ro=${roomId}&sd=true&dfc=2025-04-03&loc=${location.locationId}&sa=false&cb=o")
+                .uri(splanURL)
                 .awaitExchange { response ->
                     val roomData = response.awaitBody<String>()
 
@@ -38,8 +42,6 @@ class StarPlanService(
                 }
         }
     }
-
-    private val WIDTH_EXTRACT_REGEX = """width:(\d+)px;""".toRegex()
 
     private fun parseRoomData(roomData: String, location: StarPlanLocation): List<RoomSchedule> {
         val parsedData = Jsoup.parse(roomData)
@@ -51,9 +53,7 @@ class StarPlanService(
 
         val boxWidth = weekDayEntries.find {
             it.hasAttr("style")
-        }?.attribute("style")?.value?.let {
-            WIDTH_EXTRACT_REGEX.find(it)?.groupValues?.get(1)?.toInt()
-        } ?: throw IllegalStateException("Can't parse room width of SPLAN calendar")
+        }?.styleWidth ?: throw IllegalStateException("Can't parse room width of SPLAN calendar")
 
         val timeEvents = parsedData.getElementsByClass("ttevent").mapNotNull { timeEvent ->
             val day = timeEvent.getCalendarIndex(boxWidth)?.let { days[it] }
@@ -73,7 +73,7 @@ class StarPlanService(
                         endTime = end
                     )
                 }.onFailure {
-                    logger.error(it) { "Error while parsing room data" }
+                    logger.error(it) { "Error while parsing room data: $timeEvent" }
                 }.getOrNull()
             }
         }
@@ -82,11 +82,20 @@ class StarPlanService(
     }
 
     private fun Element.getCalendarIndex(timeBoxWidth: Int) : Int? {
-        return styleWidth?.let { Math.floorDiv(it, timeBoxWidth) }
+        return styleLeft?.let {
+            // Use min 0 as left style is sometime -1px which results in a negative div
+            Math.floorDiv(it, timeBoxWidth).coerceAtLeast(0)
+        }
     }
+
+    private val WIDTH_EXTRACT_REGEX = """width:(\d+)px;""".toRegex()
+    private val LEFT_EXTRACT_REGEX = """left:(-?\d+)px;""".toRegex()
 
     private val Element.styleWidth : Int?
         get() = attr("style").let { WIDTH_EXTRACT_REGEX.find(it)?.groupValues?.get(1)?.toInt() }
+
+    private val Element.styleLeft : Int?
+        get() = attr("style").let { LEFT_EXTRACT_REGEX.find(it)?.groupValues?.get(1)?.toInt() }
 
     /**
      * Helper fkt to allow accessing a list from the end with negative indexes
