@@ -6,21 +6,25 @@ import 'maplibre-gl-indoorequal/maplibre-gl-indoorequal.css';
 import {IndoorControls} from "@/components/IndoorControls";
 import {RoomClicker} from "@/components/RoomClicker";
 
+const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
 export function CampusMap() {
     return (
         <Map
+            // TODO: Add map bounds to only allow RO locations
             initialViewState={{
                 longitude: 12.107220832011787,
                 latitude: 47.86746398383466,
                 zoom: 18
             }}
             style={{width: 1200, height: 700}}
-            // mapStyle="https://s3.amazonaws.com/cdn.brianbancroft.io/assets/osmstyle.json"
-            mapStyle={`https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
-            // mapStyle="https://demotiles.maplibre.org/style.json"
+            // mapStyle={"https://raw.githubusercontent.com/go2garret/maps/main/src/assets/json/openStreetMap.json"}
+            mapStyle={isDarkMode ? "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json" : `https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
+            // mapStyle={`https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
             // onClick={console.log}
             // onContextMenu={console.log}
             // interactiveLayerIds={["indoor-polygon"]}
+            attributionControl={{compact: true}}
         >
             <IndoorControls />
             <RoomClicker />

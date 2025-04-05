@@ -1,6 +1,9 @@
 import {Popup, useMap} from "react-map-gl/maplibre";
 import {useEffect, useState} from "react";
 import {booleanPointInPolygon} from "@turf/turf"
+import {RoomPopup} from "@/components/RoomPopup";
+
+import './popup.css'
 
 export function RoomClicker() {
     const {current} = useMap();
@@ -35,8 +38,15 @@ export function RoomClicker() {
 
     return (
         <>
-            {popup ? (
-                <Popup latitude={popup.lat} longitude={popup.long} onClose={() => setPopup(undefined)}>{name}</Popup>
+            {popup && name ? (
+                <Popup
+                    latitude={popup.lat}
+                    longitude={popup.long}
+                    // className={styles.popup}
+                    onClose={() => setPopup(undefined)}
+                >
+                    <RoomPopup roomName={name} buildingId={""} />
+                </Popup>
             ) : null}
         </>
     );
