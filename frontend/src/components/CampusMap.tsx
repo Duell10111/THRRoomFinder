@@ -6,6 +6,8 @@ import 'maplibre-gl-indoorequal/maplibre-gl-indoorequal.css';
 import {IndoorControls} from "@/components/IndoorControls";
 import {RoomClicker} from "@/components/RoomClicker";
 
+import './map.css'
+
 const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 export function CampusMap() {
@@ -17,7 +19,8 @@ export function CampusMap() {
                 latitude: 47.86746398383466,
                 zoom: 18
             }}
-            style={{width: 1200, height: 700}}
+            style={{width: '100%', height: '100%'}}
+            // style={{width:'100%', height:'100%'}}
             // mapStyle={"https://raw.githubusercontent.com/go2garret/maps/main/src/assets/json/openStreetMap.json"}
             mapStyle={isDarkMode ? "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json" : `https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
             // mapStyle={`https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
