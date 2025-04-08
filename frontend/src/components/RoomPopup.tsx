@@ -1,6 +1,7 @@
 import useScheduleData from "@/hooks/useScheduleData";
 import {ScheduleData} from "@/utils/data";
 import {useMemo} from "react";
+import {Loader} from "@mantine/core";
 
 interface RoomPopupProps {
     roomName: string;
@@ -12,11 +13,15 @@ export function RoomPopup({roomName, buildingId}: RoomPopupProps) {
 
     const next = useMemo(() => data ? findNextEntry(data) : undefined, [data])
 
+    // Loading data
+    if(next === undefined) {
+        return <>
+            <Loader size={"xs"} />
+        </>
+    }
+
     return (
         <>
-            {
-                data?.map(item => item.room)
-            }
             {next ? (
                 <div>
                     <h2>Nächste Veranstaltung</h2>

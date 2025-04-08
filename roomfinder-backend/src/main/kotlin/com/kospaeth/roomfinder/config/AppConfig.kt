@@ -2,6 +2,7 @@ package com.kospaeth.roomfinder.config
 
 import io.netty.handler.logging.LogLevel
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
+import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
@@ -11,6 +12,7 @@ import reactor.netty.transport.logging.AdvancedByteBufFormat
 
 
 @Configuration
+@EnableCaching
 @ConfigurationPropertiesScan
 class AppConfig {
     @Bean
@@ -25,7 +27,7 @@ class AppConfig {
 
         return WebClient
             .builder()
-            .clientConnector(ReactorClientHttpConnector(httpClient))
+//            .clientConnector(ReactorClientHttpConnector(httpClient))
             .build()
     }
 

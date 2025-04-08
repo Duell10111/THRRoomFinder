@@ -12,6 +12,9 @@ import com.kospaeth.roomfinder.service.splan.RoomSchedule
 import com.kospaeth.roomfinder.service.splan.StarPlanLocation
 import com.kospaeth.roomfinder.service.splan.StarPlanService
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
+import org.springframework.cache.Cache
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.*
@@ -27,6 +30,10 @@ class RoomService(
     private val osmExtractorService: OSMExtractorService,
     private val starPlanService: StarPlanService,
 ) {
+    suspend fun getAllRooms(): List<RoomDTO> {
+        return roomRepository.findAll().map { roomMapper.toDTO(it) }.toList()
+    }
+
     suspend fun getLocationForRoom(roomName: String): RoomDTO? {
         val roomData = roomRepository.findRoomByName(roomName) ?: fetchRoomFromOSM(roomName)
         return roomData?.let {
@@ -35,6 +42,8 @@ class RoomService(
     }
 
     suspend fun getRoomScheduleForRoom(roomName: String): List<RoomSchedule> {
+
+
         return starPlanService.getScheduleForRoom(StarPlanLocation.RO, roomName)
     }
 

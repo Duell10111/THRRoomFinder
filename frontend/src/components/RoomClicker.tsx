@@ -1,37 +1,32 @@
 import {Popup, useMap} from "react-map-gl/maplibre";
 import {useEffect, useState} from "react";
-import {booleanPointInPolygon} from "@turf/turf"
 import {RoomPopup} from "@/components/RoomPopup";
 
 import './popup.css'
+import {getRoomName} from "@/components/MapUtils";
+import {useRoomContext} from "@/context/RoomContext";
+import {getRoom} from "@/utils/data";
 
 export function RoomClicker() {
     const {current} = useMap();
     const [popup, setPopup] = useState<{lat: number, long: number}>();
     const [name, setName] = useState<string>();
+    const {setRoomData} = useRoomContext()
 
     useEffect(() => {
         const map = current?.getMap();
-        if(map) {
+        if(map && current) {
             map.on('click', "indoor-polygon", (e) => {
                 // Fetch room name
-                const geometry = e.features?.[0]?.geometry;
-                if(geometry && geometry.type === "Polygon") {
-                    const nameFeatures = map.queryRenderedFeatures({layers: ['indoor-name']});
-                    const roomName = nameFeatures.find(f => {
-                        if(f.geometry.type === "Point") {
-                            return booleanPointInPolygon(f.geometry, geometry);
-                        }
-                        // Ignore non compatible geometry
-                        return false;
-                    });
-                    console.log("Room Name: ", roomName);
-                    if(roomName) {
-                        setPopup({lat: e.lngLat.lat, long: e.lngLat.lng});
-                        setName(roomName?.properties.name);
-                    }
+                const roomName = getRoomName(e, current)
+                if(roomName) {
+                    setPopup({lat: e.lngLat.lat, long: e.lngLat.lng});
+                    setName(roomName);
+                    getRoom(roomName).then(data => {
+                        if(data)
+                            setRoomData(data)
+                    }).catch(console.error);
                 }
-                console.log(map.getLayer("indoor-name"))
             })
         }
     }, [current]);
@@ -42,7 +37,6 @@ export function RoomClicker() {
                 <Popup
                     latitude={popup.lat}
                     longitude={popup.long}
-                    // className={styles.popup}
                     onClose={() => setPopup(undefined)}
                 >
                     <RoomPopup roomName={name} buildingId={""} />

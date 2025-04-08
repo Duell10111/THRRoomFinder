@@ -15,6 +15,11 @@ class RoomController(
     private val roomService: RoomService,
 ) {
 
+    @GetMapping("/")
+    suspend fun getRooms(): List<RoomDTO> {
+        return roomService.getAllRooms()
+    }
+
     @GetMapping("/{roomName}")
     suspend fun getLocationForRoom(
         @PathVariable roomName: String,

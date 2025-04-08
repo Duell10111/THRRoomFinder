@@ -1,27 +1,24 @@
 import {useMap} from "react-map-gl/maplibre";
-import {backendUrl} from "@/utils/const";
-import {RoomData} from "@/utils/data";
+import {getRoom} from "@/utils/data";
+import {useRoomContext} from "@/context/RoomContext";
 
 
 export default function useRoomInput() {
-    const {current} = useMap()
+    const {campus} = useMap()
+    const {setRoomData} = useRoomContext()
+
+    // TODO: Get list of already known rooms
 
     const jumpToRoom = async (roomName: string) => {
         const room = await getRoom(roomName)
-        if(room && current) {
-            current.jumpTo({center: [room.location.lat, room.location.lng]})
-        }
-    }
-
-    const getRoom = async (roomName: string) => {
-        const data = await fetch(`${backendUrl}/api/v1/room/${roomName}`)
-        if(data.ok) {
-            return await data.json() as RoomData;
-        } else if(data.status === 404) {
-            return undefined;
+        if(room && campus) {
+            console.log(room)
+            setRoomData(room)
+            campus.flyTo({center: [room.location.lng, room.location.lat], zoom: 20})
         } else {
-            throw new Error("Could not find room with status code: " + data.status);
+            console.warn("No map available")
         }
+
     }
 
     return {jumpToRoom}

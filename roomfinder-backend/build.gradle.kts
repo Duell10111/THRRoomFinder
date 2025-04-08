@@ -30,6 +30,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
 
     // Spring Extensions
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -56,6 +57,9 @@ dependencies {
 
     // Logging
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.0")
+
+    // Caching
+    implementation("com.github.ben-manes.caffeine:caffeine:3.2.0")
 
     // Tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")

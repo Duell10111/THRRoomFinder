@@ -6,6 +6,9 @@ spring:
   threads:
     virtual:
       enabled: true
+  cache:
+    caffeine:
+      spec: "maximumSize=500,expireAfterWrite=3600s"
 
 logging:
   level:

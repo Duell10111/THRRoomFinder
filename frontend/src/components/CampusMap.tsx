@@ -13,6 +13,7 @@ const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 export function CampusMap() {
     return (
         <Map
+            id="campus"
             // TODO: Add map bounds to only allow RO locations
             initialViewState={{
                 longitude: 12.107220832011787,
@@ -20,7 +21,6 @@ export function CampusMap() {
                 zoom: 18
             }}
             style={{width: '100%', height: '100%'}}
-            // style={{width:'100%', height:'100%'}}
             // mapStyle={"https://raw.githubusercontent.com/go2garret/maps/main/src/assets/json/openStreetMap.json"}
             mapStyle={isDarkMode ? "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json" : `https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
             // mapStyle={`https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}

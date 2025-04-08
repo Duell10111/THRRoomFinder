@@ -4,8 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.kospaeth.roomfinder.config.SPlanProperties
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotlinx.coroutines.reactor.awaitSingleOrNull
+import kotlinx.coroutines.reactor.mono
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
+import org.springframework.cache.Cache
+import org.springframework.cache.CacheManager
+import org.springframework.cache.set
 import org.springframework.core.io.ByteArrayResource
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -22,8 +27,12 @@ private val logger = KotlinLogging.logger {}
 class StarPlanService(
     private val webClient: WebClient,
     private val properties: SPlanProperties,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    cacheManager: CacheManager
 ) {
+
+    private val cache: Cache = cacheManager.getCache("splan") ?: throw IllegalStateException("Cache not initialized")
+
     // TODO: Add fkt to parse iCal fkts and enhance with room latlongs
 
     // TODO: Extend for future location selection
@@ -112,6 +121,11 @@ class StarPlanService(
     }
 
     suspend fun getAvailableRooms(location: StarPlanLocation): List<SPlanRoomResponseItem> {
+        getAvailableRoomsFromCache(location)?.let {
+            logger.debug { "Found available rooms for location $location from cache: ${it.size}" }
+            return it
+        }
+
         return webClient.get()
             .uri("${properties.url}?m=getros&loc=${location.locationId}")
             .headers { headers ->
@@ -124,9 +138,31 @@ class StarPlanService(
                 val value : List<List<SPlanRoomResponseItem>> = objectMapper.readValue(str)
 
                 value.firstOrNull() ?: emptyList()
+            }.also { list ->
+                if(list.isNotEmpty()) {
+                    saveAvailableRooms(location, list)
+                    logger.debug { "Caching SPlan Room list for location $location" }
+                }
             }
     }
+
+    private suspend fun getAvailableRoomsFromCache(location: StarPlanLocation): List<SPlanRoomResponseItem>? {
+        return mono {
+            cache.get(location.avalRoomCacheKey, AvailableRoomsCacheEntry::class.java)?.rooms
+        }.awaitSingleOrNull()
+    }
+
+    private suspend fun saveAvailableRooms(location: StarPlanLocation, rooms: List<SPlanRoomResponseItem>) {
+        mono { cache[location.avalRoomCacheKey] = AvailableRoomsCacheEntry(rooms) }.awaitSingleOrNull()
+    }
+
+    private val StarPlanLocation.avalRoomCacheKey: String
+        get() = "splan-room-list_${locationId}"
 }
+
+data class AvailableRoomsCacheEntry(
+    val rooms: List<SPlanRoomResponseItem>,
+)
 
 enum class StarPlanLocation(val locationId: Int) {
     RO(3)

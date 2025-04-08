@@ -1,16 +1,18 @@
 "use client"
 
-import {AppShell, Autocomplete, Burger, Container, Group, Skeleton, Space} from "@mantine/core";
+import {AppShell, Burger, Group} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
-import {CampusMap} from "@/components/CampusMap";
 import {MapProvider} from "react-map-gl/maplibre";
 import {MapPage} from "@/sites/MapPage";
+import {RoomContextProvider} from "@/context/RoomContext";
+import {RoomDetails} from "@/sites/RoomDetails";
 
 export default function Home() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(false);
 
   return (
+      <RoomContextProvider>
       <AppShell
           header={{ height: 60 }}
           navbar={{
@@ -27,13 +29,14 @@ export default function Home() {
             {/*<MantineLogo size={30} />*/}
           </Group>
         </AppShell.Header>
-        <AppShell.Navbar p="md">
-          Navbar
-          {Array(15)
-              .fill(0)
-              .map((_, index) => (
-                  <Skeleton key={index} h={28} mt="sm" animate={false} />
-              ))}
+        <AppShell.Navbar p="xd">
+            <RoomDetails />
+          {/*Navbar*/}
+          {/*{Array(15)*/}
+          {/*    .fill(0)*/}
+          {/*    .map((_, index) => (*/}
+          {/*        <Skeleton key={index} h={28} mt="sm" animate={false} />*/}
+          {/*    ))}*/}
         </AppShell.Navbar>
         <AppShell.Main>
             <MapProvider>
@@ -41,5 +44,6 @@ export default function Home() {
             </MapProvider>
         </AppShell.Main>
       </AppShell>
+      </RoomContextProvider>
   );
 }

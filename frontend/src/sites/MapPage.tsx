@@ -1,6 +1,7 @@
-import {Autocomplete, Container, Space} from "@mantine/core";
+import {Container, Space} from "@mantine/core";
 import {CampusMap} from "@/components/CampusMap";
 import useRoomInput from "@/hooks/useRoomInput";
+import {AutocompleteSubmit} from "@/components/AutocompleteSubmit";
 
 export function MapPage() {
     const {jumpToRoom} = useRoomInput()
@@ -8,11 +9,11 @@ export function MapPage() {
     return (
         <>
             <Container>
-                <Autocomplete
+                <AutocompleteSubmit
                     label="Pick your room"
                     placeholder="Pick room or enter anything"
-                    // onSubmit={(text) => console.log(text)}
-                    // onChange={console.log}
+                    onSubmit={(text) => jumpToRoom(text).then(() => console.log("Click")).catch(console.error)}
+                    // onSubmitCapture={console.log}
                     // onOptionSubmit={(option) => {
                     //     console.log(option);
                     //     jumpToRoom(option).then(() => console.log("Click")).catch(console.error)
