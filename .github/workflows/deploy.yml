@@ -18,9 +18,9 @@ jobs:
       - name: Publish image to Github
         run: |
           gradle jib \
-            --image=ghcr.io/${{ github.repository }}:${{ env.IMAGE_TAG }} \
+            --image=ghcr.io/duell10111/thr-roomfinder/backend:${{ env.IMAGE_TAG }} \
             -Djib.to.auth.username=${{ github.actor }} \
             -Djib.to.auth.password=${{ secrets.GITHUB_TOKEN }}
         env:
-          IMAGE_TAG: CANARY
+          IMAGE_TAG: canary
         working-directory: roomfinder-backend # Run in backend folder
