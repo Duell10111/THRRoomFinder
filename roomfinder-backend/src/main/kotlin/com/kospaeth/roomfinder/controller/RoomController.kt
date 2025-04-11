@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController
 class RoomController(
     private val roomService: RoomService,
 ) {
-
     @GetMapping("/")
     suspend fun getRooms(): List<RoomDTO> {
         return roomService.getAllRooms()
@@ -31,7 +30,9 @@ class RoomController(
     }
 
     @GetMapping("/{roomName}/schedule")
-    suspend fun getScheduleForRoom(@PathVariable roomName: String) : ResponseEntity<List<RoomSchedule>> {
+    suspend fun getScheduleForRoom(
+        @PathVariable roomName: String,
+    ): ResponseEntity<List<RoomSchedule>> {
         return roomService.getRoomScheduleForRoom(roomName).let { ResponseEntity.ok(it) }
     }
 }

@@ -11,9 +11,7 @@ private val logger = KotlinLogging.logger {}
 class BuildingService(
     private val buildingRepository: BuildingRepository,
 ) {
-    private val BUILDING_NAME_REGEX = "".toRegex()
-
-    suspend fun getBuildingForRoom(roomName: String) : Building? {
+    suspend fun getBuildingForRoom(roomName: String): Building? {
         return getBuildingNameForRoom(roomName)?.let { buildingName ->
             buildingRepository.findBuildingByName(buildingName)
                 ?: buildingRepository.save(Building(name = buildingName)).also {
@@ -25,5 +23,4 @@ class BuildingService(
     private fun getBuildingNameForRoom(roomName: String): String? {
         return roomName.split(".").firstOrNull()
     }
-
 }

@@ -6,7 +6,22 @@ services:
     ports:
       - "80:3000"
   backend:
-    image: roomfinder-backend:local
+    build:
+      context: roomfinder-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: "local, no-auth"
+      SPRING_R2DBC_URL: r2dbc:postgresql://db:5432/roomFinderDB
+      SPRING_FLYWAY_URL: jdbc:postgresql://db:5432/roomFinderDB
   db:
-    image: postgres:13-alpine
+    image: postgis/postgis:17-3.4-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=roomFinderDB
+
 

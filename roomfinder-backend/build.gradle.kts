@@ -108,4 +108,6 @@ tasks.jacocoTestReport {
     }
 }
 
-// TODO: Add spottless depend when building
+// TODO: Check if style check still works
+// Automatically apply spotlessApply on build
+tasks["compileKotlin"].dependsOn("spotlessApply")

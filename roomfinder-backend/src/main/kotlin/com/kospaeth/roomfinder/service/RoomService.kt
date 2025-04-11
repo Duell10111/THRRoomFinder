@@ -14,7 +14,6 @@ import com.kospaeth.roomfinder.service.splan.StarPlanService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
-import org.springframework.cache.Cache
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.*
@@ -42,8 +41,6 @@ class RoomService(
     }
 
     suspend fun getRoomScheduleForRoom(roomName: String): List<RoomSchedule> {
-
-
         return starPlanService.getScheduleForRoom(StarPlanLocation.RO, roomName)
     }
 

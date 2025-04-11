@@ -10,10 +10,8 @@ import org.springframework.data.r2dbc.convert.EnumWriteSupport
 import org.springframework.data.r2dbc.convert.R2dbcCustomConversions
 import org.springframework.data.r2dbc.dialect.PostgresDialect
 
-
 @Configuration
-class R2DBCConfig{
-
+class R2DBCConfig {
     @Bean
     fun customConversions(): R2dbcCustomConversions {
         val converters = mutableListOf(SourceConverter())
@@ -23,12 +21,14 @@ class R2DBCConfig{
     @Bean
     fun connectionFactoryOptionsAdapter(): ConnectionFactoryOptionsBuilderCustomizer {
         return ConnectionFactoryOptionsBuilderCustomizer {
-            it.option(Option.valueOf("extensions"), listOf(
-                EnumCodec.builder().withEnum("Source", Source::class.java).build()))
+            it.option(
+                Option.valueOf("extensions"),
+                listOf(
+                    EnumCodec.builder().withEnum("Source", Source::class.java).build(),
+                ),
+            )
         }
     }
-
 }
 
-class SourceConverter : EnumWriteSupport<Source>() {
-}
+class SourceConverter : EnumWriteSupport<Source>()

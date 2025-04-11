@@ -8,7 +8,11 @@ import org.mapstruct.NullValueCheckStrategy
 import org.mapstruct.ReportingPolicy
 import org.springframework.data.geo.Point
 
-@Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, unmappedSourcePolicy = ReportingPolicy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(
+    nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+    unmappedSourcePolicy = ReportingPolicy.IGNORE,
+    unmappedTargetPolicy = ReportingPolicy.IGNORE,
+)
 abstract class RoomMapper {
     abstract fun toDTO(room: Room): RoomDTO
 

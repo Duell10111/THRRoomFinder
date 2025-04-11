@@ -29,7 +29,7 @@ class LocalWebSecurityConfig {
     fun corsConfigurationSource(): UrlBasedCorsConfigurationSource {
         // Allow cors for local frontend app
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:3000")
+        configuration.allowedOrigins = listOf("http://localhost:3000", "http://localhost")
         configuration.allowedMethods = listOf("GET", "POST", "OPTIONS", "PUT", "DELETE")
         configuration.allowedHeaders = listOf("*")
         val source = UrlBasedCorsConfigurationSource()
