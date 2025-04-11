@@ -66,15 +66,15 @@ class StarPlanService(
                 weekDay.getElementsByAttribute("data-date").attr("data-date").let { LocalDate.parse(it) }
             }
 
-        val boxWidth =
-            weekDayEntries.find {
-                it.hasAttr("style")
-            }?.styleWidth ?: throw IllegalStateException("Can't parse room width of SPLAN calendar")
+        val boxWidths =
+            weekDayEntries.map {
+                it.styleLeft ?: throw IllegalStateException("Can't parse room width of SPLAN calendar")
+            }
 
         val timeEvents =
             parsedData.getElementsByClass("ttevent").mapNotNull { timeEvent ->
                 val day =
-                    timeEvent.getCalendarIndex(boxWidth)?.let { days[it] }
+                    timeEvent.getCalendarIndex(boxWidths)?.let { days[it] }
                         ?: return@mapNotNull null // TODO: Add error log entry here
 
                 // Use Tooltip information as they are contain no shortcuts
@@ -99,11 +99,12 @@ class StarPlanService(
         return timeEvents
     }
 
-    private fun Element.getCalendarIndex(timeBoxWidth: Int): Int? {
-        return styleLeft?.let {
-            // Use min 0 as left style is sometime -1px which results in a negative div
-            Math.floorDiv(it, timeBoxWidth).coerceAtLeast(0)
-        }
+    private fun Element.getCalendarIndex(timeBoxWidths: List<Int>): Int? {
+        // Increase by one to be in style box
+        return styleLeft?.inc()?.let { position ->
+            (timeBoxWidths.indexOfFirst { it > position }.takeIf { it != -1 } ?: timeBoxWidths.size)
+                .dec() // Decrease by one to get the start index
+        }?.coerceIn(0, timeBoxWidths.size - 1)
     }
 
     private val widthExtractRegex = """width:(\d+)px;""".toRegex()
