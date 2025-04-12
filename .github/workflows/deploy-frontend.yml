@@ -26,6 +26,9 @@ jobs:
           push: true
           tags: ghcr.io/duell10111/thr-roomfinder/frontend:${{ env.IMAGE_TAG }}
           context: frontend
+          build-args: |
+            NEXT_PUBLIC_MAPTILER_API_KEY=${{ secrets.MAPTILER_API_KEY }} 
+            NEXT_PUBLIC_INDOOR_CONTROL_API_KEY=${{ secrets.INDOOR_CONTROL_API_KEY }}
         env:
           IMAGE_TAG: canary
           NEXT_PUBLIC_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
