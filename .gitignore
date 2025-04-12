@@ -1,2 +1,7 @@
 .idea
+
+# Opentofu
 /gcp-iac/opentofu/terraform.tfvars
+/gcp-iac/opentofu/.terraform/
+/gcp-iac/opentofu/terraform.tfstate
+/gcp-iac/opentofu/terraform.tfstate.backup

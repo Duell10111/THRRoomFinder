@@ -8,6 +8,8 @@ on:
 
 permissions:
   packages: write
+  contents: read
+  id-token: write
 
 jobs:
   Build:
@@ -27,3 +29,11 @@ jobs:
         env:
           IMAGE_TAG: canary
         working-directory: roomfinder-backend # Run in backend folder
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/gcp-deploy
+        with:
+          service: "frontend"
+          image: "ghcr.io/duell10111/thr-roomfinder/backend:canary"

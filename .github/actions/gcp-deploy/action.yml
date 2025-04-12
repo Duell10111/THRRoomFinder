@@ -1,0 +1,25 @@
+name: 'GCP Deployment'
+description: 'GCP Cloud Run Deployment'
+
+inputs:
+  service:
+    description: "Service name to be defined"
+    required: true
+  image:
+    description: "Image to deploy"
+
+runs:
+  using: composite
+  steps:
+    - uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: 'thrrosenheim'
+        workload_identity_provider: 'projects/316895280196/locations/global/workloadIdentityPools/github/providers/my-repo'
+        service_account: 'github-actions@thrrosenheim.iam.gserviceaccount.com'
+    - uses: 'google-github-actions/deploy-cloudrun@v2'
+      with:
+        service: ${{ inputs.service }}
+        image: ${{ inputs.image }}
+        region: 'europe-west1'
+
+
