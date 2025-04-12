@@ -1,5 +1,5 @@
 -- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "postgis" WITH VERSION "3.4.3";
+CREATE EXTENSION IF NOT EXISTS "postgis";
 
 -- CreateEnum
 CREATE TYPE "Source" AS ENUM ('UNKNOWN', 'OSM');

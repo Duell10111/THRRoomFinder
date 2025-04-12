@@ -6,7 +6,7 @@ generator client {
 datasource db {
   provider   = "postgresql"
   url        = "postgresql://user:password@localhost:5432/roomFinderDB" // Local database for generation
-  extensions = [postgis(version: "3.4.3")]
+  extensions = [postgis()]
 }
 
 model Room {

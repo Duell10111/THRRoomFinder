@@ -16,7 +16,7 @@ services:
       SPRING_R2DBC_URL: r2dbc:postgresql://db:5432/roomFinderDB
       SPRING_FLYWAY_URL: jdbc:postgresql://db:5432/roomFinderDB
   db:
-    image: postgis/postgis:17-3.4-alpine
+    image: postgis/postgis:15-3.3-alpine
     ports:
       - "5432:5432"
     environment:
