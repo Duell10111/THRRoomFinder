@@ -1,1 +1,2 @@
 .idea
+/gcp-iac/opentofu/terraform.tfvars

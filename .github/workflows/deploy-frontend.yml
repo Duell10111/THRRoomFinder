@@ -28,3 +28,5 @@ jobs:
           context: frontend
         env:
           IMAGE_TAG: canary
+          NEXT_PUBLIC_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
+          NEXT_PUBLIC_INDOOR_CONTROL_API_KEY: ${{ secrets.INDOOR_CONTROL_API_KEY }}
