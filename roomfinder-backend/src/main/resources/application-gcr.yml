@@ -6,5 +6,5 @@ spring:
 
   flyway:
     url: jdbc:${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
+    user: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}

@@ -29,6 +29,7 @@ jobs:
           build-args: |
             NEXT_PUBLIC_MAPTILER_API_KEY=${{ secrets.MAPTILER_API_KEY }} 
             NEXT_PUBLIC_INDOOR_CONTROL_API_KEY=${{ secrets.INDOOR_CONTROL_API_KEY }}
+            NEXT_PUBLIC_BACKEND_URL=https://api.thrroomfinder.duell10111.de
         env:
           IMAGE_TAG: canary
           NEXT_PUBLIC_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
