@@ -50,8 +50,10 @@ class RoomService(
         existingRoomDBId: UUID? = null,
     ): Room? {
         logger.info { "Fetching room from OSM: $roomName" }
-        // TODO: get buildingWayIds by name prefix
-        return osmProperties.buildingWayIds.firstNotNullOfOrNull { wayId ->
+        return osmProperties.buildingWayIds.find {
+            roomName.matches(it.regexObject)
+        }?.buildingId?.let { wayId ->
+            logger.debug { "Found building configuration for room: $roomName" }
             osmExtractorService.getIndoorRoomsForBuilding(wayId, roomName)
         }?.let {
             val room =

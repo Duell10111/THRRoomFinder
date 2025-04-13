@@ -23,6 +23,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
     title: "THRRoomfinder",
     description: "Roomfinder for the TH Rosenheim",
+    icons: {
+        icon: "/roomfinder-favicon-rounded-32x32.png",
+    },
 }
 
 export default function RootLayout({

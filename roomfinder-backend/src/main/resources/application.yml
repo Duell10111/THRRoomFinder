@@ -22,6 +22,9 @@ room-finder:
     over-pass-url: "https://overpass-api.de/api/interpreter"
     building-way-ids:
       # Hauptgebäude
-      - 28400949 # Building A
+      - regex: "A\\d\\.\\d{0,2}"
+        buildingId: 28400949 # Building A
+      - regex: "B\\d\\.\\d{0,2}"
+        buildingId: 28401106 # Building A
   admin-ids:
     - test

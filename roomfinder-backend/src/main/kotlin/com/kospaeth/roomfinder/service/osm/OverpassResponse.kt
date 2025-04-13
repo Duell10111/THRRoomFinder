@@ -18,12 +18,12 @@ data class Element(
     val nodes: List<Long>? = null,
 )
 
-val OverpassResponse.roomElement: Element
-    get() = elements.first { it.tags?.get("indoor") == "room" }
+val OverpassResponse.roomElement: Element?
+    get() = elements.firstOrNull { it.tags?.get("indoor") == "room" }
 
 val OverpassResponse.locationPoint: Point?
     get() {
-        return roomElement.nodes?.firstOrNull()?.let { nodeId ->
+        return roomElement?.nodes?.firstOrNull()?.let { nodeId ->
             elements.find { it.id == nodeId }?.let {
                 if (it.lat != null && it.lon != null) {
                     Point(it.lat, it.lon)
