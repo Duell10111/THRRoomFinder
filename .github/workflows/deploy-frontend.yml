@@ -37,3 +37,12 @@ jobs:
           IMAGE_TAG: canary
           NEXT_PUBLIC_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
           NEXT_PUBLIC_INDOOR_CONTROL_API_KEY: ${{ secrets.INDOOR_CONTROL_API_KEY }}
+  Deploy:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/gcp-deploy
+        with:
+          service: "frontend"
+          image: "europe-west1-docker.pkg.dev/thrrosenheim/ghcr-mirror/duell10111/thr-roomfinder/frontend:canary"
