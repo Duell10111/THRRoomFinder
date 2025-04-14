@@ -1,5 +1,5 @@
 import { useDisclosure } from "@mantine/hooks"
-import { AppShell, Burger, Group } from "@mantine/core"
+import { AppShell, Burger, Group, Title } from "@mantine/core"
 import { RoomDetails } from "@/sites/RoomDetails"
 import { MapProvider } from "react-map-gl/maplibre"
 import { MapPage } from "@/sites/MapPage"
@@ -55,7 +55,9 @@ export function HomeAppShell() {
                         priority
                         style={{ borderRadius: 10 }}
                     />
-                    {/*<MantineLogo size={30} />*/}
+                    <Title order={2} c={"orange"}>
+                        THRRoomfinder
+                    </Title>
                 </Group>
             </AppShell.Header>
             <AppShell.Navbar p="xd">
