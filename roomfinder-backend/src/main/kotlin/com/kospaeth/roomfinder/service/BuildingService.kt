@@ -11,16 +11,20 @@ private val logger = KotlinLogging.logger {}
 class BuildingService(
     private val buildingRepository: BuildingRepository,
 ) {
-    suspend fun getBuildingForRoom(roomName: String): Building? {
-        return getBuildingNameForRoom(roomName)?.let { buildingName ->
-            buildingRepository.findBuildingByName(buildingName)
-                ?: buildingRepository.save(Building(name = buildingName)).also {
-                    logger.info { "Creating new building $buildingName for room name: $roomName" }
+    suspend fun getBuildingForRoom(
+        roomName: String,
+        buildingName: String? = null,
+    ): Building? {
+        return (buildingName ?: getBuildingNameForRoom(roomName))?.let { bName ->
+            buildingRepository.findBuildingByName(bName)
+                ?: buildingRepository.save(Building(name = bName)).also {
+                    logger.info { "Creating new building $bName for room name: $roomName" }
                 }
         }
     }
 
+    // Extract by filter if not specified
     private fun getBuildingNameForRoom(roomName: String): String? {
-        return roomName.split(".").firstOrNull()
+        return roomName.firstOrNull { it.isLetter() }?.toString()
     }
 }

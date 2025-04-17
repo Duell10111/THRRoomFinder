@@ -27,6 +27,7 @@ data class OSMProperties(
 data class OSMBuildingProperties(
     @field:NotEmpty val regex: String,
     @field:NotEmpty val buildingId: String,
+    val name: String? = null,
 ) {
     val regexObject: Regex
         get() = regex.toRegex()

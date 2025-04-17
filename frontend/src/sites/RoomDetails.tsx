@@ -1,32 +1,33 @@
-import {useRoomContext} from "@/context/RoomContext";
-import {Schedule} from "@/components/schedule/Schedule";
-import {Center, ScrollArea} from "@mantine/core";
+import { useRoomContext } from "@/context/RoomContext"
+import { Schedule } from "@/components/schedule/Schedule"
+import { AppShell, Center, ScrollArea } from "@mantine/core"
 
 export function RoomDetails() {
-    const {data} = useRoomContext()
-
-    console.log(data)
-
-    if(!data){
-        return (
-            <Center inline={true} h={"100%"}>
-                No room selected.
-            </Center>
-        )
-    }
+    const { data } = useRoomContext()
 
     return (
-        <>
-            <Center style={{margin: "20px"}}>
-                Name: {data?.roomData?.name}
-            </Center>
-            {
-                data?.scheduleData ? (
-                    <ScrollArea>
-                        <Schedule date={new Date()} schedule={data?.scheduleData} />
-                    </ScrollArea>
-                ) : null
-            }
-        </>
-    );
+        <AppShell.Section
+            grow
+            w={"100%"}
+            component={data ? ScrollArea : undefined}
+        >
+            {!data ? (
+                <Center h={"100%"} w={"100%"}>
+                    No room selected.
+                </Center>
+            ) : (
+                <>
+                    <Center style={{ margin: "20px" }}>
+                        Name: {data?.roomData?.name}
+                    </Center>
+                    {data?.scheduleData ? (
+                        <Schedule
+                            date={data.date ?? new Date()}
+                            schedule={data?.scheduleData}
+                        />
+                    ) : null}
+                </>
+            )}
+        </AppShell.Section>
+    )
 }

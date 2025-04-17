@@ -4,15 +4,18 @@ import { getScheduleData, RoomData, ScheduleData } from "@/utils/data"
 type RoomContextData = {
     roomData: RoomData
     scheduleData?: ScheduleData[]
+    date?: Date
 }
 
 interface RoomContextType {
     data?: RoomContextData
     setRoomData: (roomData: RoomData) => void
+    setDate: (date: Date | undefined) => void
 }
 
 const RoomContext = createContext<RoomContextType>({
     setRoomData: () => console.warn("No RoomContextProvider in hierarchie"),
+    setDate: () => console.warn("No RoomContextProvider in hierarchie"),
 })
 
 interface RoomContextProviderProps {
@@ -23,21 +26,21 @@ export function RoomContextProvider({ children }: RoomContextProviderProps) {
     const [roomData, setRoomData] = useState<RoomContextData["roomData"]>()
     const [scheduleData, setScheduleData] =
         useState<RoomContextData["scheduleData"]>()
-
-    console.log("Room Context data: ", roomData)
+    const [date, setDate] = useState<Date>()
 
     useEffect(() => {
         if (roomData) {
-            getScheduleData(roomData.name)
+            getScheduleData(roomData.name, date)
                 .then(setScheduleData)
                 .catch(console.error)
         }
-    }, [roomData])
+    }, [roomData, date])
 
     const contextData: RoomContextData | undefined = roomData
         ? {
               roomData,
               scheduleData,
+              date,
           }
         : undefined
 
@@ -46,6 +49,7 @@ export function RoomContextProvider({ children }: RoomContextProviderProps) {
             value={{
                 data: contextData,
                 setRoomData,
+                setDate,
             }}
         >
             {children}

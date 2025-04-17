@@ -38,10 +38,11 @@ class StarPlanService(
     suspend fun getScheduleForRoom(
         location: StarPlanLocation,
         room: String,
+        date: LocalDate,
     ): List<RoomSchedule> {
         @Suppress("ktlint:standard:max-line-length")
         return getRoom(location, room)?.id.let { roomId ->
-            val splanURL = "https://splan.th-rosenheim.de/splan/json?m=getTT&sel=ro&pu=41&ro=$roomId&sd=true&dfc=${LocalDate.now()}&loc=${location.locationId}&sa=false&cb=o"
+            val splanURL = "https://splan.th-rosenheim.de/splan/json?m=getTT&sel=ro&pu=41&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
             logger.info { "Fetching SPlan Schedule via url $splanURL" }
 
             webClient.get()

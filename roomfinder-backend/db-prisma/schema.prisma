@@ -10,11 +10,12 @@ datasource db {
 }
 
 model Room {
-  id         String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String               @unique
-  location   Unsupported("point")
-  source     Source
-  updated_at DateTime             @default(now())
+  id           String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String               @unique
+  display_name String?
+  location     Unsupported("point")
+  source       Source
+  updated_at   DateTime             @default(now())
 
   building_id String @db.Uuid
 
@@ -32,11 +33,16 @@ enum Source {
 model Building {
   id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name String @unique
+  site Site?
 
   Room         Room[]
   BuildingNode BuildingNode[]
 
   @@map("building") // Needed for Spring compatibility
+}
+
+enum Site {
+  RO
 }
 
 model BuildingNode {

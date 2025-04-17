@@ -1,8 +1,10 @@
 package com.kospaeth.roomfinder.data.mapper
 
+import com.kospaeth.roomfinder.data.dto.ExtendedRoomDTO
 import com.kospaeth.roomfinder.data.dto.LocationDTO
 import com.kospaeth.roomfinder.data.dto.RoomDTO
 import com.kospaeth.roomfinder.data.entities.Room
+import com.kospaeth.roomfinder.data.entities.RoomWithBuildingData
 import org.mapstruct.Mapper
 import org.mapstruct.NullValueCheckStrategy
 import org.mapstruct.ReportingPolicy
@@ -17,6 +19,8 @@ abstract class RoomMapper {
     abstract fun toDTO(room: Room): RoomDTO
 
     abstract fun toEntity(dto: RoomDTO): Room
+
+    abstract fun toDTO(entity: RoomWithBuildingData): ExtendedRoomDTO
 
     fun toLocationDTO(location: Point): LocationDTO {
         return LocationDTO(

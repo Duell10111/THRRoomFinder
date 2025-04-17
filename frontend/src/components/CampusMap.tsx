@@ -15,23 +15,22 @@ export function CampusMap() {
     return (
         <Map
             id="campus"
-            // TODO: Add map bounds to only allow RO locations
             initialViewState={{
                 longitude: 12.107220832011787,
                 latitude: 47.86746398383466,
                 zoom: 18,
             }}
+            // Restricted Bounds to RO site location
+            maxBounds={[
+                [12.103541, 47.865018],
+                [12.111059, 47.869857],
+            ]}
             style={{ width: "100%", height: "100%" }}
-            // mapStyle={"https://raw.githubusercontent.com/go2garret/maps/main/src/assets/json/openStreetMap.json"}
             mapStyle={
                 colorScheme === "dark"
                     ? "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
                     : `https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`
             }
-            // mapStyle={`https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
-            // onClick={console.log}
-            // onContextMenu={console.log}
-            // interactiveLayerIds={["indoor-polygon"]}
             attributionControl={{ compact: true }}
         >
             <IndoorControls />

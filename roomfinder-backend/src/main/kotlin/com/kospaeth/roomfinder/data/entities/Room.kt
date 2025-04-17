@@ -11,6 +11,7 @@ data class Room(
     @Id
     val id: UUID? = null,
     val name: String,
+    val displayName: String? = null,
     val location: Point,
     val source: Source,
     val buildingId: UUID? = null,

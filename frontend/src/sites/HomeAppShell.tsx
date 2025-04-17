@@ -1,11 +1,13 @@
 import { useDisclosure } from "@mantine/hooks"
-import { AppShell, Burger, Group, Title } from "@mantine/core"
+import { AppShell, Burger, Group, NavLink, Title } from "@mantine/core"
 import { RoomDetails } from "@/sites/RoomDetails"
 import { MapProvider } from "react-map-gl/maplibre"
 import { MapPage } from "@/sites/MapPage"
 import { useRoomContext } from "@/context/RoomContext"
 import { useEffect } from "react"
 import Image from "next/image"
+import Link from "next/link"
+import { ScheduleDatePicker } from "@/components/schedule/ScheduleDatePicker"
 
 export function HomeAppShell() {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
@@ -55,13 +57,21 @@ export function HomeAppShell() {
                         priority
                         style={{ borderRadius: 10 }}
                     />
-                    <Title order={2} c={"orange"}>
-                        THRRoomfinder
-                    </Title>
+                    <Link href={"/"}>
+                        <Title order={2} c={"orange"}>
+                            THRRoomfinder
+                        </Title>
+                    </Link>
                 </Group>
             </AppShell.Header>
             <AppShell.Navbar p="xd">
+                <AppShell.Section>
+                    <ScheduleDatePicker />
+                </AppShell.Section>
                 <RoomDetails />
+                <AppShell.Section>
+                    <NavLink href="/impressum" label="Impressum" />
+                </AppShell.Section>
             </AppShell.Navbar>
             <AppShell.Main>
                 <MapProvider>
