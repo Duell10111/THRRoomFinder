@@ -1,0 +1,71 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/api/interpreter"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "version": 0.6,
+      "generator": "Overpass API 0.7.62.5 1bd436f1",
+      "osm3s": {
+        "timestamp_osm_base": "2025-04-02T22:05:24Z",
+        "timestamp_areas_base": "2024-12-31T00:49:33Z",
+        "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+      },
+      "elements": [
+        {
+          "type": "way",
+          "id": 1371878384,
+          "nodes": [
+            12703339805,
+            12703340401,
+            12703339806,
+            12703340104,
+            12703341203,
+            12703339805
+          ],
+          "tags": {
+            "indoor": "room",
+            "level": "0",
+            "name": "A0.09",
+            "room": "office"
+          }
+        },
+        {
+          "type": "node",
+          "id": 12703339805,
+          "lat": 47.8679341,
+          "lon": 12.1070989
+        },
+        {
+          "type": "node",
+          "id": 12703339806,
+          "lat": 47.8678763,
+          "lon": 12.1070915
+        },
+        {
+          "type": "node",
+          "id": 12703340104,
+          "lat": 47.8678708,
+          "lon": 12.1071812
+        },
+        {
+          "type": "node",
+          "id": 12703340401,
+          "lat": 47.8678973,
+          "lon": 12.1070942
+        },
+        {
+          "type": "node",
+          "id": 12703341203,
+          "lat": 47.8679284,
+          "lon": 12.1071890
+        }
+      ]
+    }
+  }
+}

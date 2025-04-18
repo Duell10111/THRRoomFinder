@@ -1,0 +1,4 @@
+.maplibregl-popup-content {
+    background: var(--background) !important;
+    color: var(--foreground) !important;
+}

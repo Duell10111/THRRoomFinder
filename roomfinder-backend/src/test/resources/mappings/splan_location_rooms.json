@@ -1,0 +1,1163 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/splan/json",
+    "queryParameters": {
+      "m": { "equalTo": "getros" },
+      "sel": { "absent": true },
+      "ro": { "absent": true },
+      "loc": { "equalTo": "3" }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/html;charset=ISO-8859-1",
+      "Cache-Control": "no-cache"
+    },
+    "jsonBody": [
+      [
+        {
+          "id": 292,
+          "shortname": "A0.01a",
+          "name": "Physik-Praktikum: Technische Optik"
+        },
+        {
+          "id": 2,
+          "shortname": "A0.01b",
+          "name": "Physik-Praktikum: Grundlagen"
+        },
+        {
+          "id": 293,
+          "shortname": "A0.01c",
+          "name": "Physik-Praktikum: Moderne Meßmethoden (Elektrik)"
+        },
+        {
+          "id": 3,
+          "shortname": "A0.02",
+          "name": "Labor für 'Wärmeschutz und Energieeinsparung' / Labor für 'Gebäudetechnik'"
+        },
+        {
+          "id": 4,
+          "shortname": "A0.03",
+          "name": "Labor für Mikroprozessortechnik"
+        },
+        {
+          "id": 397,
+          "shortname": "A0.04a",
+          "name": "Studierzimmer"
+        },
+        {
+          "id": 7,
+          "shortname": "A0.06",
+          "name": "Labor für Echtzeitsysteme"
+        },
+        {
+          "id": 6,
+          "shortname": "A0.06a",
+          "name": "Forschungslabor"
+        },
+        {
+          "id": 8,
+          "shortname": "A0.07",
+          "name": "A0.07"
+        },
+        {
+          "id": 9,
+          "shortname": "A0.08",
+          "name": "Labor für Energie- und Gebäudetechnologien"
+        },
+        {
+          "id": 10,
+          "shortname": "A0.10",
+          "name": "A0.10"
+        },
+        {
+          "id": 11,
+          "shortname": "A1.01",
+          "name": "Physik-Praktikum: Grundlagen"
+        },
+        {
+          "id": 12,
+          "shortname": "A1.02",
+          "name": "Physik-Praktikum: Grundlagen"
+        },
+        {
+          "id": 13,
+          "shortname": "A1.03",
+          "name": "Hörsaal (Physik)"
+        },
+        {
+          "id": 14,
+          "shortname": "A1.05",
+          "name": "Hörsaal (Chemie)"
+        },
+        {
+          "id": 15,
+          "shortname": "A1.06",
+          "name": "Labor für Holzchemie"
+        },
+        {
+          "id": 16,
+          "shortname": "A1.07",
+          "name": "Sammlung Chemie"
+        },
+        {
+          "id": 17,
+          "shortname": "A1.11",
+          "name": "Labor für Holzchemie"
+        },
+        {
+          "id": 18,
+          "shortname": "A1.12",
+          "name": "Labor für Polymerchemie"
+        },
+        {
+          "id": 19,
+          "shortname": "A1.13",
+          "name": "Labor für Polymerchemie (Vorbereitungsraum)"
+        },
+        {
+          "id": 20,
+          "shortname": "A1.14",
+          "name": "Labor für Polymerchemie (Lager)"
+        },
+        {
+          "id": 23,
+          "shortname": "A2.02",
+          "name": "Sprachlabor *** Raumreservierung über ANG"
+        },
+        {
+          "id": 24,
+          "shortname": "A2.03",
+          "name": "Sprachlabor *** Raumreservierung über ANG"
+        },
+        {
+          "id": 25,
+          "shortname": "A2.04",
+          "name": "Sprachlabor *** Raumreservierung über ANG"
+        },
+        {
+          "id": 26,
+          "shortname": "A2.06",
+          "name": "SCALE-UP Raum für Präsenzlehre"
+        },
+        {
+          "id": 27,
+          "shortname": "A2.08",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 28,
+          "shortname": "A2.10",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 29,
+          "shortname": "A2.11",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 381,
+          "shortname": "A3.03a",
+          "name": "BauKoLab *** Raumreservierung über Sekretariat INN"
+        },
+        {
+          "id": 380,
+          "shortname": "A3.03b",
+          "name": "Seminarraum *** Raumreservierung über Sekretariat INN"
+        },
+        {
+          "id": 36,
+          "shortname": "A3.05",
+          "name": "MacLab *** Raumreservierung über Sekretariat INN"
+        },
+        {
+          "id": 39,
+          "shortname": "A3.08",
+          "name": "Masterraum IAD *** Raumreservierung über Sekretariat INN"
+        },
+        {
+          "id": 40,
+          "shortname": "A3.10",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 41,
+          "shortname": "A3.12",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 42,
+          "shortname": "A3.13",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 43,
+          "shortname": "A3.14",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 45,
+          "shortname": "A4.00",
+          "name": "E-Learning"
+        },
+        {
+          "id": 47,
+          "shortname": "A4.03",
+          "name": "Seminarraum *** Raumreservierung über Sekretariat BW"
+        },
+        {
+          "id": 48,
+          "shortname": "A4.04",
+          "name": "Seminarraum *** Raumreservierung über Sekretariat BW"
+        },
+        {
+          "id": 49,
+          "shortname": "A4.05",
+          "name": "Seminarraum *** Raumreservierung über Sekretariat BW"
+        },
+        {
+          "id": 51,
+          "shortname": "A4.16",
+          "name": "Labor für  Wirtschaftsinformatik"
+        },
+        {
+          "id": 52,
+          "shortname": "A5.01",
+          "name": "Labor Medizintechnik"
+        },
+        {
+          "id": 313,
+          "shortname": "A5.02",
+          "name": "Therapiewissenschaftliches Labor - Physiotherapie"
+        },
+        {
+          "id": 54,
+          "shortname": "A5.03",
+          "name": "Physio Übungsraum"
+        },
+        {
+          "id": 55,
+          "shortname": "A5.04",
+          "name": "Physio Übungsraum"
+        },
+        {
+          "id": 57,
+          "shortname": "A5.07",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 58,
+          "shortname": "A5.08",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 59,
+          "shortname": "A5.09",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 60,
+          "shortname": "A5.10",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 21,
+          "shortname": "AZ1.50",
+          "name": "Hörsaal (Hugo-Laue-Saal)"
+        },
+        {
+          "id": 73,
+          "shortname": "B-1.05",
+          "name": "MixStudio (Multimedia / Integration / X-Disciplinary)"
+        },
+        {
+          "id": 74,
+          "shortname": "B-1.06",
+          "name": "Labor INN"
+        },
+        {
+          "id": 75,
+          "shortname": "B-1.07",
+          "name": "Labor INN"
+        },
+        {
+          "id": 76,
+          "shortname": "B-1.08",
+          "name": "Labor INN (Atelier)"
+        },
+        {
+          "id": 78,
+          "shortname": "B-1.10",
+          "name": "Lichtwerkstatt"
+        },
+        {
+          "id": 62,
+          "shortname": "B0.07",
+          "name": "Labor für Internettechnologien und IT-Sicherheit"
+        },
+        {
+          "id": 63,
+          "shortname": "B0.08",
+          "name": "Labor für Rechnernetze und Datenkommunikation"
+        },
+        {
+          "id": 64,
+          "shortname": "B0.08a",
+          "name": "Labor für Systemprogrammierung"
+        },
+        {
+          "id": 65,
+          "shortname": "B0.09",
+          "name": "Labor für Wirtschaftsinformatik"
+        },
+        {
+          "id": 285,
+          "shortname": "B0.09a",
+          "name": "Labor für Wirtschaftsinformatik, Rechnerraum"
+        },
+        {
+          "id": 67,
+          "shortname": "B0.11",
+          "name": "Labor für Wirtschaftsinformatik"
+        },
+        {
+          "id": 68,
+          "shortname": "B0.13",
+          "name": "SCALE-UP Raum für Präsenz & Hybridlehre"
+        },
+        {
+          "id": 69,
+          "shortname": "B0.14",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 70,
+          "shortname": "B0.15",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 71,
+          "shortname": "B0.23",
+          "name": "Hörsaal (Walter-Schatt-Saal)"
+        },
+        {
+          "id": 93,
+          "shortname": "D-1.03",
+          "name": "Labor Feinmesstechnik"
+        },
+        {
+          "id": 98,
+          "shortname": "D-1.08",
+          "name": "Labor für Fertigungstechnik"
+        },
+        {
+          "id": 102,
+          "shortname": "D-1.12",
+          "name": "Labor"
+        },
+        {
+          "id": 92,
+          "shortname": "D1.02",
+          "name": "Labor für Mechatronik"
+        },
+        {
+          "id": 94,
+          "shortname": "D1.04",
+          "name": "Labor Hydraulische und pneumatische Antriebstechnik"
+        },
+        {
+          "id": 95,
+          "shortname": "D1.05",
+          "name": "Labor für 3D-Koordinatenmesstechnik"
+        },
+        {
+          "id": 96,
+          "shortname": "D1.06",
+          "name": "Labor für Technische Mechanik / Mechanische Antriebstechnik"
+        },
+        {
+          "id": 383,
+          "shortname": "D1.07",
+          "name": "Labor für Fertigungsmesstechnik"
+        },
+        {
+          "id": 97,
+          "shortname": "D1.08",
+          "name": "Labor für Energie- und Umwelttechnik"
+        },
+        {
+          "id": 99,
+          "shortname": "D1.09",
+          "name": "Labor für Arbeitsmaschinen"
+        },
+        {
+          "id": 103,
+          "shortname": "D2.01",
+          "name": "Labor Produktionslogistik"
+        },
+        {
+          "id": 105,
+          "shortname": "D2.06",
+          "name": "Labor für Automatisierungstechnik"
+        },
+        {
+          "id": 106,
+          "shortname": "D2.07",
+          "name": "Labor für Messtechnik (Lager)"
+        },
+        {
+          "id": 107,
+          "shortname": "D2.08",
+          "name": "Labor für Messtechnik"
+        },
+        {
+          "id": 108,
+          "shortname": "D2.09",
+          "name": "Labor für Regelungstechnik (Werkstatt)"
+        },
+        {
+          "id": 109,
+          "shortname": "D2.09a",
+          "name": "Labor für Regelungstechnik"
+        },
+        {
+          "id": 110,
+          "shortname": "D2.10",
+          "name": "Labor für Regelungstechnik (Büro)"
+        },
+        {
+          "id": 111,
+          "shortname": "D2.13",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 112,
+          "shortname": "D2.14",
+          "name": "Labor AIE-M"
+        },
+        {
+          "id": 113,
+          "shortname": "D3.02",
+          "name": "PC-Raum Konstruktionszentrum KPE *** verantwortlich: Prof. Dr. Reuter ***"
+        },
+        {
+          "id": 114,
+          "shortname": "D3.03",
+          "name": "PC-Raum CAE-Labor *** verantwortlich: Prof. Dr. Reuter ***"
+        },
+        {
+          "id": 115,
+          "shortname": "D3.04",
+          "name": "Studentischer Arbeitsplatz"
+        },
+        {
+          "id": 116,
+          "shortname": "D3.05",
+          "name": "Labor für Produktentwicklung i.d. Medizintechnik (Riß/Brinkmann)"
+        },
+        {
+          "id": 117,
+          "shortname": "D3.10",
+          "name": "Sternwarte *** verantwortlich: Prof. Dr. Junker"
+        },
+        {
+          "id": 118,
+          "shortname": "D3.11",
+          "name": "Labor Kriechbaum"
+        },
+        {
+          "id": 301,
+          "shortname": "E-1.01",
+          "name": "project lab (Sander, rechte Seite)"
+        },
+        {
+          "id": 302,
+          "shortname": "E-1.04",
+          "name": "project lab (Weber, linke Seite)"
+        },
+        {
+          "id": 294,
+          "shortname": "E-1.09",
+          "name": "SensLab"
+        },
+        {
+          "id": 347,
+          "shortname": "E-1.10",
+          "name": "Labor"
+        },
+        {
+          "id": 128,
+          "shortname": "E-1.12",
+          "name": "product lab"
+        },
+        {
+          "id": 130,
+          "shortname": "E-1.13",
+          "name": "Labor für Materialien (materialize lab)"
+        },
+        {
+          "id": 119,
+          "shortname": "E0.01",
+          "name": "Hörsaal"
+        },
+        {
+          "id": 120,
+          "shortname": "E0.02",
+          "name": "Hörsaal"
+        },
+        {
+          "id": 121,
+          "shortname": "E0.07",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 122,
+          "shortname": "E0.08",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 123,
+          "shortname": "E0.15",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 124,
+          "shortname": "E0.16",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 125,
+          "shortname": "E1.05",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 126,
+          "shortname": "E1.06",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 129,
+          "shortname": "E1.13",
+          "name": "E1.13"
+        },
+        {
+          "id": 131,
+          "shortname": "E1.14",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 132,
+          "shortname": "F0.01",
+          "name": "Versuchshalle KT"
+        },
+        {
+          "id": 137,
+          "shortname": "F0.07",
+          "name": "Werkstatt"
+        },
+        {
+          "id": 138,
+          "shortname": "F0.08",
+          "name": "Verfahrenstechnik"
+        },
+        {
+          "id": 140,
+          "shortname": "F0.10",
+          "name": "Labor KT"
+        },
+        {
+          "id": 141,
+          "shortname": "F0.11",
+          "name": "Labor KT"
+        },
+        {
+          "id": 142,
+          "shortname": "F0.12",
+          "name": "Labor KT"
+        },
+        {
+          "id": 143,
+          "shortname": "F0.13",
+          "name": "Labor KT Extrusion"
+        },
+        {
+          "id": 144,
+          "shortname": "F0.14",
+          "name": "Labor KT Compoundierung"
+        },
+        {
+          "id": 146,
+          "shortname": "F0.16",
+          "name": "Sägewerk"
+        },
+        {
+          "id": 157,
+          "shortname": "G-1.06",
+          "name": "Labor INN"
+        },
+        {
+          "id": 158,
+          "shortname": "G-1.07",
+          "name": "Labor INN"
+        },
+        {
+          "id": 160,
+          "shortname": "G-1.10",
+          "name": "Labor INN - Modellwerkstatt"
+        },
+        {
+          "id": 161,
+          "shortname": "G-1.11",
+          "name": "Labor INN"
+        },
+        {
+          "id": 162,
+          "shortname": "G-1.12",
+          "name": "Schallabor ANG"
+        },
+        {
+          "id": 163,
+          "shortname": "G-1.13",
+          "name": "Schalllabor"
+        },
+        {
+          "id": 164,
+          "shortname": "G-1.14",
+          "name": "Schallabor ANG"
+        },
+        {
+          "id": 165,
+          "shortname": "G-1.15",
+          "name": "Schallabor ANG"
+        },
+        {
+          "id": 166,
+          "shortname": "G-1.16",
+          "name": "Schallabor ANG"
+        },
+        {
+          "id": 150,
+          "shortname": "G0.03",
+          "name": "Labor INN"
+        },
+        {
+          "id": 151,
+          "shortname": "G0.04",
+          "name": "Metallwerkstatt INN"
+        },
+        {
+          "id": 152,
+          "shortname": "G0.05",
+          "name": "Schreinerei INN"
+        },
+        {
+          "id": 154,
+          "shortname": "G0.07",
+          "name": "Labor für Schallmesstechnik LaSM"
+        },
+        {
+          "id": 155,
+          "shortname": "G0.08",
+          "name": "Schallabor ANG"
+        },
+        {
+          "id": 156,
+          "shortname": "G0.09",
+          "name": "Labor INN"
+        },
+        {
+          "id": 299,
+          "shortname": "H",
+          "name": "Halle H - Oberflächentechnik"
+        },
+        {
+          "id": 170,
+          "shortname": "H-1.01",
+          "name": "Labor Oberflächentechnik2"
+        },
+        {
+          "id": 167,
+          "shortname": "H0.03",
+          "name": "Messlabor I/Oberflächentechnik"
+        },
+        {
+          "id": 168,
+          "shortname": "H0.04",
+          "name": "Messlabor II/Oberflächentechnik"
+        },
+        {
+          "id": 169,
+          "shortname": "H0.05",
+          "name": "Labor Oberflächentechnik1"
+        },
+        {
+          "id": 171,
+          "shortname": "I0.05",
+          "name": "Labor für 'Betriebliche Energieversorgung BEV'"
+        },
+        {
+          "id": 172,
+          "shortname": "I0.06",
+          "name": "Labor für 'Betriebliche Energieversorgung BEV'"
+        },
+        {
+          "id": 173,
+          "shortname": "I0.07",
+          "name": "Labor für 'Betriebliche Energieversorgung BEV'"
+        },
+        {
+          "id": 175,
+          "shortname": "L0.01",
+          "name": "Labor für maschinelle Holzverarbeitung"
+        },
+        {
+          "id": 176,
+          "shortname": "L0.02",
+          "name": "Labor für Klebe- und Presstechnik/Fertigungstechnik"
+        },
+        {
+          "id": 177,
+          "shortname": "L0.03",
+          "name": "Labor für Fertigungstechnik/Spantechnik"
+        },
+        {
+          "id": 178,
+          "shortname": "L0.04",
+          "name": "Labor für Trocknungs- und Klimatechnik"
+        },
+        {
+          "id": 179,
+          "shortname": "L0.05",
+          "name": "Labor für Holzwerkstofftechnik"
+        },
+        {
+          "id": 180,
+          "shortname": "L0.08",
+          "name": "Labor für CNC-Technik / Angewandte Robotertechnik"
+        },
+        {
+          "id": 181,
+          "shortname": "L0.09",
+          "name": "Labor für CNC-Technik / Angewandte Robotertechnik"
+        },
+        {
+          "id": 182,
+          "shortname": "L0.10",
+          "name": "Labor für maschinelle Holzverarbeitung/Schleiftechnik"
+        },
+        {
+          "id": 183,
+          "shortname": "L1.01",
+          "name": "Labor für Fertigungsleittechnik"
+        },
+        {
+          "id": 190,
+          "shortname": "M-Halle",
+          "name": "M-Halle"
+        },
+        {
+          "id": 184,
+          "shortname": "M0.02",
+          "name": "Labor für Fügetechnik / Angewandte Festigkeitslehre"
+        },
+        {
+          "id": 185,
+          "shortname": "M0.03",
+          "name": "Labor für Faserverbundkunststoffe"
+        },
+        {
+          "id": 186,
+          "shortname": "M0.05",
+          "name": "Labor 'Elektrische Werkstoffprüfung'"
+        },
+        {
+          "id": 188,
+          "shortname": "M0.07",
+          "name": "Labor für Faserverbundkunststoffe"
+        },
+        {
+          "id": 189,
+          "shortname": "M0.08",
+          "name": "Labor für Faserverbundkunststoffe"
+        },
+        {
+          "id": 211,
+          "shortname": "R-1.10",
+          "name": "Übungsraum (Techn. Mechanik+Konstruktion)"
+        },
+        {
+          "id": 215,
+          "shortname": "R-1.12",
+          "name": "Labor Werkstoffzentrum / Verbindungstechn. / Werkstoffe Elektrotechn."
+        },
+        {
+          "id": 217,
+          "shortname": "R-1.13",
+          "name": "Labor Werkstofftechnik / Metallographie / Mikroskopie"
+        },
+        {
+          "id": 219,
+          "shortname": "R-1.15",
+          "name": "EMV-Labor"
+        },
+        {
+          "id": 191,
+          "shortname": "R0.01",
+          "name": "Hörsaal (Anton-Kathrein-Saal)"
+        },
+        {
+          "id": 192,
+          "shortname": "R0.02",
+          "name": "Hörsaal"
+        },
+        {
+          "id": 193,
+          "shortname": "R0.03",
+          "name": "Hörsaal"
+        },
+        {
+          "id": 194,
+          "shortname": "R0.04",
+          "name": "Hörsaal"
+        },
+        {
+          "id": 196,
+          "shortname": "R0.11",
+          "name": "Werkstoffzentrum KWPE"
+        },
+        {
+          "id": 197,
+          "shortname": "R0.14",
+          "name": "Labor 'Digitale Signalverarbeitung / Nachrichtenübertragung'"
+        },
+        {
+          "id": 198,
+          "shortname": "R0.15",
+          "name": "Labor 'Schaltungstechnik'"
+        },
+        {
+          "id": 199,
+          "shortname": "R0.17",
+          "name": "Labor 'Mechatronik'"
+        },
+        {
+          "id": 200,
+          "shortname": "R0.18",
+          "name": "Labor 'Mechatronik'"
+        },
+        {
+          "id": 201,
+          "shortname": "R0.22",
+          "name": "Labor 'Grundlagen Elektrotechnik II'"
+        },
+        {
+          "id": 202,
+          "shortname": "R0.24",
+          "name": "Labor 'Grundlagen der Elektrotechnik'"
+        },
+        {
+          "id": 203,
+          "shortname": "R0.25",
+          "name": "Labor 'Elektrische Messtechnik'"
+        },
+        {
+          "id": 204,
+          "shortname": "R0.27",
+          "name": "Labor 'Elektronische Bauelemente'"
+        },
+        {
+          "id": 206,
+          "shortname": "R1.01",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 207,
+          "shortname": "R1.07",
+          "name": "Labor 'Steuerungs- und Prozessdatentechnik'"
+        },
+        {
+          "id": 208,
+          "shortname": "R1.08",
+          "name": "Labor 'Steuerungs- und Prozessdatentechnik'"
+        },
+        {
+          "id": 209,
+          "shortname": "R1.09",
+          "name": "Labor 'Automatisierungstechnik / Regelungstechnik'"
+        },
+        {
+          "id": 210,
+          "shortname": "R1.10",
+          "name": "Labor für Leistungselektronik/Messtechnik (Prof. Dr. Versen / Prof. Dr. Seliger)"
+        },
+        {
+          "id": 212,
+          "shortname": "R1.11",
+          "name": "Labor für EMV, Alektrische Antriebstechnik / Leistungselektronik"
+        },
+        {
+          "id": 214,
+          "shortname": "R1.12",
+          "name": "Labor 'Leistungselektronik' / EMV, Alektrische Antriebstechnik"
+        },
+        {
+          "id": 216,
+          "shortname": "R1.13",
+          "name": "Labor für EMV, Alektrische Antriebstechnik / Leistungselektronik"
+        },
+        {
+          "id": 220,
+          "shortname": "R1.16",
+          "name": "Labor 'Kommunikationssysteme'"
+        },
+        {
+          "id": 221,
+          "shortname": "R1.19",
+          "name": "Labor 'Mikrocomputertechnik'"
+        },
+        {
+          "id": 222,
+          "shortname": "R1.20",
+          "name": "Labor 'Rechneranwendungen in der EIT'"
+        },
+        {
+          "id": 223,
+          "shortname": "R1.23",
+          "name": "Labor 'Digitaltechnik'"
+        },
+        {
+          "id": 224,
+          "shortname": "R2.06",
+          "name": "R2.06 !!!Ab SS16 Labor!!!"
+        },
+        {
+          "id": 225,
+          "shortname": "R2.07",
+          "name": "Labor für Robotertechnik"
+        },
+        {
+          "id": 226,
+          "shortname": "R2.09",
+          "name": "R2.09"
+        },
+        {
+          "id": 227,
+          "shortname": "R2.10",
+          "name": "Labor 'Automatisierungstechnik'"
+        },
+        {
+          "id": 228,
+          "shortname": "R2.12",
+          "name": "Labor 'Solartechnik'"
+        },
+        {
+          "id": 307,
+          "shortname": "Roteg",
+          "name": "Rosenheimer Technologiezentrum Energie & Gebäude, Küpferlingstr. 66"
+        },
+        {
+          "id": 256,
+          "shortname": "S-1.38",
+          "name": "Labor 'Konstruktive Bauphysik'"
+        },
+        {
+          "id": 257,
+          "shortname": "S-1.40",
+          "name": "Labor für Trockenbau"
+        },
+        {
+          "id": 398,
+          "shortname": "S-1.43",
+          "name": "Labor für Baustoffe/Labor für Bodenmechanik"
+        },
+        {
+          "id": 231,
+          "shortname": "S0.01",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 232,
+          "shortname": "S0.02",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 233,
+          "shortname": "S0.03",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 234,
+          "shortname": "S0.04",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 235,
+          "shortname": "S0.12",
+          "name": "Labor für Werkstoffprüfung und Trockenbau"
+        },
+        {
+          "id": 236,
+          "shortname": "S0.16",
+          "name": "Labor Bauteilprüfhalle"
+        },
+        {
+          "id": 333,
+          "shortname": "S0.35",
+          "name": "Labor"
+        },
+        {
+          "id": 237,
+          "shortname": "S0.36",
+          "name": "CAE Labor"
+        },
+        {
+          "id": 238,
+          "shortname": "S0.38",
+          "name": "Labor für opt. Werkstoffprüfung ***Verantwortlicher Hr.Grohmann/Hr.Kopala"
+        },
+        {
+          "id": 239,
+          "shortname": "S0.40",
+          "name": "Optische Werkstoffprüfung / Büro"
+        },
+        {
+          "id": 240,
+          "shortname": "S0.41",
+          "name": "Mikrotom"
+        },
+        {
+          "id": 241,
+          "shortname": "S0.54",
+          "name": "Schall-Labor"
+        },
+        {
+          "id": 242,
+          "shortname": "S0.55",
+          "name": "Seminarraum (Show Room IAB) *** Raumreservierung über Frohwein -2304"
+        },
+        {
+          "id": 243,
+          "shortname": "S0.56",
+          "name": "Labor Werkzeugtechnik"
+        },
+        {
+          "id": 244,
+          "shortname": "S0.57",
+          "name": "Labor Zerspanungstechnik"
+        },
+        {
+          "id": 246,
+          "shortname": "S1.01",
+          "name": "Future Skills Lab"
+        },
+        {
+          "id": 247,
+          "shortname": "S1.02",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 248,
+          "shortname": "S1.03",
+          "name": "Seminarraum"
+        },
+        {
+          "id": 249,
+          "shortname": "S1.04",
+          "name": "Labor für hybride Gruppenarbeiten"
+        },
+        {
+          "id": 250,
+          "shortname": "S1.07",
+          "name": "Material Science"
+        },
+        {
+          "id": 252,
+          "shortname": "S1.29",
+          "name": "PC-Raum *** Raumreservierung über Rechenzentrum"
+        },
+        {
+          "id": 253,
+          "shortname": "S1.30",
+          "name": "PC-Raum *** Raumreservierung über Rechenzentrum"
+        },
+        {
+          "id": 254,
+          "shortname": "S1.31",
+          "name": "PC-Raum *** Raumreservierung über Rechenzentrum"
+        },
+        {
+          "id": 255,
+          "shortname": "S1.33",
+          "name": "PC-Raum *** Raumreservierung über Rechenzentrum"
+        },
+        {
+          "id": 258,
+          "shortname": "S1.46",
+          "name": "Labor Möbeltechnik"
+        },
+        {
+          "id": 259,
+          "shortname": "S1.47",
+          "name": "Labor Möbeltechnik / Management Training Center"
+        },
+        {
+          "id": 260,
+          "shortname": "S1.48",
+          "name": "Labor Grundlagen MSRT"
+        },
+        {
+          "id": 261,
+          "shortname": "S1.49",
+          "name": "Seminarraum Power Wall **Ansprechpartner Herr T. Ober**"
+        },
+        {
+          "id": 262,
+          "shortname": "S1.52",
+          "name": "Klimakammer Probenvorbereitung"
+        },
+        {
+          "id": 265,
+          "shortname": "S2.45",
+          "name": "PC-Raum *** Raumreservierung über Rechenzentrum"
+        },
+        {
+          "id": 266,
+          "shortname": "S2.50",
+          "name": "PC-Raum *** Raumreservierung über Rechenzentrum"
+        },
+        {
+          "id": 267,
+          "shortname": "W0.05",
+          "name": "Seminarraum *** Raumreservierung über Akademie für Weiterbildung"
+        },
+        {
+          "id": 268,
+          "shortname": "W0.07",
+          "name": "Seminarraum *** Raumreservierung über Akademie für Weiterbildung"
+        },
+        {
+          "id": 269,
+          "shortname": "W0.12",
+          "name": "Seminarraum *** Raumreservierung über Akademie für Weiterbildung"
+        },
+        {
+          "id": 270,
+          "shortname": "W0.13",
+          "name": "Skills- und Simulationslabor Pflege"
+        },
+        {
+          "id": 377,
+          "shortname": "W2.15",
+          "name": "Seminarraum Fachschule *** für THRO nutzbar"
+        },
+        {
+          "id": 278,
+          "shortname": "ÜVA",
+          "name": "Übungs- und Versuchsanlagen"
+        }
+      ]
+    ]
+  }
+}

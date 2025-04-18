@@ -1,0 +1,38 @@
+name: Deployment Frontend
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  packages: write
+  contents: read
+  id-token: write
+
+concurrency: frontend-dev
+
+env:
+  IMAGE_TAG: canary
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/build-frontend
+        with:
+          maptiler_api_key: ${{ secrets.MAPTILER_API_KEY }}
+          indoor_control_api_key: ${{ secrets.INDOOR_CONTROL_API_KEY }}
+          backend_url: 'https://api.thrroomfinder.duell10111.de'
+          image_tag: ${{ env.IMAGE_TAG }}
+  Deploy:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/gcp-deploy
+        with:
+          service: "frontend-dev"
+          image: "europe-west4-docker.pkg.dev/thrrosenheim/ghcr-mirror/duell10111/thr-roomfinder/frontend:${{ env.IMAGE_TAG }}"

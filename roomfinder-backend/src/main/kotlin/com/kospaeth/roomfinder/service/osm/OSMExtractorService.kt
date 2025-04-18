@@ -1,5 +1,6 @@
 package com.kospaeth.roomfinder.service.osm
 
+import com.kospaeth.roomfinder.config.OSMProperties
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
@@ -12,6 +13,7 @@ private val logger = KotlinLogging.logger {}
 @Service
 class OSMExtractorService(
     private val webClient: WebClient,
+    private val osmProperties: OSMProperties,
 ) {
     suspend fun getIndoorRoomsForBuilding(
         areaId: String,
@@ -35,7 +37,7 @@ class OSMExtractorService(
 
         // TODO: Catching a error here!
         return webClient.post()
-            .uri("https://overpass-api.de/api/interpreter")
+            .uri(osmProperties.overPassUrl)
             .body(BodyInserters.fromValue(query))
             .awaitExchange {
                 logger.info { it }

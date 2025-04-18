@@ -1,5 +1,6 @@
 package com.kospaeth.roomfinder.config
 
+import jakarta.validation.Valid
 import jakarta.validation.constraints.NotEmpty
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.validation.annotation.Validated
@@ -19,5 +20,15 @@ data class SPlanProperties(
 @Validated
 data class OSMProperties(
     @field:NotEmpty val overPassUrl: String,
-    val buildingWayIds: List<String> = emptyList(),
+    @field:Valid val buildingWayIds: List<OSMBuildingProperties> = emptyList(),
 )
+
+@Validated
+data class OSMBuildingProperties(
+    @field:NotEmpty val regex: String,
+    @field:NotEmpty val buildingId: String,
+    val name: String? = null,
+) {
+    val regexObject: Regex
+        get() = regex.toRegex()
+}

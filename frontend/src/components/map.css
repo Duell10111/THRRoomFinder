@@ -1,0 +1,11 @@
+.maplibregl-ctrl-group button:not(.maplibregl-ctrl-active) {
+    background-color: var(--mantine-color-gray-filled) !important;
+}
+
+.maplibregl-ctrl button.maplibregl-ctrl-fullscreen .maplibregl-ctrl-icon {
+    color: var(--foreground) !important;
+}
+
+.maplibregl-ctrl-indoorequal .maplibregl-ctrl-active {
+    color: var(--foreground) !important;
+}

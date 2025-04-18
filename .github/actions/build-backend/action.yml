@@ -1,0 +1,23 @@
+name: 'Build frontend image'
+description: 'Action to build frontend image'
+
+inputs:
+  image_tag:
+    description: "Image Tag to use"
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+    - name: Publish image to Github
+      shell: bash
+      run: |
+        gradle jib \
+          --image=ghcr.io/duell10111/thr-roomfinder/backend:${{ inputs.image_tag }} \
+          -Djib.to.auth.username=${{ github.actor }} \
+          -Djib.to.auth.password=${{ github.token }}
+      working-directory: roomfinder-backend # Run in backend folder
