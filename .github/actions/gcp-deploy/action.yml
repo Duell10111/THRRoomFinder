@@ -7,6 +7,9 @@ inputs:
     required: true
   image:
     description: "Image to deploy"
+  region:
+    description: "Region name used for deployment"
+    default: 'europe-west4'
 
 runs:
   using: composite
@@ -20,6 +23,4 @@ runs:
       with:
         service: ${{ inputs.service }}
         image: ${{ inputs.image }}
-        region: 'europe-west1'
-
-
+        region: ${{ inputs.region }}
