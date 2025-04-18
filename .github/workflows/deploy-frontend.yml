@@ -11,6 +11,8 @@ permissions:
   contents: read
   id-token: write
 
+concurrency: frontend-dev
+
 jobs:
   Build:
     runs-on: ubuntu-latest
