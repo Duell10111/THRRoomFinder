@@ -19,6 +19,10 @@ export interface RoomData {
     }
 }
 
+export interface ExtendedRoomData extends RoomData {
+    buildingName?: string
+}
+
 export interface SimpleRoomData {
     name: string
     displayName?: string
@@ -52,6 +56,19 @@ export async function getAllRooms() {
     if (data.ok) {
         return (await data.json()) as SimpleRoomData[]
     } else {
-        throw new Error("Could not find room with status code: " + data.status)
+        throw new Error(
+            "Could not fetch all rooms with status code: " + data.status
+        )
+    }
+}
+
+export async function getAllRoomsWithBuildings() {
+    const data = await fetch(`${backendUrl}/api/v1/room/extended`)
+    if (data.ok) {
+        return (await data.json()) as ExtendedRoomData[]
+    } else {
+        throw new Error(
+            "Could not fetch all rooms with status code: " + data.status
+        )
     }
 }

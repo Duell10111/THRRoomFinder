@@ -1,12 +1,14 @@
 import {
     Combobox,
     ComboboxDropdown,
+    ComboboxGroup,
     ComboboxOption,
+    ComboboxOptions,
     ComboboxTarget,
     InputBase,
     useCombobox,
 } from "@mantine/core"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import useAllRooms from "@/hooks/useAllRooms"
 
 interface AutocompleteSubmitProps {
@@ -26,13 +28,11 @@ export function AutocompleteSubmit({
     const [value, setValue] = useState("")
     const combobox = useCombobox()
 
-    useEffect(() => {
-        setData(roomData.map((v) => v.name))
-    }, [roomData])
-
     const filteredData = data.filter((item) =>
         item.toLowerCase().includes(value.toLowerCase())
     )
+
+    console.log(roomData)
 
     const handleOptionSubmit = (val: string) => {
         // wenn der Wert nicht existiert, fügen wir ihn hinzu
@@ -71,6 +71,20 @@ export function AutocompleteSubmit({
                         {item}
                     </ComboboxOption>
                 ))}
+                <ComboboxOptions>
+                    {Object.entries(roomData).map(([key, value]) => (
+                        <ComboboxGroup key={key} label={`Building ${key}`}>
+                            {value.map((item) => (
+                                <ComboboxOption
+                                    key={item.name}
+                                    value={item.name}
+                                >
+                                    {item.name}
+                                </ComboboxOption>
+                            ))}
+                        </ComboboxGroup>
+                    ))}
+                </ComboboxOptions>
             </ComboboxDropdown>
         </Combobox>
     )

@@ -1,13 +1,19 @@
-import {useEffect, useState} from "react";
-import {getAllRooms, SimpleRoomData} from "@/utils/data";
-
+import { useEffect, useState } from "react"
+import { ExtendedRoomData, getAllRoomsWithBuildings } from "@/utils/data"
+import _ from "lodash"
 
 export default function useAllRooms() {
-    const [rooms, setRooms] = useState<SimpleRoomData[]>([]);
+    const [rooms, setRooms] = useState<{
+        [buildingName: string]: ExtendedRoomData[]
+    }>({})
 
     useEffect(() => {
-        getAllRooms().then(setRooms).catch(console.error);
+        getAllRoomsWithBuildings()
+            .then((data) => {
+                setRooms(_.groupBy(data, "buildingName"))
+            })
+            .catch(console.error)
     }, [])
 
-    return rooms;
+    return rooms
 }
