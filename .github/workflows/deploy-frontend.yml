@@ -2,8 +2,8 @@ name: Deployment Frontend
 
 on:
   push:
-#    branches:
-#      - main # TODO: Add specific image tag handling on main
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
