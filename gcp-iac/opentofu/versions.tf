@@ -9,5 +9,5 @@ terraform {
 
 provider "google" {
   project     = "thrrosenheim"
-  region      = "europe-west1"
+  region      = "europe-west4"
 }

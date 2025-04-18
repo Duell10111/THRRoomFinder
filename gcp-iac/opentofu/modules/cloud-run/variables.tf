@@ -1,9 +1,8 @@
 variable "region" {
   description = "The region to deploy the cloud-run function"
-  default     = "europe-west1"
 }
 
-variable "project_name" {
+variable "cloud_run_name" {
   type        = string
 }
 
@@ -14,6 +13,12 @@ variable "image" {
 variable "port" {
   type        = string
   description = "The port the cloud-run app runs with"
+}
+
+variable "health_check_path" {
+  type        = string
+  description = "The path to your healthcheck of the Cloud Run application."
+  default = "/"
 }
 
 variable "envs" {
@@ -49,3 +54,8 @@ variable "startup_cpu_boost" {
   default = false
 }
 
+variable "domain_mapping" {
+  type = string
+  description = "Domain to map to cloud run service"
+  default     = null
+}

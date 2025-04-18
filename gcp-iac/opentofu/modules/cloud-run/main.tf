@@ -1,5 +1,5 @@
 resource "google_cloud_run_v2_service" "cr_v2_service" {
-  name                = var.project_name
+  name                = var.cloud_run_name
   location            = var.region
   deletion_protection = false
 
@@ -18,6 +18,17 @@ resource "google_cloud_run_v2_service" "cr_v2_service" {
 
       ports {
         container_port = var.port
+      }
+
+      startup_probe {
+        http_get {
+          path = var.health_check_path
+          port = var.port
+        }
+        initial_delay_seconds = 0
+        period_seconds = 10
+        timeout_seconds = 10
+        failure_threshold = 20
       }
 
       dynamic "env" {
@@ -65,4 +76,17 @@ resource "google_cloud_run_service_iam_binding" "default" {
   members = [
     "allUsers"
   ]
+}
+
+resource "google_cloud_run_domain_mapping" "domain_mapping" {
+  count = var.domain_mapping != null ? 1 : 0
+
+  name     = var.domain_mapping
+  location = google_cloud_run_v2_service.cr_v2_service.location
+  metadata {
+    namespace = data.google_client_config.current.project
+  }
+  spec {
+    route_name = google_cloud_run_v2_service.cr_v2_service.name
+  }
 }

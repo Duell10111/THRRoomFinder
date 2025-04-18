@@ -9,6 +9,12 @@ variable "github_private_token" {
   description = "the GitHub personal access token used for artifactory access"
 }
 
+variable "stage" {
+  type = string
+  description = "name of the stage being used"
+  # TODO: Add regex to check name
+}
+
 # Secrets
 
 # Frontend

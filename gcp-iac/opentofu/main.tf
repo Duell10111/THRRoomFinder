@@ -1,26 +1,34 @@
 module "frontend" {
   source = "./modules/cloud-run"
 
-  project_name = "frontend"
-  port = "3000"
-  image = "europe-west1-docker.pkg.dev/thrrosenheim/ghcr-mirror/duell10111/thr-roomfinder/frontend:canary"
+  region = data.google_client_config.current.region
 
-  envs_secrets = [{
-    name = "NEXT_PUBLIC_MAPTILER_API_KEY"
-    secret_id = module.frontend_map-tiler-api-key.secret_id
-  },{
-    name = "NEXT_PUBLIC_INDOOR_CONTROL_API_KEY"
-    secret_id = module.frontend_indoor-control-api-key.secret_id
-  }]
+  cloud_run_name = "frontend-${var.stage}"
+  port = "3000"
+  image = "${data.google_client_config.current.region}-docker.pkg.dev/thrrosenheim/ghcr-mirror/duell10111/thr-roomfinder/frontend:canary"
+  domain_mapping = "thrroomfinder.duell10111.de"
+
+  # envs_secrets = [{
+  #   name = "NEXT_PUBLIC_MAPTILER_API_KEY"
+  #   secret_id = module.frontend_map-tiler-api-key.secret_id
+  # },{
+  #   name = "NEXT_PUBLIC_INDOOR_CONTROL_API_KEY"
+  #   secret_id = module.frontend_indoor-control-api-key.secret_id
+  # }]
+
+  depends_on = [google_artifact_registry_repository.ghcr-mirror]
 }
 
 module "backend" {
   source = "./modules/cloud-run"
 
-  project_name = "backend"
-  port = "8080"
-  image = "europe-west1-docker.pkg.dev/thrrosenheim/ghcr-mirror/duell10111/thr-roomfinder/backend:canary"
+  region = data.google_client_config.current.region
 
+  cloud_run_name = "backend-${var.stage}"
+  port = "8080"
+  image = "${data.google_client_config.current.region}-docker.pkg.dev/thrrosenheim/ghcr-mirror/duell10111/thr-roomfinder/backend:canary"
+  health_check_path = "/actuator/health"
+  domain_mapping = "api.thrroomfinder.duell10111.de"
   startup_cpu_boost = true
 
   envs = [{
@@ -38,4 +46,6 @@ module "backend" {
     name = "DATABASE_PASSWORD"
     secret_id = module.db-password.secret_id
   }]
+
+  depends_on = [google_artifact_registry_repository.ghcr-mirror]
 }
