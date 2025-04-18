@@ -12,11 +12,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - run: npm ci
+        working-directory: frontend # Run in frontend folder
       - run: npm run lint
         name: "Lint check"
-        working-directory: frontend # Run in backend folder
+        working-directory: frontend # Run in frontend folder
 #      - run: npm run test
-#        working-directory: frontend # Run in backend folder
+#        working-directory: frontend # Run in frontend folder
   Backend-Analysis:
     name: Backend Analysis
     runs-on: ubuntu-latest

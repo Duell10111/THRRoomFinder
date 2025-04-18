@@ -21,6 +21,7 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
 import reactor.netty.transport.logging.AdvancedByteBufFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @ExtendWith(MockKExtension::class)
@@ -169,106 +170,152 @@ class StarPlanServiceTest {
                 ),
             )
 
-        val a003Rooms =
+        @Suppress("ktlint:standard:max-line-length")
+        val a103Rooms =
             listOf(
                 RoomSchedule(
                     location = StarPlanLocation.RO,
-                    room = "A0.03",
-                    name = "Embedded Systems, Embedded Systems, Embedded Systems",
-                    lecturer = "Prof.Dr. Wolfgang Mühlbauer",
-                    relevantDegrees = "AAI-B/FWPM, INF-B/FWPM, WIF-B/FWPM",
-                    startTime = LocalDateTime.parse("2025-04-07T11:45"),
-                    endTime = LocalDateTime.parse("2025-04-07T13:15"),
+                    room = "A1.03",
+                    name = "Gebäudetechnik - Elektro, Gebäudetechnik - Elektro, Gebäudetechnik - Elektro",
+                    lecturer = "Prof.Dr. Michael Krödel",
+                    relevantDegrees = "BI-B/FWPM, HA-B6, HA-B7, IAB-B3, IAB-B4",
+                    startTime = LocalDateTime.parse("2025-03-31T08:00"),
+                    endTime = LocalDateTime.parse("2025-03-31T09:30"),
                 ),
                 RoomSchedule(
                     location = StarPlanLocation.RO,
-                    room = "A0.03",
-                    name = "Grafische Oberflächen, Grafische Oberflächen, Grafische Oberflächen",
-                    lecturer = "Veronika Dashuber",
-                    relevantDegrees = "AAI-B/FWPM, INF-B/FWPM, WIF-B/FWPM",
-                    startTime = LocalDateTime.parse("2025-04-07T13:45"),
-                    endTime = LocalDateTime.parse("2025-04-07T15:15"),
+                    room = "A1.03",
+                    name = "Grundlagen der Bauphysik",
+                    lecturer = "Prof.Dr. Johannes Aschaber",
+                    relevantDegrees = "IPB-B2",
+                    startTime = LocalDateTime.parse("2025-03-31T09:45"),
+                    endTime = LocalDateTime.parse("2025-03-31T11:15"),
                 ),
                 RoomSchedule(
                     location = StarPlanLocation.RO,
-                    room = "A0.03",
-                    name = "Logistik Übungen, Logistik Übungen",
+                    room = "A1.03",
+                    name = "Grundlagen der Bauphysik 2",
+                    lecturer = "Prof.Dr. Gerhard Friedsam, Prof.Dr. Andreas Rabold",
+                    relevantDegrees = "BI-B2",
+                    startTime = LocalDateTime.parse("2025-03-31T11:45"),
+                    endTime = LocalDateTime.parse("2025-03-31T13:15"),
+                ),
+                RoomSchedule(
+                    location = StarPlanLocation.RO,
+                    room = "A1.03",
+                    name = "Konstruktive Bauphysik - Feuchte-, Wärme-, Schallschutz, Konstruktive Bauphysik - Feuchte-, Wärme-, Schallschutz",
+                    lecturer = "Prof.Dr. Gerhard Friedsam, Prof.Dr. Andreas Rabold",
+                    relevantDegrees = "BI-B3, HA-B3, HA-B4",
+                    startTime = LocalDateTime.parse("2025-03-31T13:45"),
+                    endTime = LocalDateTime.parse("2025-03-31T15:15"),
+                ),
+                RoomSchedule(
+                    location = StarPlanLocation.RO,
+                    room = "A1.03",
+                    name = "Gebäudekonstruktion, Gebäudekonstruktion",
+                    lecturer = "Dipl.-Ing. Jonas Kessler, Prof.Dipl.Ing. Martin Kühfuß",
+                    relevantDegrees = "EGT-B2, IFM-B2",
+                    startTime = LocalDateTime.parse("2025-04-01T08:00"),
+                    endTime = LocalDateTime.parse("2025-04-01T09:30"),
+                ),
+                RoomSchedule(
+                    location = StarPlanLocation.RO,
+                    room = "A1.03",
+                    name = "Bauphysik 2",
+                    lecturer = "Prof. Dr. Ing. Isabell Nemeth, Prof.Dr. Ulrich Schanda",
+                    relevantDegrees = "IAB-B2",
+                    startTime = LocalDateTime.parse("2025-04-01T09:45"),
+                    endTime = LocalDateTime.parse("2025-04-01T11:15"),
+                ),
+                RoomSchedule(
+                    location = StarPlanLocation.RO,
+                    room = "A1.03",
+                    name = "International Strategic Management",
+                    lecturer = "Prof.Dr. Eckhard Lachmann",
+                    relevantDegrees = "INM-M2",
+                    startTime = LocalDateTime.parse("2025-04-01T11:45"),
+                    endTime = LocalDateTime.parse("2025-04-01T15:15"),
+                ),
+                RoomSchedule(
+                    location = StarPlanLocation.RO,
+                    room = "A1.03",
+                    name = "Logistics Processes in SAP",
                     lecturer = "Prof.Dr. Bernhard Holaubek",
-                    relevantDegrees = "INF-B/FWPM, WIF-B4",
-                    startTime = LocalDateTime.parse("2025-04-08T09:45"),
-                    endTime = LocalDateTime.parse("2025-04-08T11:15"),
+                    relevantDegrees = "INM-M2",
+                    startTime = LocalDateTime.parse("2025-04-01T17:15"),
+                    endTime = LocalDateTime.parse("2025-04-01T20:30"),
                 ),
                 RoomSchedule(
                     location = StarPlanLocation.RO,
-                    room = "A0.03",
-                    name = "Software-Engineering-Praxis Übung",
-                    lecturer = "A. Magerl, Prof.Dr. Gerd Beneken",
-                    relevantDegrees = "INF-B6",
-                    startTime = LocalDateTime.parse("2025-04-08T11:45"),
-                    endTime = LocalDateTime.parse("2025-04-08T13:15"),
+                    room = "A1.03",
+                    name = "Grundlagen der Bauphysik 2",
+                    lecturer = "Prof.Dr. Gerhard Friedsam, Prof.Dr. Andreas Rabold",
+                    relevantDegrees = "HA-B2",
+                    startTime = LocalDateTime.parse("2025-04-02T08:00"),
+                    endTime = LocalDateTime.parse("2025-04-02T09:30"),
                 ),
                 RoomSchedule(
                     location = StarPlanLocation.RO,
-                    room = "A0.03",
-                    name = "Entwicklung von Computerspielen, Entwicklung von Computerspielen, Entwicklung von Computerspielen",
-                    lecturer = "Andreas Magerl",
-                    relevantDegrees = "AAI-B/FWPM, INF-B/FWPM, WIF-B/FWPM",
-                    startTime = LocalDateTime.parse("2025-04-08T13:45"),
-                    endTime = LocalDateTime.parse("2025-04-08T15:15"),
+                    room = "A1.03",
+                    name = "Grundlagen der Bauphysik 2",
+                    lecturer = "Prof.Dr. Gerhard Friedsam, Prof.Dr. Andreas Rabold",
+                    relevantDegrees = "BI-B2",
+                    startTime = LocalDateTime.parse("2025-04-02T09:45"),
+                    endTime = LocalDateTime.parse("2025-04-02T11:15"),
                 ),
                 RoomSchedule(
                     location = StarPlanLocation.RO,
-                    room = "A0.03",
-                    name = "Entwicklung von Computerspielen, Entwicklung von Computerspielen, Entwicklung von Computerspielen",
-                    lecturer = "Andreas Magerl",
-                    relevantDegrees = "AAI-B/FWPM, INF-B/FWPM, WIF-B/FWPM",
-                    startTime = LocalDateTime.parse("2025-04-08T15:30"),
-                    endTime = LocalDateTime.parse("2025-04-08T17:00"),
+                    room = "A1.03",
+                    name = "Strategische Unternehmensführung und Projektmanagement",
+                    lecturer = "Prof.Dr.rer.pol Carolin Fleischmann",
+                    relevantDegrees = "BW-B6",
+                    startTime = LocalDateTime.parse("2025-04-02T11:45"),
+                    endTime = LocalDateTime.parse("2025-04-02T13:15"),
                 ),
                 RoomSchedule(
                     location = StarPlanLocation.RO,
-                    room = "A0.03",
-                    name = "Object-Oriented Programming Exercise",
-                    lecturer = "Kevin Burmann",
-                    relevantDegrees = "AAI-B2",
-                    startTime = LocalDateTime.parse("2025-04-09T09:45"),
-                    endTime = LocalDateTime.parse("2025-04-09T11:15"),
+                    room = "A1.03",
+                    name = "Strategische Unternehmensführung und Projektmanagement",
+                    lecturer = "Julia Drexler",
+                    relevantDegrees = "BW-B6",
+                    startTime = LocalDateTime.parse("2025-04-02T13:45"),
+                    endTime = LocalDateTime.parse("2025-04-02T15:15"),
                 ),
                 RoomSchedule(
                     location = StarPlanLocation.RO,
-                    room = "A0.03",
-                    name = "Object-Oriented Programming Exercise",
-                    lecturer = "Prof.Dr. Kai Höfig",
-                    relevantDegrees = "AAI-B2",
-                    startTime = LocalDateTime.parse("2025-04-09T12:00"),
-                    endTime = LocalDateTime.parse("2025-04-09T13:30"),
+                    room = "A1.03",
+                    name = "Verteilte Verarbeitung, Verteilte Verarbeitung",
+                    lecturer = "Prof.Dr. Gerd Beneken",
+                    relevantDegrees = "INF-B4, WIF-B/FWPM",
+                    startTime = LocalDateTime.parse("2025-04-03T08:00"),
+                    endTime = LocalDateTime.parse("2025-04-03T09:30"),
                 ),
                 RoomSchedule(
                     location = StarPlanLocation.RO,
-                    room = "A0.03",
-                    name = "Object-Oriented Programming Exercise",
-                    lecturer = "Prof.Dr. Kai Höfig",
-                    relevantDegrees = "AAI-B2",
-                    startTime = LocalDateTime.parse("2025-04-09T13:45"),
-                    endTime = LocalDateTime.parse("2025-04-09T15:15"),
+                    room = "A1.03",
+                    name = "Bauphysik 2",
+                    lecturer = "Prof. Dr. Ing. Isabell Nemeth, Prof.Dr. Ulrich Schanda",
+                    relevantDegrees = "IAB-B2",
+                    startTime = LocalDateTime.parse("2025-04-03T09:45"),
+                    endTime = LocalDateTime.parse("2025-04-03T11:15"),
                 ),
                 RoomSchedule(
                     location = StarPlanLocation.RO,
-                    room = "A0.03",
-                    name = "Übungen zu IT-Systeme",
-                    lecturer = "Prof.Dr. Kai Höfig",
-                    relevantDegrees = "INF-B2",
-                    startTime = LocalDateTime.parse("2025-04-10T12:00"),
-                    endTime = LocalDateTime.parse("2025-04-10T13:30"),
+                    room = "A1.03",
+                    name = "Bauphysik 2, Bauphysik 2 Vorlesung",
+                    lecturer = "Dr. Andreas Mayr, Prof. Dr. Ing. Isabell Nemeth",
+                    relevantDegrees = "ARC-B4, INN-B/FWPM",
+                    startTime = LocalDateTime.parse("2025-04-04T09:45"),
+                    endTime = LocalDateTime.parse("2025-04-04T11:15"),
                 ),
                 RoomSchedule(
                     location = StarPlanLocation.RO,
-                    room = "A0.03",
-                    name = "Übungen zu IT-Systeme",
-                    lecturer = "Prof.Dr. Kai Höfig",
-                    relevantDegrees = "INF-B2",
-                    startTime = LocalDateTime.parse("2025-04-10T13:45"),
-                    endTime = LocalDateTime.parse("2025-04-10T15:15"),
+                    room = "A1.03",
+                    name = "Bauphysik 2, Bauphysik 2 Vorlesung",
+                    lecturer = "Dr. Andreas Mayr, Prof. Dr. Ing. Isabell Nemeth",
+                    relevantDegrees = "ARC-B4, INN-B/FWPM",
+                    startTime = LocalDateTime.parse("2025-04-04T11:45"),
+                    endTime = LocalDateTime.parse("2025-04-04T13:15"),
                 ),
             )
     }
@@ -278,15 +325,15 @@ class StarPlanServiceTest {
     @Test
     fun `test getScheduleForRoom with non-parallel calendar entries`() =
         runTest {
-            val rooms = starPlanService.getScheduleForRoom(StarPlanLocation.RO, "A0.03")
-            assertThat(rooms).hasSize(11)
-            assertThat(rooms).containsExactlyInAnyOrderElementsOf(a003Rooms)
+            val rooms = starPlanService.getScheduleForRoom(StarPlanLocation.RO, "A1.03", date = LocalDate.now())
+            assertThat(rooms).hasSize(16)
+            assertThat(rooms).containsExactlyInAnyOrderElementsOf(a103Rooms)
         }
 
     @Test
     fun `test getScheduleForRoom with parallel calendar entries`() =
         runTest {
-            val rooms = starPlanService.getScheduleForRoom(StarPlanLocation.RO, "A0.01b")
+            val rooms = starPlanService.getScheduleForRoom(StarPlanLocation.RO, "A0.01b", date = LocalDate.now())
             assertThat(rooms).hasSize(12)
             assertThat(rooms).containsExactlyInAnyOrderElementsOf(a001bRooms)
         }

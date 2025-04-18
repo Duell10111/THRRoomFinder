@@ -42,7 +42,7 @@ class StarPlanService(
     ): List<RoomSchedule> {
         @Suppress("ktlint:standard:max-line-length")
         return getRoom(location, room)?.id.let { roomId ->
-            val splanURL = "https://splan.th-rosenheim.de/splan/json?m=getTT&sel=ro&pu=41&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
+            val splanURL = "${properties.url}?m=getTT&sel=ro&pu=41&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
             logger.info { "Fetching SPlan Schedule via url $splanURL" }
 
             webClient.get()
