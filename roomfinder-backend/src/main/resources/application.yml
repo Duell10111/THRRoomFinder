@@ -10,6 +10,15 @@ spring:
     caffeine:
       spec: "maximumSize=500,expireAfterWrite=3600s"
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      access: read_only
+
 logging:
   level:
 #    reactor.netty.http.client.HttpClient: DEBUG

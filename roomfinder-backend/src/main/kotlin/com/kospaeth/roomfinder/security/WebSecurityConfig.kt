@@ -17,6 +17,7 @@ class WebSecurityConfig {
     fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain? {
         return http {
             authorizeExchange {
+                authorize("/actuator/health", permitAll)
                 authorize("${ControllerStruct.ROOM_CONTROLLER}/**", permitAll)
                 authorize(anyExchange, authenticated)
             }
