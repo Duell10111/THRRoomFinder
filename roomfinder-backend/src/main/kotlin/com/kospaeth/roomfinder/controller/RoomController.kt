@@ -31,7 +31,6 @@ class RoomController(
     suspend fun getLocationForRoom(
         @PathVariable roomName: String,
     ): ResponseEntity<RoomDTO> {
-        // TODO: Adapt for correct
         return roomService.getLocationForRoom(roomName)?.let {
             ResponseEntity.ok(it)
         } ?: ResponseEntity.notFound().build()

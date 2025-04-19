@@ -66,6 +66,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("io.mockk:mockk:1.13.17")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
     testImplementation("org.wiremock:wiremock-standalone:3.12.1")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
