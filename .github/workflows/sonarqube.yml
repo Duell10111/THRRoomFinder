@@ -72,6 +72,7 @@ jobs:
             -Dsonar.projectKey=Duell10111_THRRoomFinder
             -Dsonar.organization=duell10111
             -Dsonar.sources=frontend/src,roomfinder-backend/src/main
+            -Dsonar.exclusions=frontend/src/__tests__/**
             -Dsonar.tests=frontend/src/__tests__,roomfinder-backend/src/test
             -Dsonar.coverage.jacoco.xmlReportPaths=roomfinder-backend/build/reports/jacoco/test/jacocoTestReport.xml
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
