@@ -44,12 +44,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      # Backend Coverage
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '21'
       - run: gradle test jacocoTestReport
         working-directory: roomfinder-backend # Run in backend folder
+      # Frontend Coverage
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+        working-directory: frontend # Run in frontend folder
+      - run: npm run test
+        working-directory: frontend # Run in frontend folder
       - name: Analyze with SonarQube
         uses: SonarSource/sonarqube-scan-action@v5.1.0
         env:
@@ -65,6 +74,7 @@ jobs:
             -Dsonar.sources=frontend/src,roomfinder-backend/src/main
             -Dsonar.tests=roomfinder-backend/src/test
             -Dsonar.coverage.jacoco.xmlReportPaths=roomfinder-backend/build/reports/jacoco/test/jacocoTestReport.xml
+            -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
             # optional. For more info about Code Coverage, please refer to https://docs.sonarcloud.io/enriching/test-coverage/overview/
             # Comma-separated paths to directories containing main source files.
             #-Dsonar.sources= # optional, default is project base directory
