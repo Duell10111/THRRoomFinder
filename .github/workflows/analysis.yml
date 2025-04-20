@@ -17,8 +17,8 @@ jobs:
       - run: npm run lint
         name: "Lint check"
         working-directory: frontend # Run in frontend folder
-#      - run: npm run test
-#        working-directory: frontend # Run in frontend folder
+      - run: npm run test
+        working-directory: frontend # Run in frontend folder
   Backend-Analysis:
     name: Backend Analysis
     runs-on: ubuntu-latest
