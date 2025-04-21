@@ -8,6 +8,7 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.4.4"
     id("com.diffplug.spotless") version "6.25.0"
     id("jacoco")
+    id("jvm-test-suite")
 }
 
 group = "com.kospaeth"
@@ -94,6 +95,8 @@ spotless {
     }
 }
 
+// Mapstruct Configuration
+
 kapt {
     arguments {
         // Set Mapstruct Configuration options here
@@ -109,6 +112,24 @@ tasks.jacocoTestReport {
         html.required.set(true)
     }
 }
+
+// Konsist Test Suite
+
+testing {
+    suites {
+        register("konsistTest", JvmTestSuite::class) {
+            dependencies {
+                // Add 'main' source set dependency
+                implementation(project())
+
+                // Add Konsist dependency
+                implementation("com.lemonappdev:konsist:0.17.3")
+            }
+        }
+    }
+}
+
+// Spotless
 
 // TODO: Check if style check still works
 // Automatically apply spotlessApply on build

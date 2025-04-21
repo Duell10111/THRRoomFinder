@@ -28,6 +28,10 @@ jobs:
         with:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '21'
-      - run: gradle test
+      - name: "Unit Tests"
+        run: gradle test
+        working-directory: roomfinder-backend # Run in backend folder
+      - name: "Architecture Tests"
+        run: gradle konsistTest
         working-directory: roomfinder-backend # Run in backend folder
   # TODO: Add job to run bruno integration tests on dev or outsource in different workflow that runs after deployments?
