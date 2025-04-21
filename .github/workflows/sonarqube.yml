@@ -73,7 +73,7 @@ jobs:
             -Dsonar.organization=duell10111
             -Dsonar.sources=frontend/src,roomfinder-backend/src/main
             -Dsonar.exclusions=frontend/src/__tests__/**
-            -Dsonar.tests=frontend/src/__tests__,roomfinder-backend/src/test
+            -Dsonar.tests=frontend/src/__tests__,roomfinder-backend/src/test,roomfinder-backend/src/konsistTest
             -Dsonar.coverage.jacoco.xmlReportPaths=roomfinder-backend/build/reports/jacoco/test/jacocoTestReport.xml
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
             # optional. For more info about Code Coverage, please refer to https://docs.sonarcloud.io/enriching/test-coverage/overview/
