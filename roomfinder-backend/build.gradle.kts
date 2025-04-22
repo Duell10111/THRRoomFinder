@@ -8,6 +8,7 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.4.4"
     id("com.diffplug.spotless") version "6.25.0"
     id("jacoco")
+    id("jvm-test-suite")
 }
 
 group = "com.kospaeth"
@@ -66,6 +67,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("io.mockk:mockk:1.13.17")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
     testImplementation("org.wiremock:wiremock-standalone:3.12.1")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -93,6 +95,8 @@ spotless {
     }
 }
 
+// Mapstruct Configuration
+
 kapt {
     arguments {
         // Set Mapstruct Configuration options here
@@ -108,6 +112,24 @@ tasks.jacocoTestReport {
         html.required.set(true)
     }
 }
+
+// Konsist Test Suite
+
+testing {
+    suites {
+        register("konsistTest", JvmTestSuite::class) {
+            dependencies {
+                // Add 'main' source set dependency
+                implementation(project())
+
+                // Add Konsist dependency
+                implementation("com.lemonappdev:konsist:0.17.3")
+            }
+        }
+    }
+}
+
+// Spotless
 
 // TODO: Check if style check still works
 // Automatically apply spotlessApply on build

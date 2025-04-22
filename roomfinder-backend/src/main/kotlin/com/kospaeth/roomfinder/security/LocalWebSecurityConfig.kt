@@ -9,7 +9,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 
-@Profile("no-auth || test")
+@Profile("no-auth")
 @Configuration
 class LocalWebSecurityConfig {
     @Bean

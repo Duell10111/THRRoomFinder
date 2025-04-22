@@ -26,6 +26,16 @@ abstract class DatabaseTestBase {
             registry.add("spring.r2dbc.url", Companion::r2dbcUrl)
             registry.add("spring.r2dbc.username", postgres::getUsername)
             registry.add("spring.r2dbc.password", postgres::getPassword)
+            // Flyway properties
+            registry.add("spring.flyway.url", Companion::jdbcUrl)
+            registry.add("spring.flyway.user", postgres::getUsername)
+            registry.add("spring.flyway.password", postgres::getPassword)
+        }
+
+        fun jdbcUrl(): String {
+            return "jdbc:postgresql://${postgres.host}:${postgres.getMappedPort(
+                PostgreSQLContainer.POSTGRESQL_PORT,
+            )}/${postgres.databaseName}"
         }
 
         fun r2dbcUrl(): String {
