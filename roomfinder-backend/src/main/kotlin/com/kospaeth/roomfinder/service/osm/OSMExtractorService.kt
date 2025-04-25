@@ -44,9 +44,4 @@ class OSMExtractorService(
                 it.toEntity(OverpassResponse::class.java).awaitSingle()
             }.body
     }
-
-    // TODO: Calculate Point for location nodes
-    private fun getCenterOfLocationPoints(): Pair<Double, Double> {
-        return Pair(0.0, 0.0)
-    }
 }

@@ -74,9 +74,7 @@ export function HomeAppShell() {
                 </AppShell.Section>
             </AppShell.Navbar>
             <AppShell.Main>
-                <MapProvider>
-                    <MapPage />
-                </MapProvider>
+                <MapPage />
             </AppShell.Main>
         </AppShell>
     )

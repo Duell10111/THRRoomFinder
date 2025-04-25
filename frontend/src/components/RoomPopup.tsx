@@ -1,17 +1,22 @@
-import useScheduleData from "@/hooks/useScheduleData"
 import { ScheduleData } from "@/utils/data"
 import { useMemo } from "react"
 import { Loader } from "@mantine/core"
+import { useRoomContext } from "@/context/RoomContext"
 
 interface RoomPopupProps {
     roomName: string
-    buildingId: string
 }
 
 export function RoomPopup({ roomName }: RoomPopupProps) {
-    const data = useScheduleData(roomName)
+    const { data } = useRoomContext()
 
-    const next = useMemo(() => (data ? findNextEntry(data) : undefined), [data])
+    const next = useMemo(
+        () =>
+            data?.scheduleData && data.roomData.name === roomName
+                ? findNextEntry(data.scheduleData)
+                : undefined,
+        [data, roomName]
+    )
 
     // Loading data
     if (next === undefined) {
