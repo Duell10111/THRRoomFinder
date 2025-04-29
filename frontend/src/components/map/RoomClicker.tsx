@@ -1,9 +1,9 @@
 import { Popup, useMap } from "react-map-gl/maplibre"
 import { useEffect, useState } from "react"
-import { RoomPopup } from "@/components/RoomPopup"
+import { RoomPopup } from "@/components/map/RoomPopup"
 
 import "./popup.css"
-import { getRoomName } from "@/components/MapUtils"
+import { getRoomName } from "@/components/map/MapUtils"
 import { useRoomContext } from "@/context/RoomContext"
 import { GeoJSONSource } from "maplibre-gl"
 

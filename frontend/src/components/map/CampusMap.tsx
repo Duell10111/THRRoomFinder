@@ -3,8 +3,8 @@
 import Map, { FullscreenControl } from "react-map-gl/maplibre"
 import "maplibre-gl/dist/maplibre-gl.css"
 import "maplibre-gl-indoorequal/maplibre-gl-indoorequal.css"
-import { IndoorControls } from "@/components/IndoorControls"
-import { RoomClicker } from "@/components/RoomClicker"
+import { IndoorControls } from "@/components/map/IndoorControls"
+import { RoomClicker } from "@/components/map/RoomClicker"
 import { useColorScheme } from "@mantine/hooks"
 import { useRoomContext } from "@/context/RoomContext"
 
