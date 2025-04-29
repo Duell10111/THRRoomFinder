@@ -25,6 +25,9 @@ class WebSecurityConfig {
             formLogin { disable() }
             httpBasic { disable() }
             anonymous { disable() }
+            oauth2ResourceServer {
+                jwt { }
+            }
         }
     }
 

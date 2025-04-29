@@ -29,6 +29,7 @@ COPY . .
 # Adds NEXT_PUBLIC_ vars
 ARG NEXT_PUBLIC_MAPTILER_API_KEY
 ARG NEXT_PUBLIC_INDOOR_CONTROL_API_KEY
+ARG NEXT_PUBLIC_FIREBASE_API_KEY
 ARG NEXT_PUBLIC_BACKEND_URL
 
 # Next.js collects completely anonymous telemetry data about general usage.

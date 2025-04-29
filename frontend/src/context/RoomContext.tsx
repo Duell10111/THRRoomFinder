@@ -1,3 +1,5 @@
+"use client"
+
 import React, {
     createContext,
     useCallback,
@@ -37,7 +39,7 @@ const RoomContext = createContext<RoomContextType>({
 })
 
 interface RoomContextProviderProps {
-    homeParams: Promise<{ slug?: string[] }>
+    homeParams?: Promise<{ slug?: string[] }>
     children: React.ReactNode
 }
 
@@ -83,8 +85,8 @@ export function RoomContextProvider({
 
     useEffect(() => {
         homeParams
-            .then((v) => (v.slug ? parseHomeSlug(v.slug) : undefined))
-            .then(async (obj) => {
+            ?.then((v) => (v.slug ? parseHomeSlug(v.slug) : undefined))
+            ?.then(async (obj) => {
                 if (obj?.room) await setRoom(obj.room)
             })
     }, [homeParams, setRoom])

@@ -1,7 +1,6 @@
 import { useDisclosure } from "@mantine/hooks"
 import { AppShell, Burger, Group, NavLink, Title } from "@mantine/core"
 import { RoomDetails } from "@/sites/RoomDetails"
-import { MapProvider } from "react-map-gl/maplibre"
 import { MapPage } from "@/sites/MapPage"
 import { useRoomContext } from "@/context/RoomContext"
 import { useEffect } from "react"

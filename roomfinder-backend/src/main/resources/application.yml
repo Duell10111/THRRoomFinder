@@ -9,6 +9,11 @@ spring:
   cache:
     caffeine:
       spec: "maximumSize=500,expireAfterWrite=3600s"
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://securetoken.google.com/thrrosenheim
 
 management:
   endpoints:

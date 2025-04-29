@@ -1,4 +1,4 @@
-import { Popup, useMap, Marker } from "react-map-gl/maplibre"
+import { Popup, useMap } from "react-map-gl/maplibre"
 import { useEffect, useState } from "react"
 import { RoomPopup } from "@/components/RoomPopup"
 
@@ -42,6 +42,19 @@ export function RoomClicker() {
         }
     }, [current, setRoom])
 
+    // TODO: Change to show highlight even if not selected by clicking on map
+    useEffect(() => {
+        if (data && !popup) {
+            const source = current
+                ?.getMap()
+                ?.getSource("highlight-room") as GeoJSONSource
+            source?.setData({
+                type: "FeatureCollection",
+                features: [],
+            })
+        }
+    }, [current, data, popup])
+
     return (
         <>
             {popup ? (
@@ -52,13 +65,6 @@ export function RoomClicker() {
                 >
                     <RoomPopup roomName={data?.roomData?.name ?? ""} />
                 </Popup>
-            ) : null}
-            {/* If  */}
-            {!popup && data?.roomData ? (
-                <Marker
-                    latitude={data.roomData.location.lat}
-                    longitude={data.roomData.location.lng}
-                ></Marker>
             ) : null}
         </>
     )
