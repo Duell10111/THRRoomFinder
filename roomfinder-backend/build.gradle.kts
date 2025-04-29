@@ -58,7 +58,7 @@ dependencies {
     implementation("org.jsoup:jsoup:1.19.1")
 
     // Logging
-    implementation("io.github.oshai:kotlin-logging-jvm:7.0.0")
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.7")
 
     // Caching
     implementation("com.github.ben-manes.caffeine:caffeine:3.2.0")
