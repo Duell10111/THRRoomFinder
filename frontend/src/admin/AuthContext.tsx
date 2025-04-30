@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useContext, useState } from "react"
+import React, { createContext, useContext, useEffect, useState } from "react"
 import { onAuthStateChanged, User } from "@firebase/auth"
 import { auth } from "@/admin/auth"
 
@@ -16,8 +16,12 @@ interface AuthContextProviderProps {
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
     const [user, setUser] = useState<User | null>()
-    onAuthStateChanged(auth, (user) => {
-        setUser(user)
+
+    useEffect(() => {
+        const sub = onAuthStateChanged(auth, (user) => {
+            setUser(user)
+        })
+        return () => sub()
     })
 
     return (

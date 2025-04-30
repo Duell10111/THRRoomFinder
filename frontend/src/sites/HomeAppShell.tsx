@@ -1,5 +1,6 @@
 import { useDisclosure } from "@mantine/hooks"
 import { AppShell, Burger, Group, NavLink, Title } from "@mantine/core"
+import { IconUsers, IconScale } from "@tabler/icons-react"
 import { RoomDetails } from "@/sites/RoomDetails"
 import { MapPage } from "@/sites/MapPage"
 import { useRoomContext } from "@/context/RoomContext"
@@ -7,6 +8,7 @@ import { useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ScheduleDatePicker } from "@/components/schedule/ScheduleDatePicker"
+import { ReportIssuePopupNavBarItem } from "@/components/ReportIssuePopup"
 
 export function HomeAppShell() {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
@@ -69,7 +71,17 @@ export function HomeAppShell() {
                 </AppShell.Section>
                 <RoomDetails />
                 <AppShell.Section>
-                    <NavLink href="/impressum" label="Impressum" />
+                    <ReportIssuePopupNavBarItem />
+                    <NavLink
+                        href="/credits"
+                        label={"Credits"}
+                        leftSection={<IconUsers size={16} stroke={1.5} />}
+                    />
+                    <NavLink
+                        href="/impressum"
+                        label="Impressum"
+                        leftSection={<IconScale size={16} stroke={1.5} />}
+                    />
                 </AppShell.Section>
             </AppShell.Navbar>
             <AppShell.Main>
