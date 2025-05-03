@@ -51,8 +51,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.7.0")
 
     // Mapping
-    implementation("org.mapstruct:mapstruct:1.6.0")
-    kapt("org.mapstruct:mapstruct-processor:1.6.0")
+    implementation("org.mapstruct:mapstruct:1.6.3")
+    kapt("org.mapstruct:mapstruct-processor:1.6.3")
 
     // HTML Parser
     implementation("org.jsoup:jsoup:1.19.1")
