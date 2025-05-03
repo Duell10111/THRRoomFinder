@@ -2,9 +2,14 @@
 
 import { AppShell, CloseButton, Group } from "@mantine/core"
 import Link from "next/link"
-import Impressum from "@/sites/Impressum"
+import React from "react"
+import { NavLogo } from "@/navigation/NavLogo"
 
-export default function ImpressumPage() {
+interface NavAppShellSubPagesProps {
+    children: React.ReactNode
+}
+
+export function NavAppShellSubPages({ children }: NavAppShellSubPagesProps) {
     return (
         <AppShell header={{ height: 60 }} padding="md">
             <AppShell.Header>
@@ -12,11 +17,10 @@ export default function ImpressumPage() {
                     <Link href="/">
                         <CloseButton />
                     </Link>
+                    <NavLogo />
                 </Group>
             </AppShell.Header>
-            <AppShell.Main>
-                <Impressum />
-            </AppShell.Main>
+            <AppShell.Main>{children}</AppShell.Main>
         </AppShell>
     )
 }

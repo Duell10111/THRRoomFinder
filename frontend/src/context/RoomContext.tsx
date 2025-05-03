@@ -61,6 +61,7 @@ export function RoomContextProvider({
             setRoomData(room)
             if (zoomIn && room) {
                 if (campus) {
+                    // TODO: Update level of room to display right level of room
                     campus?.flyTo({
                         center: [room.location.lng, room.location.lat],
                         zoom: 20,

@@ -1,8 +1,9 @@
 "use client"
 
 import { RoomContextProvider } from "@/context/RoomContext"
-import { HomeAppShell } from "@/sites/HomeAppShell"
 import { MapProvider } from "react-map-gl/maplibre"
+import { MapPage } from "@/sites/MapPage"
+import { NavAppShell } from "@/navigation/NavAppShell"
 
 export default function Home({
     params,
@@ -12,7 +13,9 @@ export default function Home({
     return (
         <MapProvider>
             <RoomContextProvider homeParams={params}>
-                <HomeAppShell />
+                <NavAppShell>
+                    <MapPage />
+                </NavAppShell>
             </RoomContextProvider>
         </MapProvider>
     )
