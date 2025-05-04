@@ -47,6 +47,7 @@ export function ReportIssuePopupNavBarItem() {
                 leftSection={
                     <IconExclamationCircleFilled size={16} stroke={1.5} />
                 }
+                data-testid={"nav-link-report-issue-popup-nav-bar-item"}
             />
         </>
     )
