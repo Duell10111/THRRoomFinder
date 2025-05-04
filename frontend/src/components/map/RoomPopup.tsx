@@ -22,7 +22,7 @@ export function RoomPopup({ roomName }: RoomPopupProps) {
     if (next === undefined) {
         return (
             <>
-                <Loader size={"xs"} />
+                <Loader size={"xs"} data-testid={"loader-room-popup"} />
             </>
         )
     }

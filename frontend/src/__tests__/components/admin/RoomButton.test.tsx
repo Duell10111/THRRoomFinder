@@ -8,6 +8,16 @@ vi.mock("@/admin/auth", async () => {
     }
 })
 
+vi.mock("@/admin/AuthContext", async () => {
+    return {
+        useAuthContext: vi.fn(() => ({
+            user: {
+                getIdToken: vi.fn(async () => "token"),
+            },
+        })),
+    }
+})
+
 test("RoomButton", () => {
     render(<RoomButton />)
     const btn = screen.getByRole("button", { name: "Delete Room" })

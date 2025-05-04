@@ -1,12 +1,12 @@
 import { expect, test } from "vitest"
 import { render, screen } from "./test-utils"
-import Impressum from "@/sites/Impressum"
 import Layout from "@/app/(subpages)/layout"
+import ImpressumPage from "@/app/(subpages)/impressum/page"
 
 test("Impressum", () => {
     render(
         <Layout>
-            <Impressum />
+            <ImpressumPage />
         </Layout>
     )
     expect(

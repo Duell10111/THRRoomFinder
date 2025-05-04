@@ -10,9 +10,7 @@ vi.mock("@/admin/auth", async () => {
 
 test("DangerButton", () => {
     render(<DangerButton label={"Button label"} action={async () => {}} />)
-    // const btn = screen.getByText("Button label")
     const btn = screen.getByRole("button", { name: "Button label" })
-    console.log(btn)
     expect(btn).toBeDefined()
     fireEvent.click(btn)
 })
