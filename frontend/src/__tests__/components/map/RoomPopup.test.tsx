@@ -1,7 +1,6 @@
-import { expect, test, vi } from "vitest"
+import { expect, vi } from "vitest"
 import { render, screen } from "../../test-utils"
 import { RoomPopup } from "@/components/map/RoomPopup"
-import { waitFor, waitForElementToBeRemoved } from "@testing-library/react"
 
 const { useRoomContext } = vi.hoisted(() => {
     const useRoomContext = vi.fn(() => ({}))

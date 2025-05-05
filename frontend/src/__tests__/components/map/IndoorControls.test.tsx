@@ -36,9 +36,11 @@ describe("IndoorControls", () => {
             getMap: () => "fakeMapInstance",
         } // Call useControl mock with implementation
 
-        ;(useControl as Mock).mockImplementation((callback: any) => {
-            callback({ map: fakeMap })
-        })
+        ;(useControl as Mock).mockImplementation(
+            (callback: (props: { map: { getMap: () => unknown } }) => void) => {
+                callback({ map: fakeMap })
+            }
+        )
 
         render(<IndoorControls />)
 

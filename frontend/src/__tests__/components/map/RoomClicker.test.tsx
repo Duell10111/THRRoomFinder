@@ -1,13 +1,6 @@
-import { render, screen, waitFor } from "@testing-library/react"
+import { render } from "@testing-library/react"
 import { describe, it, vi, beforeEach, expect } from "vitest"
 import { RoomClicker } from "@/components/map/RoomClicker"
-
-// // Mock RoomPopup
-// vi.mock("@/components/map/RoomPopup", () => ({
-//     RoomPopup: ({ roomName }: { roomName: string }) => (
-//         <div>{`Room: ${roomName}`}</div>
-//     ),
-// }))
 
 // Mock Map instance and useMap
 const mockMap = {
