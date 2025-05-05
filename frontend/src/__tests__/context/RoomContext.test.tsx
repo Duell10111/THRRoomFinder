@@ -1,15 +1,25 @@
 import { expect, test } from "vitest"
-import { render, screen } from "@/__tests__/test-utils"
-import { RoomContextProvider } from "@/context/RoomContext"
+import { RoomContextProvider, useRoomContext } from "@/context/RoomContext"
+import { act, renderHook } from "@testing-library/react"
+import { RoomData } from "@/utils/data"
 
 test("RoomContext", () => {
-    render(
-        <RoomContextProvider>
-            <></>
-        </RoomContextProvider>
-    )
-    expect(
-        screen.getByRole("heading", { level: 2, name: "THRRoomfinder" })
-    ).toBeDefined()
-    expect(screen.getByAltText("Roomfinder Logo")).toBeDefined()
+    const { result } = renderHook(useRoomContext, {
+        wrapper: RoomContextProvider,
+    })
+    expect(result.current.data).toBeUndefined()
+    // TODO: Add tests for setRoom
+    const roomData: RoomData = {
+        name: "Room",
+        location: {
+            lat: 0,
+            lng: 0,
+        },
+    }
+
+    act(() => {
+        result.current.setRoomData(roomData)
+    })
+    expect(result.current.data?.roomData).toBe(roomData)
+    expect(result.current.data?.date).toBeUndefined()
 })
