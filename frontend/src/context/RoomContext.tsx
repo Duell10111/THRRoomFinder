@@ -5,6 +5,7 @@ import React, {
     useCallback,
     useContext,
     useEffect,
+    useMemo,
     useRef,
     useState,
 } from "react"
@@ -92,13 +93,17 @@ export function RoomContextProvider({
             })
     }, [homeParams, setRoom])
 
-    const contextData: RoomContextData | undefined = roomData
-        ? {
-              roomData,
-              scheduleData,
-              date,
-          }
-        : undefined
+    const contextData: RoomContextData | undefined = useMemo(
+        () =>
+            roomData
+                ? {
+                      roomData,
+                      scheduleData,
+                      date,
+                  }
+                : undefined,
+        [roomData, scheduleData, date]
+    )
 
     return (
         <RoomContext.Provider

@@ -1,6 +1,12 @@
 "use client"
 
-import React, { createContext, useContext, useEffect, useState } from "react"
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from "react"
 import { onAuthStateChanged, User } from "@firebase/auth"
 import { auth } from "@/admin/auth"
 
@@ -22,14 +28,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
             setUser(user)
         })
         return () => sub()
-    })
+    }, [])
+
+    const contextValue = useMemo(() => ({ user }), [user])
 
     return (
-        <AuthContext.Provider
-            value={{
-                user,
-            }}
-        >
+        <AuthContext.Provider value={contextValue}>
             {children}
         </AuthContext.Provider>
     )

@@ -25,7 +25,7 @@ export function CreditsPage() {
             <SimpleGrid cols={4}>
                 {contributors.map((person: Contributor, index) => (
                     <Card
-                        key={index}
+                        key={person.name + index}
                         shadow="sm"
                         padding="lg"
                         radius="md"
