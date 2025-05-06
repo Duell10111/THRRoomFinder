@@ -25,11 +25,13 @@ jobs:
         with:
           maptiler_api_key: ${{ secrets.MAPTILER_API_KEY }}
           indoor_control_api_key: ${{ secrets.INDOOR_CONTROL_API_KEY }}
+          firebase_api_key: ${{ secrets.FIREBASE_API_KEY }}
           backend_url: 'https://api.thrroomfinder.duell10111.de'
           image_tag: ${{ env.IMAGE_TAG }}
   Deploy:
     runs-on: ubuntu-latest
     needs: Build
+    environment: frontend-dev
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/gcp-deploy

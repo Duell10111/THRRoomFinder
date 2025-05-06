@@ -2,10 +2,10 @@ package com.kospaeth.roomfinder.service.osm
 
 import com.kospaeth.roomfinder.config.OSMProperties
 import io.github.oshai.kotlinlogging.KotlinLogging
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.awaitBody
 import org.springframework.web.reactive.function.client.awaitExchange
 
 private val logger = KotlinLogging.logger {}
@@ -35,18 +35,12 @@ class OSMExtractorService(
 
         logger.debug { "Running query: $query" }
 
-        // TODO: Catching a error here!
         return webClient.post()
             .uri(osmProperties.overPassUrl)
             .body(BodyInserters.fromValue(query))
             .awaitExchange {
-                logger.info { it }
-                it.toEntity(OverpassResponse::class.java).awaitSingle()
-            }.body
-    }
-
-    // TODO: Calculate Point for location nodes
-    private fun getCenterOfLocationPoints(): Pair<Double, Double> {
-        return Pair(0.0, 0.0)
+                logger.debug { "Received OSM Response: $it" }
+                it.awaitBody<OverpassResponse>()
+            }
     }
 }

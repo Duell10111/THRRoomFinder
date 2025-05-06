@@ -1,7 +1,12 @@
 {
   "request": {
     "method": "POST",
-    "urlPath": "/api/interpreter"
+    "urlPath": "/api/interpreter",
+    "bodyPatterns": [
+      {
+        "doesNotContain": "A0.10"
+      }
+    ]
   },
   "response": {
     "status": 200,

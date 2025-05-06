@@ -1,15 +1,20 @@
-import { useDisclosure } from "@mantine/hooks"
-import { AppShell, Burger, Group, NavLink, Title } from "@mantine/core"
-import { RoomDetails } from "@/sites/RoomDetails"
-import { MapProvider } from "react-map-gl/maplibre"
-import { MapPage } from "@/sites/MapPage"
-import { useRoomContext } from "@/context/RoomContext"
-import { useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { ScheduleDatePicker } from "@/components/schedule/ScheduleDatePicker"
+"use client"
 
-export function HomeAppShell() {
+import { useDisclosure } from "@mantine/hooks"
+import { useRoomContext } from "@/context/RoomContext"
+import React, { useEffect } from "react"
+import { AppShell, Burger, Group, NavLink } from "@mantine/core"
+import { ScheduleDatePicker } from "@/components/schedule/ScheduleDatePicker"
+import { RoomDetails } from "@/sites/RoomDetails"
+import { ReportIssuePopupNavBarItem } from "@/components/ReportIssuePopup"
+import { IconScale, IconUsers, IconBrandGithub } from "@tabler/icons-react"
+import { NavLogo } from "@/navigation/NavLogo"
+
+interface NavAppShellProps {
+    children: React.ReactNode
+}
+
+export function NavAppShell({ children }: NavAppShellProps) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
     const [desktopOpened, { toggle: toggleDesktop, open: openDesktop }] =
         useDisclosure(true)
@@ -49,19 +54,7 @@ export function HomeAppShell() {
                         visibleFrom="sm"
                         size="sm"
                     />
-                    <Image
-                        src="/icon-without-text-cut.png"
-                        alt="Roomfinder Logo"
-                        width={45}
-                        height={45}
-                        priority
-                        style={{ borderRadius: 10 }}
-                    />
-                    <Link href={"/"}>
-                        <Title order={2} c={"orange"}>
-                            THRRoomfinder
-                        </Title>
-                    </Link>
+                    <NavLogo />
                 </Group>
             </AppShell.Header>
             <AppShell.Navbar p="xd">
@@ -70,14 +63,26 @@ export function HomeAppShell() {
                 </AppShell.Section>
                 <RoomDetails />
                 <AppShell.Section>
-                    <NavLink href="/impressum" label="Impressum" />
+                    <ReportIssuePopupNavBarItem />
+                    <NavLink
+                        href="https://github.com/Duell10111/THRRoomFinder"
+                        label={"Github"}
+                        leftSection={<IconBrandGithub size={16} stroke={1.5} />}
+                        target="_blank"
+                    />
+                    <NavLink
+                        href="/credits"
+                        label={"Credits"}
+                        leftSection={<IconUsers size={16} stroke={1.5} />}
+                    />
+                    <NavLink
+                        href="/impressum"
+                        label="Impressum"
+                        leftSection={<IconScale size={16} stroke={1.5} />}
+                    />
                 </AppShell.Section>
             </AppShell.Navbar>
-            <AppShell.Main>
-                <MapProvider>
-                    <MapPage />
-                </MapProvider>
-            </AppShell.Main>
+            <AppShell.Main>{children}</AppShell.Main>
         </AppShell>
     )
 }

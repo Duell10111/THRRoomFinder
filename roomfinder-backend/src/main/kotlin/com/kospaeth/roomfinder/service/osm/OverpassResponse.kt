@@ -23,15 +23,14 @@ val OverpassResponse.roomElement: Element?
 
 val OverpassResponse.locationPoint: Point?
     get() {
-        return roomElement?.nodes?.firstOrNull()?.let { nodeId ->
-            elements.find { it.id == nodeId }?.let {
-                if (it.lat != null && it.lon != null) {
-                    Point(it.lat, it.lon)
-                } else {
-                    null
-                }
+        return roomElement?.nodes?.mapNotNull { nodeId -> elements.find { it.id == nodeId } }
+            ?.takeIf { it.isNotEmpty() }?.filter { it.lat != null && it.lon != null }?.let { nodes ->
+                val lats = nodes.mapNotNull { it.lat }
+                val lons = nodes.mapNotNull { it.lon }
+                val centerLat = (lats.min() + lats.max()) / 2
+                val centerLon = (lons.min() + lons.max()) / 2
+                Point(centerLat, centerLon)
             }
-        }
     }
 
 val Element.name: String?

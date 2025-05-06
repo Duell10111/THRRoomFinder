@@ -61,9 +61,13 @@ resource "google_cloud_run_v2_service" "cr_v2_service" {
   }
 
   lifecycle {
+    # Ignore changes made by deployment script
     ignore_changes = [
       template[0].containers[0].name,
-      template[0].containers[0].env
+      template[0].containers[0].env,
+      template[0].labels,
+      client,
+      client_version,
     ]
   }
 }

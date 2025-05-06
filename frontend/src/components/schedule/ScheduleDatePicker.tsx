@@ -7,14 +7,6 @@ export function ScheduleDatePicker() {
     return (
         <>
             <DatePickerInput
-                // label={"Selected Schedule Date"}
-                // labelProps={{
-                //     style: {
-                //         display: "block",
-                //         textAlign: "center",
-                //         width: "100%",
-                //     },
-                // }}
                 aria-label="Schedule date"
                 placeholder="Pick date for scheduling"
                 defaultValue={new Date()}

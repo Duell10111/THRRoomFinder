@@ -3,14 +3,16 @@
 import Map, { FullscreenControl } from "react-map-gl/maplibre"
 import "maplibre-gl/dist/maplibre-gl.css"
 import "maplibre-gl-indoorequal/maplibre-gl-indoorequal.css"
-import { IndoorControls } from "@/components/IndoorControls"
-import { RoomClicker } from "@/components/RoomClicker"
+import { IndoorControls } from "@/components/map/IndoorControls"
+import { RoomClicker } from "@/components/map/RoomClicker"
+import { useColorScheme } from "@mantine/hooks"
+import { useRoomContext } from "@/context/RoomContext"
 
 import "./map.css"
-import { useColorScheme } from "@mantine/hooks"
 
 export function CampusMap() {
     const colorScheme = useColorScheme("dark")
+    const { onMapLoad } = useRoomContext()
 
     return (
         <Map
@@ -32,6 +34,17 @@ export function CampusMap() {
                     : `https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`
             }
             attributionControl={{ compact: true }}
+            onLoad={(event) => {
+                const map = event.target
+                map.addSource("highlight-room", {
+                    type: "geojson",
+                    data: {
+                        type: "FeatureCollection",
+                        features: [],
+                    },
+                })
+                onMapLoad?.()
+            }}
         >
             <IndoorControls />
             <RoomClicker />

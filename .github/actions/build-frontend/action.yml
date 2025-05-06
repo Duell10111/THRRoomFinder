@@ -11,6 +11,8 @@ inputs:
     description: "Maptiler API Key"
   indoor_control_api_key:
     description: "Indoor Control API Key"
+  firebase_api_key:
+    description: "Firebase Web API Key"
 
 runs:
   using: composite
@@ -34,4 +36,5 @@ runs:
         build-args: |
           NEXT_PUBLIC_MAPTILER_API_KEY=${{ inputs.maptiler_api_key }} 
           NEXT_PUBLIC_INDOOR_CONTROL_API_KEY=${{ inputs.indoor_control_api_key }}
+          NEXT_PUBLIC_FIREBASE_API_KEY=${{ inputs.firebase_api_key }}
           NEXT_PUBLIC_BACKEND_URL=${{ inputs.backend_url }}

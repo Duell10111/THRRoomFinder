@@ -1,5 +1,5 @@
 import { Container, Space } from "@mantine/core"
-import { CampusMap } from "@/components/CampusMap"
+import { CampusMap } from "@/components/map/CampusMap"
 import useRoomInput from "@/hooks/useRoomInput"
 import { AutocompleteSubmit } from "@/components/AutocompleteSubmit"
 

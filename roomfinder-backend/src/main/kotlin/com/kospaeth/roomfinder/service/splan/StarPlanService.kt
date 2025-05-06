@@ -34,7 +34,6 @@ class StarPlanService(
 
     // TODO: Add fkt to parse iCal fkts and enhance with room latlongs
 
-    // TODO: Extend for future location selection
     suspend fun getScheduleForRoom(
         location: StarPlanLocation,
         room: String,
@@ -78,22 +77,41 @@ class StarPlanService(
                     timeEvent.getCalendarIndex(boxWidths)?.let { days[it] }
                         ?: return@mapNotNull null // TODO: Add error log entry here
 
-                // Use Tooltip information as they are contain no shortcuts
-                timeEvent.getElementsByClass("tooltip").textNodes().let { textNodes ->
-                    runCatching {
-                        val (start, end) = textNodes.last().wholeText.split("-").map { LocalTime.parse(it) }.map { day.atTime(it) }
-                        RoomSchedule(
-                            location = location,
-                            name = textNodes.gett(0).wholeText,
-                            lecturer = textNodes.subList(1, textNodes.size - 3).map { it.wholeText }.joinToString(", "),
-                            relevantDegrees = textNodes.gett(-3).wholeText,
-                            room = textNodes.gett(-2).wholeText,
-                            startTime = start,
-                            endTime = end,
-                        )
-                    }.onFailure {
-                        logger.error(it) { "Error while parsing room data: $timeEvent" }
-                    }.getOrNull()
+                // Check if timeEvent is an holiday event
+                if (timeEvent.hasClass("holidayg")) {
+                    // Use Tooltip information as they contain no shortcuts in names
+                    timeEvent.getElementsByClass("tooltip").textNodes().let { textNodes ->
+                        runCatching {
+                            RoomSchedule(
+                                location = location,
+                                name = textNodes[0].wholeText,
+                                room = "",
+                                lecturer = textNodes[1].wholeText,
+                                startTime = day.atTime(8, 0),
+                                endTime = day.atTime(20, 0),
+                            )
+                        }.onFailure {
+                            logger.error(it) { "Error while parsing holiday room data: $timeEvent" }
+                        }.getOrNull()
+                    }
+                } else {
+                    // Use Tooltip information as they contain no shortcuts in names
+                    timeEvent.getElementsByClass("tooltip").textNodes().let { textNodes ->
+                        runCatching {
+                            val (start, end) = textNodes.last().wholeText.split("-").map { LocalTime.parse(it) }.map { day.atTime(it) }
+                            RoomSchedule(
+                                location = location,
+                                name = textNodes.gett(0).wholeText,
+                                lecturer = textNodes.subList(1, textNodes.size - 3).joinToString(", ") { it.wholeText },
+                                relevantDegrees = textNodes.gett(-3).wholeText,
+                                room = textNodes.gett(-2).wholeText,
+                                startTime = start,
+                                endTime = end,
+                            )
+                        }.onFailure {
+                            logger.error(it) { "Error while parsing room data: $timeEvent" }
+                        }.getOrNull()
+                    }
                 }
             }
 

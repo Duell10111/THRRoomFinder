@@ -9,7 +9,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.RegisterExtension
+import org.springframework.core.codec.DecodingException
 import org.springframework.web.reactive.function.client.WebClient
 
 @WireMockTest
@@ -39,5 +41,13 @@ class OSMExtractorServiceTest {
             val data = osmExtractorService.getIndoorRoomsForBuilding("28400949", "A0.08")
             assertNotNull(data)
             assertThat(data!!.elements).hasSize(6)
+        }
+
+    @Test
+    fun `test getIndoorRoomsForBuilding throws error on request failure`() =
+        runTest {
+            assertThrows<DecodingException> {
+                osmExtractorService.getIndoorRoomsForBuilding("28400949", "A0.10")
+            }
         }
 }

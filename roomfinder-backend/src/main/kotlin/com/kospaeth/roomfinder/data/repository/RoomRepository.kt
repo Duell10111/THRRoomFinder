@@ -15,4 +15,6 @@ interface RoomRepository : CoroutineCrudRepository<Room, UUID> {
         "select r.*, b.id as building_id, b.name as building_name from room r left join building b on r.building_id = b.id order by b.name, r.name",
     )
     fun findAllRoomsWithBuildings(): Flow<RoomWithBuildingData>
+
+    suspend fun deleteRoomByName(name: String)
 }

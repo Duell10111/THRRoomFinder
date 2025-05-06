@@ -318,6 +318,18 @@ class StarPlanServiceTest {
                     endTime = LocalDateTime.parse("2025-04-04T13:15"),
                 ),
             )
+        val `s-138Rooms` =
+            listOf(
+                RoomSchedule(
+                    location = StarPlanLocation.RO,
+                    room = "",
+                    name = "Vorlesungsfrei / no lectures",
+                    lecturer = "Tag der Arbeit",
+                    relevantDegrees = null,
+                    startTime = LocalDateTime.parse("2025-05-01T08:00"),
+                    endTime = LocalDateTime.parse("2025-05-01T20:00"),
+                ),
+            )
     }
 
     // TODO: Add tests for cache extraction
@@ -336,6 +348,14 @@ class StarPlanServiceTest {
             val rooms = starPlanService.getScheduleForRoom(StarPlanLocation.RO, "A0.01b", date = LocalDate.now())
             assertThat(rooms).hasSize(12)
             assertThat(rooms).containsExactlyInAnyOrderElementsOf(a001bRooms)
+        }
+
+    @Test
+    fun `test getScheduleForRoom with 'Vorlesungsfrei' entries`() =
+        runTest {
+            val rooms = starPlanService.getScheduleForRoom(StarPlanLocation.RO, "S-1.38", date = LocalDate.now())
+            assertThat(rooms).hasSize(1)
+            assertThat(rooms).containsExactlyInAnyOrderElementsOf(`s-138Rooms`)
         }
 
     @Test

@@ -9,6 +9,11 @@ spring:
   cache:
     caffeine:
       spec: "maximumSize=500,expireAfterWrite=3600s"
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://securetoken.google.com/thrrosenheim
 
 management:
   endpoints:
@@ -21,15 +26,17 @@ management:
 
 logging:
   level:
-#    reactor.netty.http.client.HttpClient: DEBUG
     com.kospaeth.roomfinder: DEBUG
 
 room-finder:
+  admin-ids: # TODO: Add check for admin uids
+    - i4nLJYwjqpTsUBU5K8eiEKWSFs23
   splan:
     url: "https://splan.th-rosenheim.de/splan/json"
   osm:
     over-pass-url: "https://overpass-api.de/api/interpreter"
     building-way-ids:
+      # Rosenheim Standort
       # Hauptgebäude
       - regex: "A\\d\\.\\d{0,2}\\w?"
         buildingId: 28400949 # Building A
@@ -37,5 +44,7 @@ room-finder:
       - regex: "B\\d\\.\\d{0,2}\\w?"
         buildingId: 28401106 # Building B
         name: "B"
-  admin-ids:
-    - test
+      # Gebäude S
+      - regex: "S\\d\\.\\d{0,3}\\w?"
+        buildingId: 28401224
+        name: "S"
