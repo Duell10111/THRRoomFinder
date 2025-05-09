@@ -5,14 +5,20 @@ import { IndoorControls } from "@/components/map/IndoorControls"
 import React from "react"
 import { useControl } from "react-map-gl/maplibre"
 
-const { IndoorEqual, mockLoadSprite } = vi.hoisted(() => {
+const { IndoorEqual, mockLoadSprite, mockSetLevel } = vi.hoisted(() => {
     const mockLoadSprite = vi.fn()
+    const mockSetLevel = vi.fn()
 
     const IndoorEqual = vi.fn()
     IndoorEqual.prototype.loadSprite = mockLoadSprite
+    IndoorEqual.prototype.setLevel = mockSetLevel
 
-    return { IndoorEqual, mockLoadSprite }
+    return { IndoorEqual, mockLoadSprite, mockSetLevel }
 })
+
+// const {} = vi.hoisted(() => {
+//
+// })
 
 // Mock useControl hook
 vi.mock("react-map-gl/maplibre", () => ({
@@ -26,6 +32,10 @@ vi.mock("maplibre-gl-indoorequal", () => {
     }
 })
 
+vi.mock("@/context/RoomContext", () => ({
+    useRoomContext: vi.fn(() => ({ level: "1" })),
+}))
+
 describe("IndoorControls", () => {
     beforeEach(() => {
         vi.clearAllMocks()
@@ -38,7 +48,7 @@ describe("IndoorControls", () => {
 
         ;(useControl as Mock).mockImplementation(
             (callback: (props: { map: { getMap: () => unknown } }) => void) => {
-                callback({ map: fakeMap })
+                return callback({ map: fakeMap })
             }
         )
 
@@ -57,6 +67,7 @@ describe("IndoorControls", () => {
         expect(callArgs.layers).toHaveLength(11)
 
         expect(mockLoadSprite).toHaveBeenCalledWith("/indoorequal/indoorequal")
+        expect(mockSetLevel).toHaveBeenCalledWith("1")
     })
 
     it("should render nothing", () => {

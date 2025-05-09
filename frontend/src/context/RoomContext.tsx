@@ -20,6 +20,7 @@ type RoomContextData = {
 
 interface RoomContextType {
     data?: RoomContextData
+    level?: string
     setRoomData: (roomData: RoomData) => void
     setRoom: (
         roomName: string,
@@ -55,6 +56,9 @@ export function RoomContextProvider({
         useState<RoomContextData["scheduleData"]>()
     const [date, setDate] = useState<Date>()
     const zoomToRoom = useRef(false)
+    const [level, setLevel] = useState<string>()
+
+    console.log("Level: ", level)
 
     const setRoom = useCallback(
         async (roomName: string, zoomIn?: boolean) => {
@@ -62,7 +66,7 @@ export function RoomContextProvider({
             setRoomData(room)
             if (zoomIn && room) {
                 if (campus) {
-                    // TODO: Update level of room to display right level of room
+                    setLevel(getLevel(roomName))
                     campus?.flyTo({
                         center: [room.location.lng, room.location.lat],
                         zoom: 20,
@@ -109,6 +113,7 @@ export function RoomContextProvider({
         <RoomContext.Provider
             value={{
                 data: contextData,
+                level,
                 setRoomData,
                 setRoom,
                 setDate,
@@ -116,6 +121,8 @@ export function RoomContextProvider({
                     console.log("Map loaded")
                     if (roomData) {
                         console.log("Fly to room")
+                        // Fly to room and set needed level
+                        setLevel(getLevel(roomData.name))
                         campus?.flyTo({
                             center: [
                                 roomData.location.lng,
@@ -143,5 +150,12 @@ function parseHomeSlug(slug: string[]) {
         return { building, room }
     } else {
         return { room: slug?.[0] }
+    }
+}
+
+function getLevel(roomName: string) {
+    const match = roomName.match(/-?\d+/)
+    if (match) {
+        return match[0]
     }
 }

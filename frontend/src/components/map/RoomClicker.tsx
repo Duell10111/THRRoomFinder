@@ -62,6 +62,7 @@ export function RoomClicker() {
                     latitude={popup.lat}
                     longitude={popup.lng}
                     onClose={() => setPopup(undefined)}
+                    closeButton={false}
                 >
                     <RoomPopup roomName={data?.roomData?.name ?? ""} />
                 </Popup>

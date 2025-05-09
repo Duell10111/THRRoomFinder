@@ -8,7 +8,7 @@ const { useRoomContext } = vi.hoisted(() => {
     return { useRoomContext }
 })
 
-vi.mock("@/context/RoomContext", async () => {
+vi.mock("@/context/RoomContext", () => {
     return {
         useRoomContext,
     }
@@ -20,34 +20,36 @@ describe("RoomPopup", () => {
         expect(screen.getByTestId("loader-room-popup")).toBeDefined()
     })
 
-    // it("Schedule Data", async () => {
-    //     useRoomContext.mockReturnValueOnce(() => {
-    //         return {
-    //             roomData: {
-    //                 name: "A0.03",
-    //                 buildingName: "Building 1",
-    //                 location: {
-    //                     lat: 52.520008,
-    //                     lng: 13.404954,
-    //                 },
-    //             },
-    //             scheduleData: [
-    //                 {
-    //                     location: "RO",
-    //                     room: "A0.03",
-    //                     name: "Test",
-    //                     lecturer: "",
-    //                     relevantDegrees: "",
-    //                     startTime: "2025-05-05T11:45:00",
-    //                     endTime: "2025-05-05T14:45:00",
-    //                 },
-    //             ],
-    //         }
-    //     })
-    //     render(<RoomPopup roomName={"A0.03"} />)
-    //     expect(screen.getByTestId("loader-room-popup")).toBeDefined()
-    //     await waitForElementToBeRemoved(screen.getByTestId("loader-room-popup"))
-    // })
+    it("Schedule Data - No next entry", async () => {
+        useRoomContext.mockReturnValue({
+            data: {
+                roomData: {
+                    name: "A0.03",
+                    buildingName: "Building 1",
+                    location: {
+                        lat: 52.520008,
+                        lng: 13.404954,
+                    },
+                },
+                scheduleData: [
+                    {
+                        location: "RO",
+                        room: "A0.03",
+                        name: "Test",
+                        lecturer: "",
+                        relevantDegrees: "",
+                        startTime: "2025-05-05T11:45:00",
+                        endTime: "2025-05-05T14:45:00",
+                    },
+                ],
+            },
+        })
+
+        render(<RoomPopup roomName={"A0.03"} />)
+        expect(
+            screen.getByText("Keine weiteren Termine diese Woche.")
+        ).toBeDefined()
+    })
 })
 
 // TODO: Add more tests
