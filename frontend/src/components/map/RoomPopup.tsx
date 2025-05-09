@@ -1,7 +1,9 @@
 import { ScheduleData } from "@/utils/data"
 import { useMemo } from "react"
-import { Loader } from "@mantine/core"
+import { Card, Group, Loader, Text, Title } from "@mantine/core"
 import { useRoomContext } from "@/context/RoomContext"
+import { format, parseISO } from "date-fns"
+import { IconCalendarEvent } from "@tabler/icons-react"
 
 interface RoomPopupProps {
     roomName: string
@@ -18,30 +20,29 @@ export function RoomPopup({ roomName }: RoomPopupProps) {
         [data, roomName]
     )
 
-    // Loading data
-    if (next === undefined) {
-        return (
-            <>
-                <Loader size={"xs"} data-testid={"loader-room-popup"} />
-            </>
-        )
-    }
-
     return (
-        <>
-            {next ? (
-                <div>
-                    <h2>Nächste Veranstaltung</h2>
-                    <p>{next.name}</p>
-                    <p>Raum: {next.room}</p>
-                    <p>
-                        Beginn: {new Date(next.startTime).toLocaleTimeString()}
-                    </p>
-                </div>
+        <Card shadow="md" padding="sm" radius="md">
+            {/* Loading data */}
+            {next === undefined ? (
+                <Loader size={"xs"} data-testid={"loader-room-popup"} />
+            ) : next ? (
+                <>
+                    <Group gap={"xs"} mb={"xs"}>
+                        <IconCalendarEvent size={20} />
+                        <Title order={5}>Nächste Veranstaltung</Title>
+                    </Group>
+                    <Text size="sm">{next.name}</Text>
+                    <Text size="sm" c="dimmed">
+                        Beginn:{" "}
+                        {format(parseISO(next.startTime), "HH:mm - dd.MM.y")}
+                    </Text>
+                </>
             ) : (
-                <p>Keine weiteren Termine heute.</p>
+                <Text size="sm" ta={"center"}>
+                    Keine weiteren Termine diese Woche.
+                </Text>
             )}
-        </>
+        </Card>
     )
 }
 
