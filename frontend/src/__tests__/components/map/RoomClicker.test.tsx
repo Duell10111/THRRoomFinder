@@ -1,6 +1,7 @@
-import { render } from "@testing-library/react"
+import { render, screen } from "../../test-utils"
 import { describe, it, vi, beforeEach, expect } from "vitest"
 import { RoomClicker } from "@/components/map/RoomClicker"
+import React from "react"
 
 // Mock Map instance and useMap
 const mockMap = {
@@ -21,6 +22,12 @@ vi.mock("react-map-gl/maplibre", async () => {
         Popup: ({ children }: { children: React.ReactNode }) => (
             <div>{children}</div>
         ),
+    }
+})
+
+vi.mock("@/components/map/MapUtils", () => {
+    return {
+        getRoomName: () => "Test Room",
     }
 })
 
@@ -53,26 +60,18 @@ describe("RoomClicker", () => {
         )
     })
 
-    // TODO: Fix this test
-    // it("renders popup if popup state is set (real)", async () => {
-    // it("renders popup if popup state is set (simulated)", async () => {
-    //     // Simulate click event triggering popup
-    //     const clickHandler = mockMap.on.mock.calls.find(
-    //         ([event]) => event === "click"
-    //     )?.[2]
-    //
-    //     const mockFeature = { properties: { id: 1 } }
-    //     const mockEvent = {
-    //         features: [mockFeature],
-    //         lngLat: { lat: 10, lng: 20 },
-    //     }
-    //
-    //     render(<RoomClicker />)
-    //
-    //     if (clickHandler) await clickHandler(mockEvent)
-    //
-    //     await waitFor(() => {
-    //         expect(screen.getByText("Room: Test Room")).toBeDefined()
-    //     })
-    // })
+    it("renders popup if popup state is set (simulated)", async () => {
+        const mockFeature = { properties: { id: 1 } }
+        const mockEvent = {
+            features: [mockFeature],
+            lngLat: { lat: 10, lng: 20 },
+        }
+        mockMap.on.mockImplementation((event, layer, callback) => {
+            callback(mockEvent)
+        })
+
+        render(<RoomClicker />)
+
+        expect(screen.getByTestId("loader-room-popup")).toBeDefined()
+    })
 })
