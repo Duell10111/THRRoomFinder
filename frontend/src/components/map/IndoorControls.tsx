@@ -1,18 +1,34 @@
 // @ts-expect-error maplibre-gl-indoorequal does not have a type definition library
 import IndoorEqual from "maplibre-gl-indoorequal"
 import { useControl } from "react-map-gl/maplibre"
+import { useRoomContext } from "@/context/RoomContext"
+import { useEffect } from "react"
 
 export function IndoorControls() {
-    useControl(({ map }) => {
+    const { level } = useRoomContext()
+
+    const indoorEqual = useControl(({ map }) => {
         const indoorEqual = new IndoorEqual(map.getMap(), {
             apiKey: `${process.env.NEXT_PUBLIC_INDOOR_CONTROL_API_KEY}`,
             heatmap: false,
             layers: layers,
         })
+        // Load graphics from indoorequal
         indoorEqual.loadSprite("/indoorequal/indoorequal")
+        if (level) {
+            indoorEqual.setLevel(level)
+        }
+
         return indoorEqual
     })
 
+    useEffect(() => {
+        if (level) {
+            indoorEqual.setLevel(level)
+        }
+    }, [level, indoorEqual])
+
+    // Empty hook export
     return null
 }
 
