@@ -14,7 +14,7 @@ import { useMap } from "react-map-gl/maplibre"
 
 type RoomContextData = {
     roomData: RoomData
-    scheduleData?: ScheduleData[]
+    scheduleData?: { [roomName: string]: ScheduleData[] }
     date?: Date
 }
 
@@ -84,7 +84,12 @@ export function RoomContextProvider({
     useEffect(() => {
         if (roomData) {
             getScheduleData(roomData.name, date)
-                .then(setScheduleData)
+                .then((data) => {
+                    setScheduleData((prevData) => ({
+                        ...prevData,
+                        [roomData.name]: data,
+                    }))
+                })
                 .catch(console.error)
         }
     }, [roomData, date])

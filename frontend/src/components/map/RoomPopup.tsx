@@ -14,8 +14,8 @@ export function RoomPopup({ roomName }: RoomPopupProps) {
 
     const next = useMemo(
         () =>
-            data?.scheduleData && data.roomData.name === roomName
-                ? findNextEntry(data.scheduleData)
+            data?.scheduleData?.[roomName]
+                ? findNextEntry(data.scheduleData[roomName])
                 : undefined,
         [data, roomName]
     )

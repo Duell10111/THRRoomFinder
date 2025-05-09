@@ -20,10 +20,10 @@ export function RoomDetails() {
                     <Center style={{ margin: "20px" }}>
                         Name: {data?.roomData?.name}
                     </Center>
-                    {data?.scheduleData ? (
+                    {data.scheduleData?.[data.roomData.name] ? (
                         <Schedule
                             date={data.date ?? new Date()}
-                            schedule={data?.scheduleData}
+                            schedule={data.scheduleData[data.roomData.name]}
                         />
                     ) : null}
                 </>

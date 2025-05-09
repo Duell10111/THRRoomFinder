@@ -20,12 +20,30 @@ describe("RoomDetails", () => {
         expect(screen.getByText("No room selected.")).toBeDefined()
     })
 
-    it("renders room name when data is available", () => {
+    it("renders room name when data is available without schedule data", () => {
         ;(useRoomContext as Mock).mockReturnValue({
             data: {
                 roomData: { name: "Room A" },
                 date: new Date("2023-01-01"),
-                scheduleData: [],
+            },
+        })
+
+        render(
+            <AppShell>
+                <RoomDetails />
+            </AppShell>
+        )
+        expect(screen.getByText("Name: Room A")).toBeDefined()
+    })
+
+    it("renders room name with date is rendered when data is available", () => {
+        ;(useRoomContext as Mock).mockReturnValue({
+            data: {
+                roomData: { name: "Room A" },
+                date: new Date("2023-01-01"),
+                scheduleData: {
+                    "Room A": [],
+                },
             },
         })
 
@@ -39,17 +57,19 @@ describe("RoomDetails", () => {
     })
 
     it("renders Schedule component when scheduleData is provided", () => {
-        const scheduleData = [
-            {
-                location: "RO",
-                room: "Room B",
-                name: "Grundlagen der Bauphysik",
-                lecturer: "Praktikum, Prof.Dr. Johannes Aschaber",
-                relevantDegrees: "IPB-B2",
-                startTime: "2025-04-07T11:45:00",
-                endTime: "2025-04-07T13:15:00",
-            },
-        ]
+        const scheduleData = {
+            "Room B": [
+                {
+                    location: "RO",
+                    room: "Room B",
+                    name: "Grundlagen der Bauphysik",
+                    lecturer: "Praktikum, Prof.Dr. Johannes Aschaber",
+                    relevantDegrees: "IPB-B2",
+                    startTime: "2025-04-07T11:45:00",
+                    endTime: "2025-04-07T13:15:00",
+                },
+            ],
+        }
 
         ;(useRoomContext as Mock).mockReturnValue({
             data: {
