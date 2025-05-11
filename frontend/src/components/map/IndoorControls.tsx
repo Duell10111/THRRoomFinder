@@ -28,7 +28,7 @@ export function IndoorControls() {
         }
     }, [level, indoorEqual])
 
-    // Empty hook export
+    // Empty component
     return null
 }
 
@@ -175,6 +175,25 @@ export const layers = [
             },
         },
     },
+    // Start Custom Layers - Placed here to be below the map symbols
+    // Occupancy Room Layer
+    {
+        id: "occupancy-room-layer",
+        type: "fill",
+        source: "occupancy-room",
+        paint: {
+            "fill-color": [
+                "case",
+                // if the room is occupied
+                ["boolean", ["feature-state", "occupied"], false],
+                "#841111",
+                // default
+                "#51b61d",
+            ],
+            "fill-opacity": 0.4,
+        },
+    },
+    // End Custom Layers
     {
         id: "indoor-transportation-poi",
         type: "symbol",

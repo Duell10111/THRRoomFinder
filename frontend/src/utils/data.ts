@@ -28,6 +28,17 @@ export interface SimpleRoomData {
     displayName?: string
 }
 
+export type RoomScheduleMap = { [roomName: string]: ScheduleData[] }
+
+export async function getScheduleDataRelatedToRoom(
+    roomName: string
+): Promise<RoomScheduleMap> {
+    const data = await fetch(
+        `${backendUrl}/api/v1/room/${roomName}/schedule/related`
+    )
+    return (await data.json()) as RoomScheduleMap
+}
+
 export async function getScheduleData(
     roomName: string,
     date?: Date

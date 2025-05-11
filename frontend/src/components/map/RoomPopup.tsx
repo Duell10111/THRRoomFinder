@@ -31,9 +31,9 @@ export function RoomPopup({ roomName }: RoomPopupProps) {
                         <IconCalendarEvent size={20} />
                         <Title order={5}>Nächste Veranstaltung</Title>
                     </Group>
-                    <Text size="sm">{next.name}</Text>
+                    <Text size="sm">{`🗓️ ${next.name}`}</Text>
                     <Text size="sm" c="dimmed">
-                        Beginn:{" "}
+                        🕖 Beginn:{" "}
                         {format(parseISO(next.startTime), "HH:mm - dd.MM.y")}
                     </Text>
                 </>

@@ -9,7 +9,13 @@ import React, {
     useRef,
     useState,
 } from "react"
-import { getRoom, getScheduleData, RoomData, ScheduleData } from "@/utils/data"
+import {
+    getRoom,
+    getScheduleData,
+    getScheduleDataRelatedToRoom,
+    RoomData,
+    ScheduleData,
+} from "@/utils/data"
 import { useMap } from "react-map-gl/maplibre"
 
 type RoomContextData = {
@@ -88,6 +94,14 @@ export function RoomContextProvider({
                     setScheduleData((prevData) => ({
                         ...prevData,
                         [roomData.name]: data,
+                    }))
+                })
+                .catch(console.error)
+            getScheduleDataRelatedToRoom(roomData.name)
+                .then((data) => {
+                    setScheduleData((prevData) => ({
+                        ...prevData,
+                        ...data,
                     }))
                 })
                 .catch(console.error)

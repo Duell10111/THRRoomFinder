@@ -3,6 +3,9 @@ package com.kospaeth.roomfinder.service.splan
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.kospaeth.roomfinder.config.SPlanProperties
+import com.kospaeth.roomfinder.utils.getAllKeysPresent
+import com.kospaeth.roomfinder.utils.getEntry
+import com.kospaeth.roomfinder.utils.putEntry
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.reactor.mono
@@ -19,7 +22,9 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitBody
 import org.springframework.web.reactive.function.client.awaitExchange
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.temporal.WeekFields
 
 private val logger = KotlinLogging.logger {}
 
@@ -34,11 +39,24 @@ class StarPlanService(
 
     // TODO: Add fkt to parse iCal fkts and enhance with room latlongs
 
+    suspend fun getCachedSchedulesForCurrentWeek(location: StarPlanLocation): Map<String, SPlanScheduleList> {
+        val rooms = getAvailableRooms(location)
+        val keyMap =
+            rooms.associate {
+                it.shortName to getScheduleCacheKey(location, it.shortName, LocalDate.now())
+            }
+        return cache.getAllKeysPresent<SPlanScheduleList>(keyMap.values)
+    }
+
     suspend fun getScheduleForRoom(
         location: StarPlanLocation,
         room: String,
         date: LocalDate,
-    ): List<RoomSchedule> {
+    ): SPlanScheduleList {
+        val cacheKey = getScheduleCacheKey(location, room, date)
+        // Return cache if available
+        cache.getEntry<SPlanScheduleList>(cacheKey)?.let { return it }
+
         @Suppress("ktlint:standard:max-line-length")
         return getRoom(location, room)?.id.let { roomId ->
             val splanURL = "${properties.url}?m=getTT&sel=ro&pu=41&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
@@ -50,6 +68,8 @@ class StarPlanService(
                     val roomData = response.awaitBody<String>()
 
                     parseRoomData(roomData, location)
+                }.also {
+                    cache.putEntry(cacheKey, it)
                 }
         }
     }
@@ -57,7 +77,7 @@ class StarPlanService(
     private fun parseRoomData(
         roomData: String,
         location: StarPlanLocation,
-    ): List<RoomSchedule> {
+    ): SPlanScheduleList {
         val parsedData = Jsoup.parse(roomData)
 
         val weekDayEntries = parsedData.getElementsByClass("ttweekdaycell")
@@ -115,7 +135,30 @@ class StarPlanService(
                 }
             }
 
-        return timeEvents
+        val lastUpdate =
+            parsedData.getElementsByClass("lastupdate").takeIf { it.size >= 3 }?.let { updateClasses ->
+                val date =
+                    updateClasses[1].let { dateElement ->
+                        runCatching {
+                            val dateText = if (dateElement.hasAttr("data-date")) dateElement.attr("data-date") else dateElement.wholeText()
+                            LocalDate.parse(dateText)
+                        }.onFailure {
+                            logger.error(it) { "Error while parsing last update date: $it" }
+                        }.getOrNull()
+                    } ?: LocalDate.now()
+                val time =
+                    updateClasses[2].wholeText().let { timeText ->
+                        runCatching {
+                            LocalTime.parse(timeText)
+                        }.onFailure {
+                            logger.error(it) { "Error while parsing last update time: $it" }
+                        }.getOrNull()
+                    } ?: LocalTime.now()
+                // Combine date and time to LocalDateTime
+                date.atTime(time)
+            } ?: LocalDateTime.now()
+
+        return SPlanScheduleList(timeEvents, lastUpdate)
     }
 
     private fun Element.getCalendarIndex(timeBoxWidths: List<Int>): Int? {
@@ -193,10 +236,24 @@ class StarPlanService(
 
     private val StarPlanLocation.avalRoomCacheKey: String
         get() = "splan-room-list_$locationId"
+
+    private fun getScheduleCacheKey(
+        location: StarPlanLocation,
+        room: String,
+        date: LocalDate,
+    ): String {
+        val cacheKey = "${location.locationId}_${room}_${date.get(WeekFields.ISO.weekOfYear())}"
+        return cacheKey
+    }
 }
 
 data class AvailableRoomsCacheEntry(
     val rooms: List<SPlanRoomResponseItem>,
+)
+
+data class SPlanScheduleList(
+    val schedule: List<RoomSchedule>,
+    val updatedAt: LocalDateTime,
 )
 
 enum class StarPlanLocation(val locationId: Int) {

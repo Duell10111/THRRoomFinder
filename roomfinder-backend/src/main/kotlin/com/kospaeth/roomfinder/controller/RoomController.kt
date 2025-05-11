@@ -36,11 +36,22 @@ class RoomController(
         } ?: ResponseEntity.notFound().build()
     }
 
+    @GetMapping("/{roomName}/schedule/related")
+    suspend fun getScheduleForRoomRelated(
+        @PathVariable roomName: String,
+    ): ResponseEntity<Map<String, List<RoomSchedule>>> {
+        return roomService.getRelatedRoomScheduleForRoom(roomName = roomName).let { ResponseEntity.ok(it.mapValues { it.value.schedule }) }
+    }
+
     @GetMapping("/{roomName}/schedule")
     suspend fun getScheduleForRoom(
         @PathVariable roomName: String,
     ): ResponseEntity<List<RoomSchedule>> {
-        return roomService.getRoomScheduleForRoom(roomName).let { ResponseEntity.ok(it) }
+        return roomService.getRoomScheduleForRoom(roomName).let {
+            ResponseEntity.ok()
+                .header("Updated-At", it.updatedAt.toString())
+                .body(it.schedule)
+        }
     }
 
     @GetMapping("/{roomName}/schedule/{date}")
@@ -48,6 +59,6 @@ class RoomController(
         @PathVariable roomName: String,
         @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") date: LocalDate,
     ): ResponseEntity<List<RoomSchedule>> {
-        return roomService.getRoomScheduleForRoom(roomName, date).let { ResponseEntity.ok(it) }
+        return roomService.getRoomScheduleForRoom(roomName, date).let { ResponseEntity.ok(it.schedule) }
     }
 }
