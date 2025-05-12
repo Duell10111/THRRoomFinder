@@ -4,17 +4,21 @@ import { act, renderHook, waitFor } from "@testing-library/react"
 import { RoomData, ScheduleData } from "@/utils/data"
 import React from "react"
 
-const { getRoom, getScheduleData } = vi.hoisted(() => {
-    return {
-        getRoom: vi.fn(),
-        getScheduleData: vi.fn(async () => [] as ScheduleData[]),
+const { getRoom, getScheduleData, getScheduleDataRelatedToRoom } = vi.hoisted(
+    () => {
+        return {
+            getRoom: vi.fn(),
+            getScheduleData: vi.fn(async () => [] as ScheduleData[]),
+            getScheduleDataRelatedToRoom: vi.fn(async () => {}),
+        }
     }
-})
+)
 
 // Mock the data fetching functions
 vi.mock("@/utils/data", () => ({
     getRoom,
     getScheduleData,
+    getScheduleDataRelatedToRoom,
 }))
 
 const { campus } = vi.hoisted(() => {

@@ -192,6 +192,18 @@ export const layers = [
             ],
             "fill-opacity": 0.4,
         },
+        layout: {
+            visibility: "none",
+        },
+    },
+    {
+        id: "highlight-room-layer",
+        type: "fill",
+        source: "highlight-room",
+        paint: {
+            "fill-color": "#0015ff",
+            "fill-opacity": 0.4,
+        },
     },
     // End Custom Layers
     {
@@ -292,15 +304,6 @@ export const layers = [
             "text-color": "#666",
             "text-halo-color": "#ffffff",
             "text-halo-width": 1,
-        },
-    },
-    {
-        id: "highlight-room-layer",
-        type: "fill",
-        source: "highlight-room",
-        paint: {
-            "fill-color": "#0015ff",
-            "fill-opacity": 0.4,
         },
     },
 ]

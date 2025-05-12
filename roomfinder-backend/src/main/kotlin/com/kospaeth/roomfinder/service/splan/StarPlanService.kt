@@ -55,12 +55,16 @@ class StarPlanService(
     ): SPlanScheduleList {
         val cacheKey = getScheduleCacheKey(location, room, date)
         // Return cache if available
-        cache.getEntry<SPlanScheduleList>(cacheKey)?.let { return it }
+        cache.getEntry<SPlanScheduleList>(cacheKey)?.let {
+            logger.debug { "Found cached schedule for room $room and date $date" }
+            return it
+        }
 
+        logger.debug { "No cached schedule found for room $room and date $date, fetching from SPlan" }
         @Suppress("ktlint:standard:max-line-length")
         return getRoom(location, room)?.id.let { roomId ->
             val splanURL = "${properties.url}?m=getTT&sel=ro&pu=41&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
-            logger.info { "Fetching SPlan Schedule via url $splanURL" }
+            logger.debug { "Fetching SPlan Schedule via url $splanURL" }
 
             webClient.get()
                 .uri(splanURL)

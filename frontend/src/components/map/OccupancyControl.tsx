@@ -4,11 +4,22 @@ import { booleanPointInPolygon } from "@turf/turf"
 import { useRoomContext } from "@/context/RoomContext"
 import { useEffect, useState } from "react"
 import { ScheduleData } from "@/utils/data"
+import _ from "lodash"
 
 export default function OccupancyControl() {
     const { data } = useRoomContext()
     const { current } = useMap()
     const [showOccupancy, setShowOccupancy] = useState(false)
+    // const [updateData, setUpdateData] = useState(false)
+    //
+    // useEffect(() => {
+    //     const map = current?.getMap?.()
+    //     if (map) {
+    //         map.on("moveend", () => {
+    //             setUpdateData((prev) => !prev)
+    //         })
+    //     }
+    // }, [current])
 
     useEffect(() => {
         const map = current?.getMap?.()
@@ -16,66 +27,77 @@ export default function OccupancyControl() {
             console.log("Belegung anzeigen: ", Object.keys(data.scheduleData))
             const scheduleData = data.scheduleData
             const source = map.getSource("occupancy-room") as GeoJSONSource
-            source.getData().then((sourceData) => {
-                if (sourceData.type === "FeatureCollection") {
-                    console.log("Source data features: ", sourceData.features)
-                    // Add new rooms to source data
-                    Object.entries(scheduleData).forEach(
-                        ([roomName, schedule]) => {
-                            // Check if room is already in source data
-                            if (
-                                !sourceData.features?.find(
-                                    (feature) =>
-                                        feature.properties?.roomName ===
-                                        roomName
-                                )
-                            ) {
-                                const { nameFeature, polygonFeature } =
-                                    getRoomFeature(map, roomName)
-                                if (nameFeature && polygonFeature) {
-                                    polygonFeature.properties["roomName"] =
-                                        roomName
-                                    source.setData({
-                                        type: "FeatureCollection",
-                                        features: [
-                                            ...sourceData.features,
-                                            polygonFeature,
-                                        ],
-                                    })
-                                } else {
-                                    console.warn(
-                                        `Could not find room feature for room ${roomName}`
+            source
+                .getData()
+                .then((sourceData) => {
+                    if (sourceData.type === "FeatureCollection") {
+                        console.log(
+                            "Source data features: ",
+                            sourceData.features
+                        )
+                        // TODO: Try to add all rooms on default?
+                        // Add new rooms to source data
+                        const newFeatures = _.chain(Object.keys(scheduleData))
+                            .map((roomName) => {
+                                if (
+                                    !sourceData.features?.find(
+                                        (feature) =>
+                                            feature.properties?.roomName ===
+                                            roomName
                                     )
+                                ) {
+                                    const { polygonFeature } = getRoomFeature(
+                                        map,
+                                        roomName
+                                    )
+                                    if (polygonFeature) {
+                                        polygonFeature.properties["roomName"] =
+                                            roomName
+                                        return polygonFeature
+                                    } else {
+                                        console.warn(
+                                            `Could not find room feature for room ${roomName}`
+                                        )
+                                    }
                                 }
-                            }
-                            const occupied = checkIfRoomIsOccupied(schedule)
-                            map.setFeatureState(
-                                {
-                                    source: "occupancy-room",
-                                    id: roomName,
-                                },
-                                { occupied: occupied }
-                            )
-                            // const state = map.getFeatureState({
-                            //     source: "occupancy-room",
-                            //     id: roomName,
-                            // })
-                            // console.log("Feature state: ", state)
+                            })
+                            .compact()
+                            .value()
+                        // Update only if newFeatures available
+                        if (newFeatures.length > 0) {
+                            source.setData({
+                                type: "FeatureCollection",
+                                features: [
+                                    ...sourceData.features,
+                                    ...newFeatures,
+                                ],
+                            })
                         }
-                    )
-                    // Debugging
-                    const features = map.queryRenderedFeatures({
-                        layers: ["occupancy-room-layer"],
-                    })
-                    console.log("OCC Features: ", features)
-                } else {
-                    console.warn("Source data is not a FeatureCollection")
-                }
-            })
+
+                        // Set Feature states for roomNames
+                        Object.entries(scheduleData).map(
+                            ([roomName, schedule]) => {
+                                // TODO: Check if feature state changed?
+                                const occupied = checkIfRoomIsOccupied(schedule)
+                                map.setFeatureState(
+                                    {
+                                        source: "occupancy-room",
+                                        id: roomName,
+                                    },
+                                    { occupied: occupied }
+                                )
+                            }
+                        )
+                    } else {
+                        console.warn("Source data is not a FeatureCollection")
+                    }
+                })
+                .catch(console.warn)
         }
+        // TODO: Remove showOccupancy from dep list to reduce lag?
     }, [data?.scheduleData, current, showOccupancy])
 
-    console.log("Occc: ", showOccupancy)
+    // console.log("Occc: ", showOccupancy)
 
     useControl(() => {
         return new OccupancyController(() => {
@@ -88,13 +110,11 @@ export default function OccupancyControl() {
 }
 
 function getRoomFeature(map: Map, roomName: string) {
+    // TODO: Query all features to not only update rendered features?
     const nameFeatures = map.queryRenderedFeatures({ layers: ["indoor-name"] })
     const nameFeature = nameFeatures.find(
         (feature) => feature.properties.name === roomName
     )
-    // map.querySourceFeatures("indoor", {
-    //     sourceLayer: "indoor-polygon",
-    // })
     const polygonFeatures = map.queryRenderedFeatures({
         layers: ["indoor-polygon"],
     })
@@ -115,8 +135,8 @@ function checkIfRoomIsOccupied(schedule: ScheduleData[]) {
     return (
         schedule.find(
             (entry) =>
-                Date.parse(entry.startTime) >= now &&
-                Date.parse(entry.endTime) <= now
+                Date.parse(entry.startTime) <= now &&
+                Date.parse(entry.endTime) >= now
         ) !== undefined
     )
 }
