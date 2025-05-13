@@ -173,6 +173,8 @@ describe("OccupancyControl", () => {
         )
     })
 
+    // TODO: Add test for room without polygon found room and check console log
+
     it("should render nothing", () => {
         const { container } = render(<OccupancyControl />)
         expect(container.firstChild).toBeNull()
@@ -181,8 +183,13 @@ describe("OccupancyControl", () => {
 
 describe("OccupancyController", () => {
     it("onAdd", () => {
+        const mapSetLayoutProperty = vi.fn()
+        const map = {
+            setLayoutProperty: mapSetLayoutProperty,
+        }
+
         const controller = new OccupancyController(() => {})
-        const element = controller.onAdd({} as never)
+        const element = controller.onAdd(map as never)
         expect(element.className).toBe("maplibregl-ctrl maplibregl-ctrl-group")
 
         const btn = element.children[0] as HTMLButtonElement
@@ -191,8 +198,20 @@ describe("OccupancyController", () => {
         expect(btn.title).toBe("Belegung anzeigen")
         expect(btn.onclick).toBeDefined()
 
-        // TODO: Add test for toggleLayer
-        // btn.onclick?.({} as never)
+        btn.onclick?.({} as never)
+        expect(mapSetLayoutProperty).toHaveBeenCalledWith(
+            "occupancy-room-layer",
+            "visibility",
+            "visible"
+        )
+        expect(btn.className).toBe("maplibregl-ctrl-active")
+        btn.onclick?.({} as never)
+        expect(mapSetLayoutProperty).toHaveBeenCalledWith(
+            "occupancy-room-layer",
+            "visibility",
+            "none"
+        )
+        expect(btn.className).toBe("")
     })
 
     it("onRemove", () => {

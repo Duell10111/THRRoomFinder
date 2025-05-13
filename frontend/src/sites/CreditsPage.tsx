@@ -17,6 +17,8 @@ type Contributor = {
 }
 
 export function CreditsPage() {
+    // TODO: Add current version of the app
+
     return (
         <Container size="lg" py="xl">
             <Title order={2} mb="lg">
