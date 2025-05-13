@@ -4,6 +4,7 @@ import com.kospaeth.roomfinder.data.dto.ExtendedRoomDTO
 import com.kospaeth.roomfinder.data.dto.LocationDTO
 import com.kospaeth.roomfinder.data.dto.RoomDTO
 import com.kospaeth.roomfinder.service.RoomService
+import com.kospaeth.roomfinder.service.splan.SPlanScheduleList
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.InjectMockKs
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @ExtendWith(MockKExtension::class)
 class RoomControllerTest {
@@ -31,7 +33,8 @@ class RoomControllerTest {
 
         coEvery { roomService.getAllRooms() } returns roomsList
         coEvery { roomService.getAllRoomsWithBuildings() } returns roomsBuildingList
-        coEvery { roomService.getRoomScheduleForRoom(any(), any()) } returns emptyList()
+        coEvery { roomService.getRoomScheduleForRoom(any(), any()) } returns
+            SPlanScheduleList(emptyList(), LocalDateTime.now())
     }
 
     @Test

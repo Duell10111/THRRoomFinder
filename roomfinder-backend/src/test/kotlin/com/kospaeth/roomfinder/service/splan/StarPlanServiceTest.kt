@@ -52,6 +52,7 @@ class StarPlanServiceTest {
                 )
         every { cacheManager.getCache(any()) } returns cache
         every { cache.get(any(), AvailableRoomsCacheEntry::class.java) } returns null
+        every { cache.get(any(), SPlanScheduleList::class.java) } returns null
 
         val webClient = WebClient.builder().clientConnector(ReactorClientHttpConnector(httpClient)).build()
         starPlanService = StarPlanService(webClient, properties, jacksonObjectMapper(), cacheManager)
@@ -338,24 +339,24 @@ class StarPlanServiceTest {
     fun `test getScheduleForRoom with non-parallel calendar entries`() =
         runTest {
             val rooms = starPlanService.getScheduleForRoom(StarPlanLocation.RO, "A1.03", date = LocalDate.now())
-            assertThat(rooms).hasSize(16)
-            assertThat(rooms).containsExactlyInAnyOrderElementsOf(a103Rooms)
+            assertThat(rooms.schedule).hasSize(16)
+            assertThat(rooms.schedule).containsExactlyInAnyOrderElementsOf(a103Rooms)
         }
 
     @Test
     fun `test getScheduleForRoom with parallel calendar entries`() =
         runTest {
             val rooms = starPlanService.getScheduleForRoom(StarPlanLocation.RO, "A0.01b", date = LocalDate.now())
-            assertThat(rooms).hasSize(12)
-            assertThat(rooms).containsExactlyInAnyOrderElementsOf(a001bRooms)
+            assertThat(rooms.schedule).hasSize(12)
+            assertThat(rooms.schedule).containsExactlyInAnyOrderElementsOf(a001bRooms)
         }
 
     @Test
     fun `test getScheduleForRoom with 'Vorlesungsfrei' entries`() =
         runTest {
             val rooms = starPlanService.getScheduleForRoom(StarPlanLocation.RO, "S-1.38", date = LocalDate.now())
-            assertThat(rooms).hasSize(1)
-            assertThat(rooms).containsExactlyInAnyOrderElementsOf(`s-138Rooms`)
+            assertThat(rooms.schedule).hasSize(1)
+            assertThat(rooms.schedule).containsExactlyInAnyOrderElementsOf(`s-138Rooms`)
         }
 
     @Test

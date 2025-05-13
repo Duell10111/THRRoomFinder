@@ -32,7 +32,7 @@ export function AutocompleteSubmit({
         item.toLowerCase().includes(value.toLowerCase())
     )
 
-    console.log(roomData)
+    // console.log(roomData)
 
     const handleOptionSubmit = (val: string) => {
         // wenn der Wert nicht existiert, fügen wir ihn hinzu

@@ -9,6 +9,7 @@ import { useColorScheme } from "@mantine/hooks"
 import { useRoomContext } from "@/context/RoomContext"
 
 import "./map.css"
+import OccupancyControl from "@/components/map/OccupancyControl"
 
 export function CampusMap() {
     const colorScheme = useColorScheme("dark")
@@ -43,10 +44,19 @@ export function CampusMap() {
                         features: [],
                     },
                 })
+                map.addSource("occupancy-room", {
+                    type: "geojson",
+                    data: {
+                        type: "FeatureCollection",
+                        features: [],
+                    },
+                    promoteId: "roomName",
+                })
                 onMapLoad?.()
             }}
         >
             <IndoorControls />
+            <OccupancyControl />
             <RoomClicker />
             <FullscreenControl />
         </Map>

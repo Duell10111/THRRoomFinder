@@ -9,13 +9,30 @@
     border-top-color: var(--mantine-color-dark-6) !important;
 }
 
+.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip {
+    border-top-color: var(--mantine-color-dark-6) !important;
+}
+
+.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
+    border-top-color: var(--mantine-color-dark-6) !important;
+}
+
 .maplibregl-popup-anchor-top .maplibregl-popup-tip {
+    border-bottom-color: var(--mantine-color-dark-6) !important;
+}
+
+.maplibregl-popup-anchor-top-left .maplibregl-popup-tip {
+    border-bottom-color: var(--mantine-color-dark-6) !important;
+}
+
+.maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
     border-bottom-color: var(--mantine-color-dark-6) !important;
 }
 
 .maplibregl-popup-anchor-left .maplibregl-popup-tip {
     border-right-color: var(--mantine-color-dark-6) !important;
 }
+
 
 .maplibregl-popup-anchor-right .maplibregl-popup-tip {
     border-left-color: var(--mantine-color-dark-6) !important;

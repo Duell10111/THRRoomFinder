@@ -4,17 +4,21 @@ import { act, renderHook, waitFor } from "@testing-library/react"
 import { RoomData, ScheduleData } from "@/utils/data"
 import React from "react"
 
-const { getRoom, getScheduleData } = vi.hoisted(() => {
-    return {
-        getRoom: vi.fn(),
-        getScheduleData: vi.fn(async () => [] as ScheduleData[]),
+const { getRoom, getScheduleData, getScheduleDataRelatedToRoom } = vi.hoisted(
+    () => {
+        return {
+            getRoom: vi.fn(),
+            getScheduleData: vi.fn(async () => [] as ScheduleData[]),
+            getScheduleDataRelatedToRoom: vi.fn(async () => {}),
+        }
     }
-})
+)
 
 // Mock the data fetching functions
 vi.mock("@/utils/data", () => ({
     getRoom,
     getScheduleData,
+    getScheduleDataRelatedToRoom,
 }))
 
 const { campus } = vi.hoisted(() => {
@@ -77,7 +81,7 @@ describe("RoomContext", () => {
 
         getRoom.mockReturnValueOnce(
             Promise.resolve({
-                name: "Room",
+                name: "Room B",
                 location: {
                     lat: 0,
                     lng: 0,
@@ -104,23 +108,25 @@ describe("RoomContext", () => {
         expect(campus.flyTo).not.toHaveBeenCalled()
 
         await act(async () => {
-            await result.current.setRoom("Room", true)
+            await result.current.setRoom("Room B", true)
         })
 
         expect(getRoom).toHaveBeenCalled()
         expect(getScheduleData).toHaveBeenCalled()
         expect(campus.flyTo).toHaveBeenCalled()
-        expect(result.current.data?.scheduleData).toStrictEqual([
-            {
-                location: "RO",
-                room: "Room B",
-                name: "Grundlagen der Bauphysik",
-                lecturer: "Praktikum, Prof.Dr. Johannes Aschaber",
-                relevantDegrees: "IPB-B2",
-                startTime: "2025-04-07T11:45:00",
-                endTime: "2025-04-07T13:15:00",
-            },
-        ])
+        expect(result.current.data?.scheduleData).toStrictEqual({
+            "Room B": [
+                {
+                    location: "RO",
+                    room: "Room B",
+                    name: "Grundlagen der Bauphysik",
+                    lecturer: "Praktikum, Prof.Dr. Johannes Aschaber",
+                    relevantDegrees: "IPB-B2",
+                    startTime: "2025-04-07T11:45:00",
+                    endTime: "2025-04-07T13:15:00",
+                },
+            ],
+        })
     })
 
     it("should setData with homeParams", async () => {
@@ -161,17 +167,19 @@ describe("RoomContext", () => {
                 lng: 0,
             },
         })
-        expect(result.current.data?.scheduleData).toStrictEqual([
-            {
-                location: "RO",
-                room: "A0.03",
-                name: "Grundlagen der Bauphysik",
-                lecturer: "Praktikum, Prof.Dr. Johannes Aschaber",
-                relevantDegrees: "IPB-B2",
-                startTime: "2025-04-07T11:45:00",
-                endTime: "2025-04-07T13:15:00",
-            },
-        ])
+        expect(result.current.data?.scheduleData).toStrictEqual({
+            "A0.03": [
+                {
+                    location: "RO",
+                    room: "A0.03",
+                    name: "Grundlagen der Bauphysik",
+                    lecturer: "Praktikum, Prof.Dr. Johannes Aschaber",
+                    relevantDegrees: "IPB-B2",
+                    startTime: "2025-04-07T11:45:00",
+                    endTime: "2025-04-07T13:15:00",
+                },
+            ],
+        })
     })
 
     it("onMapLoad should trigger flyTo if roomData available", async () => {

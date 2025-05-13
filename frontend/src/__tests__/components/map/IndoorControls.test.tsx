@@ -64,7 +64,7 @@ describe("IndoorControls", () => {
         )
         const callArgs = (IndoorEqual as Mock).mock.calls[0][1]
         expect(Array.isArray(callArgs.layers)).toBe(true)
-        expect(callArgs.layers).toHaveLength(11)
+        expect(callArgs.layers).toHaveLength(12)
 
         expect(mockLoadSprite).toHaveBeenCalledWith("/indoorequal/indoorequal")
         expect(mockSetLevel).toHaveBeenCalledWith("1")
