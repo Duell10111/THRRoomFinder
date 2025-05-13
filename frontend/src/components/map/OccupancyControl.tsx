@@ -75,7 +75,7 @@ export default function OccupancyControl() {
                         }
 
                         // Set Feature states for roomNames
-                        Object.entries(scheduleData).map(
+                        Object.entries(scheduleData).forEach(
                             ([roomName, schedule]) => {
                                 // TODO: Check if feature state changed?
                                 const occupied = checkIfRoomIsOccupied(schedule)
