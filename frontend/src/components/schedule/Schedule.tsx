@@ -18,8 +18,17 @@ export function Schedule({ date, schedule }: ScheduleProps) {
                 new Date(b.startTime).getTime()
         )
 
-    // TODO: Make dynamic?
-    const hours = Array.from({ length: 11 }, (_, i) => 8 + i) // 8:00 to 18:00
+    const datesSchedule = filteredSchedule.map((item) =>
+        new Date(item.startTime)?.getHours()
+    )
+
+    const lowestTime = Math.min(...datesSchedule, 8)
+    const highestHour = Math.max(...datesSchedule, 18)
+
+    const hours = Array.from(
+        { length: highestHour - lowestTime + 1 },
+        (_, i) => lowestTime + i
+    ) // Default: 8:00 to 18:00 - Otherwise lowest to highest time
 
     return (
         <Box

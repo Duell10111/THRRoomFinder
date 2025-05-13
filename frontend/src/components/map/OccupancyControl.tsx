@@ -28,8 +28,8 @@ export default function OccupancyControl() {
             const scheduleData = data.scheduleData
             const source = map.getSource("occupancy-room") as GeoJSONSource
             source
-                .getData()
-                .then((sourceData) => {
+                ?.getData()
+                ?.then((sourceData) => {
                     if (sourceData.type === "FeatureCollection") {
                         console.log(
                             "Source data features: ",
@@ -92,12 +92,10 @@ export default function OccupancyControl() {
                         console.warn("Source data is not a FeatureCollection")
                     }
                 })
-                .catch(console.warn)
+                ?.catch(console.warn)
         }
         // TODO: Remove showOccupancy from dep list to reduce lag?
     }, [data?.scheduleData, current, showOccupancy])
-
-    // console.log("Occc: ", showOccupancy)
 
     useControl(() => {
         return new OccupancyController(() => {
@@ -141,7 +139,7 @@ function checkIfRoomIsOccupied(schedule: ScheduleData[]) {
     )
 }
 
-class OccupancyController implements IControl {
+export class OccupancyController implements IControl {
     private _map?: Map
     private _container?: HTMLDivElement
     private _button?: HTMLButtonElement
@@ -186,7 +184,7 @@ class OccupancyController implements IControl {
             this._active ? "visible" : "none"
         )
 
-        // Visuelle Umschaltung per Klasse
+        // Switching of active state via class
         if (this._active) {
             this._button.classList.add("maplibregl-ctrl-active")
         } else {
