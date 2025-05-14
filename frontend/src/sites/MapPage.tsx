@@ -18,7 +18,7 @@ export function MapPage() {
                 />
             </Container>
             <Space h="xs" />
-            <Container style={{ height: "80dvh" }}>
+            <Container h={{ base: "82dvh", sm: "80dvh" }}>
                 <CampusMap />
             </Container>
         </>

@@ -38,7 +38,7 @@ export function NavAppShell({ children }: NavAppShellProps) {
                     desktop: !desktopOpened,
                 },
             }}
-            padding="md"
+            padding={{ base: 1, sm: "md" }}
         >
             <AppShell.Header>
                 <Group h="100%" px="md">
