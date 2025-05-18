@@ -24,7 +24,7 @@ export function CreditsPage() {
             <Title order={2} mb="lg">
                 Our contributors
             </Title>
-            <SimpleGrid cols={4}>
+            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3, xl: 4 }} spacing="xl">
                 {contributors.map((person: Contributor, index) => (
                     <Card
                         key={person.name + index}

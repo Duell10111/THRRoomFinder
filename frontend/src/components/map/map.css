@@ -11,11 +11,11 @@
 }
 
 .maplibregl-ctrl-indoorequal .maplibregl-ctrl-active {
-    color: var(--foreground) !important;
+    color: var(--mantine-color-white) !important;
 }
 
 .maplibregl-ctrl-indoorequal .maplibregl-ctrl-active:hover {
-    color: black !important;
+    color: var(--mantine-color-dark-text) !important;
 }
 
 .maplibregl-ctrl-group {
