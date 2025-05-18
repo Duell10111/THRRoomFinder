@@ -63,9 +63,6 @@ class RoomService(
             floorRooms.filter { !cacheSchedules.containsKey(it) }
                 .associateWith { getRoomScheduleForRoom(it, LocalDate.now()) }
 
-        // TODO: Matcher to get related rooms from availableRooms list
-
-        // TODO: Fetch room schedule for related rooms,by cache only | only building and floor should match and checked without cache?
         return cacheSchedules + missingRooms
     }
 

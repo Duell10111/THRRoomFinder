@@ -40,7 +40,8 @@ class RoomController(
     suspend fun getScheduleForRoomRelated(
         @PathVariable roomName: String,
     ): ResponseEntity<Map<String, List<RoomSchedule>>> {
-        return roomService.getRelatedRoomScheduleForRoom(roomName = roomName).let { ResponseEntity.ok(it.mapValues { it.value.schedule }) }
+        return roomService.getRelatedRoomScheduleForRoom(roomName = roomName)
+            .let { ResponseEntity.ok(it.mapValues { it.value.schedule }) }
     }
 
     @GetMapping("/{roomName}/schedule")

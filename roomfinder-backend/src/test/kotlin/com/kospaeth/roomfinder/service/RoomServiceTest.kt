@@ -36,6 +36,7 @@ class RoomServiceTest {
     @MockK(relaxed = true)
     private lateinit var osmProperties: OSMProperties
 
+    // Injected with @InjectMockKs
     private var roomMapper: RoomMapper = Mappers.getMapper(RoomMapper::class.java)
 
     @MockK(relaxed = true)

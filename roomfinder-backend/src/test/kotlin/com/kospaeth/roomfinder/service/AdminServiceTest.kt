@@ -1,6 +1,7 @@
 package com.kospaeth.roomfinder.service
 
 import com.kospaeth.roomfinder.data.repository.RoomRepository
+import com.kospaeth.roomfinder.service.splan.StarPlanService
 import io.mockk.coVerify
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -13,6 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 class AdminServiceTest() {
     @MockK(relaxed = true)
     private lateinit var roomRepository: RoomRepository
+
+    @MockK(relaxed = true)
+    private lateinit var sPlanService: StarPlanService
 
     @InjectMockKs
     private lateinit var adminService: AdminService
@@ -29,5 +33,12 @@ class AdminServiceTest() {
         runTest {
             adminService.deleteAllRoomsFromDatabase()
             coVerify(exactly = 1) { roomRepository.deleteAll() }
+        }
+
+    @Test
+    fun clearCache() =
+        runTest {
+            adminService.clearCachedSchedules()
+            coVerify(exactly = 1) { sPlanService.clearCache() }
         }
 }

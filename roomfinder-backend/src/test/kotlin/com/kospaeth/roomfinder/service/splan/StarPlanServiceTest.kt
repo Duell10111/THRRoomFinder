@@ -15,8 +15,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.extension.RegisterExtension
-import org.springframework.cache.Cache
 import org.springframework.cache.CacheManager
+import org.springframework.cache.caffeine.CaffeineCache
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
@@ -31,7 +31,7 @@ class StarPlanServiceTest {
     private lateinit var cacheManager: CacheManager
 
     @MockK(relaxed = true)
-    private lateinit var cache: Cache
+    private lateinit var cache: CaffeineCache
 
     private lateinit var starPlanService: StarPlanService
 
@@ -50,6 +50,7 @@ class StarPlanServiceTest {
                     LogLevel.INFO,
                     AdvancedByteBufFormat.TEXTUAL,
                 )
+        // Cache mocking
         every { cacheManager.getCache(any()) } returns cache
         every { cache.get(any(), AvailableRoomsCacheEntry::class.java) } returns null
         every { cache.get(any(), SPlanScheduleList::class.java) } returns null
