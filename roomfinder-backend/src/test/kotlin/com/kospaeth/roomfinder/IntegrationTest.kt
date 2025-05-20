@@ -78,10 +78,106 @@ class IntegrationTest : DatabaseTestBase() {
     }
 
     @Test
+    fun `test getRooms returns elements from service and cache is cleared after whole deletion`() {
+        // Prefill database with rooms fetched from osm
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
+            .exchange().expectStatus().isOk
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.16")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/")
+            .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(2)
+
+        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room/")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/")
+            .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(1)
+    }
+
+    @Test
+    fun `test getRooms returns elements from service and cache is cleared after new element fetched`() {
+        // Prefill database with rooms fetched from osm
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
+            .exchange().expectStatus().isOk
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.16")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/")
+            .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(2)
+
+        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room/")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/")
+            .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(1)
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.16")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/")
+            .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(2)
+    }
+
+    @Test
     fun `test getRoomsExtended returns elements from service`() {
         // Prefill database with rooms fetched from osm
         webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
             .exchange().expectStatus().isOk
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.16")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/extended")
+            .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(2)
+    }
+
+    @Test
+    fun `test getRoomsExtended returns elements from service and cache is cleared after whole deletion`() {
+        // Prefill database with rooms fetched from osm
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
+            .exchange().expectStatus().isOk
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.16")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/extended")
+            .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(2)
+
+        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room/")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/extended")
+            .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(1)
+    }
+
+    @Test
+    fun `test getRoomsExtended returns elements from service and cache is cleared after new element fetched`() {
+        // Prefill database with rooms fetched from osm
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
+            .exchange().expectStatus().isOk
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.16")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/extended")
+            .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(2)
+
+        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room/")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
+            .exchange().expectStatus().isOk
+
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/extended")
+            .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(1)
+
         webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.16")
             .exchange().expectStatus().isOk
 

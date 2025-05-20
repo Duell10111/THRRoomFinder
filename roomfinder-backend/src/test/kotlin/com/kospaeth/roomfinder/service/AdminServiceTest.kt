@@ -25,7 +25,7 @@ class AdminServiceTest() {
     fun deleteRoomFromDatabase() =
         runTest {
             adminService.deleteRoomFromDatabase("room")
-            coVerify(exactly = 1) { roomRepository.deleteRoomByName(eq("room")) }
+            coVerify(exactly = 1) { roomRepository.deleteRoomsByNameEquals(eq("room")) }
         }
 
     @Test
