@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, SimpleGrid, Title } from "@mantine/core"
+import { Card, Loader, SimpleGrid, Title } from "@mantine/core"
 import { useAuthContext } from "@/admin/AuthContext"
 import { redirect } from "next/navigation"
 import { DangerButton } from "@/components/admin/DangerButton"
@@ -13,6 +13,10 @@ import { showSuccessNotification } from "@/utils/notifications"
 
 export default function AdminDashboard() {
     const { user } = useAuthContext()
+
+    if (user === undefined) {
+        return <Loader data-testid={"loader"} />
+    }
 
     // Redirect to login if user is not logged in
     if (user === null) {
