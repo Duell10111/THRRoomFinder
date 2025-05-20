@@ -4,8 +4,12 @@ import { Card, SimpleGrid, Title } from "@mantine/core"
 import { useAuthContext } from "@/admin/AuthContext"
 import { redirect } from "next/navigation"
 import { DangerButton } from "@/components/admin/DangerButton"
-import { removeRoomsFromDatabase } from "@/admin/authData"
+import {
+    removeRoomsFromDatabase,
+    removeSchedulesFromCache,
+} from "@/admin/authData"
 import { RoomButton } from "@/components/admin/RoomButton"
+import { showSuccessNotification } from "@/utils/notifications"
 
 export default function AdminDashboard() {
     const { user } = useAuthContext()
@@ -25,7 +29,11 @@ export default function AdminDashboard() {
                     mt="md"
                     radius="md"
                     action={async (token) => {
-                        await removeRoomsFromDatabase(token)
+                        await removeSchedulesFromCache(token)
+                        showSuccessNotification({
+                            title: "Cleared schedules",
+                            message: "All schedules deleted from cache",
+                        })
                     }}
                 />
             </Card>
@@ -41,6 +49,10 @@ export default function AdminDashboard() {
                     radius="md"
                     action={async (token) => {
                         await removeRoomsFromDatabase(token)
+                        showSuccessNotification({
+                            title: "Cleared rooms",
+                            message: "All rooms deleted from database",
+                        })
                     }}
                 />
             </Card>
