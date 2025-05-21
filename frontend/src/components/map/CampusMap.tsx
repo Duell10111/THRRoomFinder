@@ -1,6 +1,6 @@
 "use client"
 
-import Map, { FullscreenControl } from "react-map-gl/maplibre"
+import Map, { FullscreenControl, GeolocateControl } from "react-map-gl/maplibre"
 import "maplibre-gl/dist/maplibre-gl.css"
 import "maplibre-gl-indoorequal/maplibre-gl-indoorequal.css"
 import { IndoorControls } from "@/components/map/IndoorControls"
@@ -58,6 +58,7 @@ export function CampusMap() {
             <IndoorControls />
             <OccupancyControl />
             <RoomClicker />
+            <GeolocateControl />
             <FullscreenControl />
         </Map>
     )
