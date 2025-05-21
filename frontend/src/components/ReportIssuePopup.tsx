@@ -30,7 +30,7 @@ export function ReportIssuePopupNavBarItem() {
                     <br />
                     An online tool to update indoor data I recommend is{" "}
                     <Anchor
-                        href="https://osminedit.pavie.info/"
+                        href="https://osminedit.pavie.info/#20/47.86759/12.10739/0"
                         target="_blank"
                         underline="hover"
                         c="blue"

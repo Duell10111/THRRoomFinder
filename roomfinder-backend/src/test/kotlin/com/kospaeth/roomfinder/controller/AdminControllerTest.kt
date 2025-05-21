@@ -31,4 +31,12 @@ class AdminControllerTest {
 
             coVerify { adminService.deleteAllRoomsFromDatabase() }
         }
+
+    @Test
+    fun `test clearScheduleCache works correctly`() =
+        runTest {
+            adminController.clearScheduleCache()
+
+            coVerify { adminService.clearCachedSchedules() }
+        }
 }

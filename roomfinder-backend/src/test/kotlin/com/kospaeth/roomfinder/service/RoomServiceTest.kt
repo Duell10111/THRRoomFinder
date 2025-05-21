@@ -28,6 +28,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mapstruct.factory.Mappers
+import org.springframework.cache.CacheManager
 import org.springframework.data.geo.Point
 import java.util.UUID
 
@@ -36,6 +37,7 @@ class RoomServiceTest {
     @MockK(relaxed = true)
     private lateinit var osmProperties: OSMProperties
 
+    // Injected with @InjectMockKs
     private var roomMapper: RoomMapper = Mappers.getMapper(RoomMapper::class.java)
 
     @MockK(relaxed = true)
@@ -49,6 +51,9 @@ class RoomServiceTest {
 
     @MockK(relaxed = true)
     private lateinit var starPlanService: StarPlanService
+
+    @MockK(relaxed = true)
+    private lateinit var cacheManager: CacheManager
 
     @InjectMockKs private lateinit var roomService: RoomService
 
@@ -165,6 +170,151 @@ class RoomServiceTest {
             coVerify(exactly = 1) { osmExtractorService.getIndoorRoomsForBuilding(any(), any()) }
             coVerify(exactly = 1) { roomRepository.save(any()) }
         }
+
+    @Suppress("ktlint:standard:max-line-length")
+    @Test
+    fun `getLocationForRoom should return a room and ask osmExtractorService if no database entry exists and no building is available`() =
+        runTest {
+            coEvery { roomRepository.findRoomByName(eq("A0.10")) } returns null
+
+            every { osmProperties.buildingWayIds } returns
+                listOf(
+                    OSMBuildingProperties(
+                        regex = "A\\d\\.\\d{0,2}\\w?",
+                        buildingId = "areaId",
+                        name = "A",
+                    ),
+                )
+            val response =
+                OverpassResponse(
+                    elements =
+                        listOf(
+                            Element(
+                                id = 1000,
+                                type = "type",
+                                tags =
+                                    mapOf(
+                                        "indoor" to "room",
+                                    ),
+                                nodes = listOf(1001),
+                            ),
+                            Element(
+                                lat = 10.0,
+                                lon = 20.0,
+                                id = 1001,
+                                type = "type",
+                                nodes = listOf(),
+                            ),
+                        ),
+                )
+            coEvery { osmExtractorService.getIndoorRoomsForBuilding(any(), any()) } returns
+                response
+            coEvery { buildingService.getBuildingForRoom(any(), any()) } returns
+                null
+
+            val room = roomService.getLocationForRoom("A0.10")
+
+            assertThat(room).isEqualTo(
+                RoomDTO(name = "A0.10", location = LocationDTO(lat = 10.0, lng = 20.0)),
+            )
+
+            coVerify(exactly = 1) { osmExtractorService.getIndoorRoomsForBuilding(any(), any()) }
+            coVerify(exactly = 0) { roomRepository.save(any()) }
+        }
+
+    @Suppress("ktlint:standard:max-line-length")
+    @Test
+    fun `getLocationForRoom should return a room and ask osmExtractorService if no database entry exists and return osm value on database error`() =
+        runTest {
+            coEvery { roomRepository.findRoomByName(eq("A0.10")) } returns null
+
+            every { osmProperties.buildingWayIds } returns
+                listOf(
+                    OSMBuildingProperties(
+                        regex = "A\\d\\.\\d{0,2}\\w?",
+                        buildingId = "areaId",
+                        name = "A",
+                    ),
+                )
+            val response =
+                OverpassResponse(
+                    elements =
+                        listOf(
+                            Element(
+                                id = 1000,
+                                type = "type",
+                                tags =
+                                    mapOf(
+                                        "indoor" to "room",
+                                    ),
+                                nodes = listOf(1001),
+                            ),
+                            Element(
+                                lat = 10.0,
+                                lon = 20.0,
+                                id = 1001,
+                                type = "type",
+                                nodes = listOf(),
+                            ),
+                        ),
+                )
+            coEvery { osmExtractorService.getIndoorRoomsForBuilding(any(), any()) } returns
+                response
+            coEvery { buildingService.getBuildingForRoom(any(), any()) } returns
+                Building(name = "A")
+            coEvery { roomRepository.save(any()) } throws Exception("Some database error")
+
+            val room = roomService.getLocationForRoom("A0.10")
+
+            assertThat(room).isEqualTo(
+                RoomDTO(name = "A0.10", location = LocationDTO(lat = 10.0, lng = 20.0)),
+            )
+
+            coVerify(exactly = 1) { osmExtractorService.getIndoorRoomsForBuilding(any(), any()) }
+            coVerify(exactly = 1) { roomRepository.save(any()) }
+        }
+
+    @Test
+    fun `getLocationForRoom should return null and ask osmExtractorService if no database entry exists with no building ids set`() =
+        runTest {
+            coEvery { roomRepository.findRoomByName(eq("A0.10")) } returns null
+
+            every { osmProperties.buildingWayIds } returns
+                emptyList()
+            coEvery { osmExtractorService.getIndoorRoomsForBuilding(any(), any()) } returns
+                null
+
+            val room = roomService.getLocationForRoom("A0.10")
+
+            assertThat(room).isEqualTo(null)
+
+            coVerify(exactly = 0) { osmExtractorService.getIndoorRoomsForBuilding(any(), any()) }
+        }
+
+    @Test
+    fun `getLocationForRoom should return null and ask osmExtractorService if no database entry exists with no valid osm response`() =
+        runTest {
+            coEvery { roomRepository.findRoomByName(eq("A0.10")) } returns null
+
+            every { osmProperties.buildingWayIds } returns
+                listOf(
+                    OSMBuildingProperties(
+                        regex = "A\\d\\.\\d{0,2}\\w?",
+                        buildingId = "areaId",
+                        name = "A",
+                    ),
+                )
+            coEvery { osmExtractorService.getIndoorRoomsForBuilding(any(), any()) } returns
+                null
+
+            val room = roomService.getLocationForRoom("A0.10")
+
+            assertThat(room).isEqualTo(null)
+
+            coVerify(exactly = 1) { osmExtractorService.getIndoorRoomsForBuilding(eq("areaId"), eq("A0.10")) }
+        }
+
+    // TODO: Add schedule tests
 
     companion object {
         val roomsList =

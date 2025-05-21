@@ -22,4 +22,9 @@ class AdminController(
     suspend fun deleteAllRooms() {
         adminService.deleteAllRoomsFromDatabase()
     }
+
+    @DeleteMapping("/schedules")
+    suspend fun clearScheduleCache() {
+        adminService.clearCachedSchedules()
+    }
 }

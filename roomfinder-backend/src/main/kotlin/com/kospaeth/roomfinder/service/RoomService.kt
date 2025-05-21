@@ -15,7 +15,7 @@ import com.kospaeth.roomfinder.service.splan.StarPlanService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
-import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.CacheManager
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -32,13 +32,17 @@ class RoomService(
     private val buildingService: BuildingService,
     private val osmExtractorService: OSMExtractorService,
     private val starPlanService: StarPlanService,
+    cacheManager: CacheManager,
 ) {
-    @Cacheable("getAllRooms")
+    private val roomCache = cacheManager.getCache("rooms")
+    private val roomExtendedCache = cacheManager.getCache("roomsExtended")
+
+    @Cacheable(cacheNames = ["rooms"])
     suspend fun getAllRooms(): List<RoomDTO> {
         return roomRepository.findAll().map { roomMapper.toDTO(it) }.toList()
     }
 
-    @Cacheable("getAllRoomsExtended")
+    @Cacheable(cacheNames = ["roomsExtended"])
     suspend fun getAllRoomsWithBuildings(): List<ExtendedRoomDTO> {
         return roomRepository.findAllRoomsWithBuildings().map { roomMapper.toDTO(it) }.toList()
     }
@@ -63,9 +67,6 @@ class RoomService(
             floorRooms.filter { !cacheSchedules.containsKey(it) }
                 .associateWith { getRoomScheduleForRoom(it, LocalDate.now()) }
 
-        // TODO: Matcher to get related rooms from availableRooms list
-
-        // TODO: Fetch room schedule for related rooms,by cache only | only building and floor should match and checked without cache?
         return cacheSchedules + missingRooms
     }
 
@@ -77,8 +78,7 @@ class RoomService(
     }
 
     // TODO: Only check once in specific time
-    @CacheEvict("getAllRoomsExtended", "getAllRooms")
-    protected suspend fun fetchRoomFromOSM(
+    suspend fun fetchRoomFromOSM(
         roomName: String,
         existingRoomDBId: UUID? = null,
     ): Room? {
@@ -96,7 +96,16 @@ class RoomService(
                         source = Source.OSM,
                         updatedAt = LocalDateTime.now(),
                     )
-                saveRoom(room, buildingProps.name)
+                runCatching {
+                    saveRoom(room, buildingProps.name)
+                }.onFailure {
+                    logger.error(it) { "Failed to save room: $roomName" }
+                }.getOrDefault(room)
+                    .also {
+                        // Clear caches
+                        roomCache?.clear()
+                        roomExtendedCache?.clear()
+                    }
             }
         }
     }

@@ -20,3 +20,12 @@ export async function removeRoomsFromDatabase(accessToken: string) {
         },
     })
 }
+
+export async function removeSchedulesFromCache(accessToken: string) {
+    await fetch(`${backendUrl}/api/v1/admin/schedules`, {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    })
+}

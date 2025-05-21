@@ -16,5 +16,5 @@ interface RoomRepository : CoroutineCrudRepository<Room, UUID> {
     )
     fun findAllRoomsWithBuildings(): Flow<RoomWithBuildingData>
 
-    suspend fun deleteRoomByName(name: String)
+    suspend fun deleteRoomsByNameEquals(name: String)
 }

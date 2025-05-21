@@ -1,0 +1,27 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/api/interpreter",
+    "bodyPatterns": [
+      {
+        "contains": "A0.13"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "version": 0.6,
+      "generator": "Overpass API 0.7.62.5 1bd436f1",
+      "osm3s": {
+        "timestamp_osm_base": "2025-05-14T08:13:12Z",
+        "timestamp_areas_base": "2025-02-06T02:17:44Z",
+        "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+      },
+      "elements": []
+    }
+  }
+}

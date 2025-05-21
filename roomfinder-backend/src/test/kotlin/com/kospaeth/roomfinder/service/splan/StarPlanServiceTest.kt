@@ -8,6 +8,7 @@ import com.kospaeth.roomfinder.config.SPlanProperties
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.verify
 import io.netty.handler.logging.LogLevel
 import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
@@ -15,14 +16,15 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.extension.RegisterExtension
-import org.springframework.cache.Cache
 import org.springframework.cache.CacheManager
+import org.springframework.cache.caffeine.CaffeineCache
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
 import reactor.netty.transport.logging.AdvancedByteBufFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.temporal.WeekFields
 
 @ExtendWith(MockKExtension::class)
 @WireMockTest
@@ -31,7 +33,7 @@ class StarPlanServiceTest {
     private lateinit var cacheManager: CacheManager
 
     @MockK(relaxed = true)
-    private lateinit var cache: Cache
+    private lateinit var cache: CaffeineCache
 
     private lateinit var starPlanService: StarPlanService
 
@@ -50,6 +52,7 @@ class StarPlanServiceTest {
                     LogLevel.INFO,
                     AdvancedByteBufFormat.TEXTUAL,
                 )
+        // Cache mocking
         every { cacheManager.getCache(any()) } returns cache
         every { cache.get(any(), AvailableRoomsCacheEntry::class.java) } returns null
         every { cache.get(any(), SPlanScheduleList::class.java) } returns null
@@ -365,5 +368,34 @@ class StarPlanServiceTest {
             val rooms = starPlanService.getAvailableRooms(StarPlanLocation.RO)
             assertThat(rooms).hasSize(228)
             // TODO: Add more test asserts
+        }
+
+    @Test
+    fun `test getScheduleForRoom cache functionality`() =
+        runTest {
+            val cacheKey = "3_A0.01b_${LocalDate.now().get(WeekFields.ISO.weekOfYear())}"
+
+            val rooms = starPlanService.getScheduleForRoom(StarPlanLocation.RO, "A0.01b", date = LocalDate.now())
+            assertThat(rooms.schedule).hasSize(12)
+            assertThat(rooms.schedule).containsExactlyInAnyOrderElementsOf(a001bRooms)
+
+            verify(exactly = 1) { cache.get(cacheKey, SPlanScheduleList::class.java) }
+            verify(exactly = 1) { cache.put(cacheKey, rooms) }
+
+            every { cache.get(cacheKey, SPlanScheduleList::class.java) } returns rooms
+
+            val cacheRooms = starPlanService.getScheduleForRoom(StarPlanLocation.RO, "A0.01b", date = LocalDate.now())
+            assertThat(cacheRooms.schedule).hasSize(12)
+            assertThat(cacheRooms.schedule).containsExactlyInAnyOrderElementsOf(a001bRooms)
+
+            verify(exactly = 2) { cache.get(cacheKey, SPlanScheduleList::class.java) }
+            verify(exactly = 1) { cache.put(cacheKey, rooms) }
+        }
+
+    @Test
+    fun `test clearCache functionality`() =
+        runTest {
+            starPlanService.clearCache()
+            verify(exactly = 1) { cache.clear() }
         }
 }

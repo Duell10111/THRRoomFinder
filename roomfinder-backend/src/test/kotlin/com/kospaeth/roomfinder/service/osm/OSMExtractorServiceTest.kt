@@ -24,13 +24,6 @@ class OSMExtractorServiceTest {
 
     @BeforeEach
     fun setUp() {
-//        val httpClient = HttpClient
-//            .create()
-//            .wiretap(
-//                "reactor.netty.http.client.HttpClient",
-//                LogLevel.INFO, AdvancedByteBufFormat.TEXTUAL
-//            )
-//        val webClient = WebClient.builder().clientConnector(ReactorClientHttpConnector(httpClient)).build()
         val properties = OSMProperties("${wireMockExtension.baseUrl()}/api/interpreter")
         osmExtractorService = OSMExtractorService(WebClient.create(), properties)
     }

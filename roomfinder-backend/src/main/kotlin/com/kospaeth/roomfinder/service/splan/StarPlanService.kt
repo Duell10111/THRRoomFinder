@@ -7,8 +7,10 @@ import com.kospaeth.roomfinder.utils.getAllKeysPresent
 import com.kospaeth.roomfinder.utils.getEntry
 import com.kospaeth.roomfinder.utils.putEntry
 import io.github.oshai.kotlinlogging.KotlinLogging
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.reactor.mono
+import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.springframework.cache.Cache
@@ -39,13 +41,21 @@ class StarPlanService(
 
     // TODO: Add fkt to parse iCal fkts and enhance with room latlongs
 
+    suspend fun clearCache() =
+        withContext(Dispatchers.IO) {
+            cache.clear()
+        }
+
     suspend fun getCachedSchedulesForCurrentWeek(location: StarPlanLocation): Map<String, SPlanScheduleList> {
         val rooms = getAvailableRooms(location)
         val keyMap =
             rooms.associate {
-                it.shortName to getScheduleCacheKey(location, it.shortName, LocalDate.now())
+                getScheduleCacheKey(location, it.shortName, LocalDate.now()) to it.shortName
             }
-        return cache.getAllKeysPresent<SPlanScheduleList>(keyMap.values)
+        return cache.getAllKeysPresent<SPlanScheduleList>(keyMap.keys)
+            // Map Cache key to the original room name back
+            .mapKeys { (key, _) -> keyMap.getOrDefault(key, "") }
+            .filterKeys { it !== "" }
     }
 
     suspend fun getScheduleForRoom(

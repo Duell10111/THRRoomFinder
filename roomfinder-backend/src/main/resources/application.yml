@@ -41,6 +41,10 @@ room-finder:
       - regex: "A\\d\\.\\d{0,2}\\w?"
         buildingId: 28400949 # Building A
         name: "A"
+        # Special case where AZ rooms are in Building B
+      - regex: "AZ\\d\\.\\d{0,2}\\w?"
+        buildingId: 28401106 # Building B
+        name: "A"
       - regex: "B\\d\\.\\d{0,2}\\w?"
         buildingId: 28401106 # Building B
         name: "B"
