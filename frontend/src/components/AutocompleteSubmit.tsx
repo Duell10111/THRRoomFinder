@@ -48,6 +48,7 @@ export function AutocompleteSubmit({
         <Combobox store={combobox} onOptionSubmit={handleOptionSubmit}>
             <ComboboxTarget>
                 <InputBase
+                    data-test-id={"autocomplete-input"}
                     label={label}
                     placeholder={placeholder}
                     value={value}

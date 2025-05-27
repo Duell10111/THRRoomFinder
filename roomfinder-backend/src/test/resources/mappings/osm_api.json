@@ -5,6 +5,9 @@
     "bodyPatterns": [
       {
         "doesNotContain": "A0.10"
+      },
+      {
+        "doesNotContain": "A0.13"
       }
     ]
   },
