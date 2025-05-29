@@ -47,8 +47,8 @@ jobs:
           - 8080:8080
         env:
           SPRING_PROFILES_ACTIVE: "local, no-auth"
-          SPRING_R2DBC_URL: r2dbc:postgresql://db:5432/roomFinderDB
-          SPRING_FLYWAY_URL: jdbc:postgresql://db:5432/roomFinderDB
+          SPRING_R2DBC_URL: r2dbc:postgresql://localhost:5432/roomFinderDB
+          SPRING_FLYWAY_URL: jdbc:postgresql://localhost:5432/roomFinderDB
       db:
         image: postgis/postgis:15-3.3-alpine
         ports:
