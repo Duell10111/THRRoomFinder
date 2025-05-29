@@ -39,10 +39,6 @@ export function RoomClicker() {
                     }
                 }
             })
-
-            map.on("levelchange", () => {
-                console.log("Level change")
-            })
         }
     }, [current, setRoom])
 
