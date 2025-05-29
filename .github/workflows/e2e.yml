@@ -1,0 +1,66 @@
+name: E2E Tests
+on:
+  workflow_dispatch:
+#    inputs:
+#      tag:
+#        type: string
+#        description: "Image tag to run tests against"
+
+# TODO: Adapt frontend image to allow runtime envs in the future
+
+jobs:
+#  frontend-build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: ./.github/actions/build-frontend
+#        with:
+#          maptiler_api_key: ${{ secrets.MAPTILER_API_KEY }}
+#          indoor_control_api_key: ${{ secrets.INDOOR_CONTROL_API_KEY }}
+#          firebase_api_key: ${{ secrets.FIREBASE_API_KEY }}
+#          backend_url: 'http://localhost:8080'
+#          image_tag: e2e
+  backend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/build-backend
+        with:
+          image_tag: e2e
+  cypress:
+    runs-on: ubuntu-latest
+    needs:
+      - backend-build
+    services:
+#      fronted:
+#        # TODO: Use image with local backend api env variable
+#        image: ghcr.io/duell10111/thr-roomfinder/frontend:e2e
+#        ports:
+#          - 80:3000
+      backend:
+        image: ghcr.io/duell10111/thr-roomfinder/backend:e2e
+        ports:
+          - 8080:8080
+        env:
+          SPRING_PROFILES_ACTIVE: "local, no-auth"
+          SPRING_R2DBC_URL: r2dbc:postgresql://db:5432/roomFinderDB
+          SPRING_FLYWAY_URL: jdbc:postgresql://db:5432/roomFinderDB
+      db:
+        image: postgis/postgis:15-3.3-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: user
+          POSTGRES_DB: roomFinderDB
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm start
+          env: NEXT_PUBLIC_MAPTILER_API_KEY=${{ secrets.MAPTILER_API_KEY }},NEXT_PUBLIC_INDOOR_CONTROL_API_KEY=${{ secrets.INDOOR_CONTROL_API_KEY }},NEXT_PUBLIC_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }},NEXT_PUBLIC_TEST_ENV=true

@@ -17,7 +17,10 @@ export function RoomDetails() {
                 </Center>
             ) : (
                 <>
-                    <Center style={{ margin: "20px" }}>
+                    <Center
+                        style={{ margin: "20px" }}
+                        data-testid={"roomData-name"}
+                    >
                         Name: {data?.roomData?.name}
                     </Center>
                     {data.scheduleData?.[data.roomData.name] ? (

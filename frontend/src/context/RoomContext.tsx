@@ -33,6 +33,8 @@ interface RoomContextType {
         zoomIn?: boolean
     ) => Promise<RoomData | undefined>
     setDate: (date: Date | undefined) => void
+    // Called from IndoorControls if level changed by user
+    setLevel?: (level: string) => void
     // Helper Fkt called once map loaded
     onMapLoad?: () => void
 }
@@ -136,6 +138,7 @@ export function RoomContextProvider({
                 setRoomData,
                 setRoom,
                 setDate,
+                setLevel,
                 onMapLoad: () => {
                     console.log("Map loaded")
                     if (roomData) {

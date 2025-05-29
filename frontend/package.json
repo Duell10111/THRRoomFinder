@@ -16,6 +16,7 @@
     "@mantine/dates": "7.17.4",
     "@mantine/hooks": "7.17.4",
     "@mantine/notifications": "7.17.4",
+    "@mapgrab/map-interface": "1.0.1",
     "@tabler/icons-react": "^3.31.0",
     "@turf/turf": "^7.2.0",
     "date-fns": "^4.1.0",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@mapgrab/cypress": "^0.0.2",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.3.0",
     "@types/lodash": "^4.17.16",

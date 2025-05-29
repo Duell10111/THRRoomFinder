@@ -52,6 +52,13 @@ export function CampusMap() {
                     },
                     promoteId: "roomName",
                 })
+                if (process.env.NEXT_PUBLIC_TEST_ENV) {
+                    import("@mapgrab/map-interface").then(
+                        ({ installMapGrab }) => {
+                            installMapGrab(map, "mainMap")
+                        }
+                    )
+                }
                 onMapLoad?.()
             }}
         >

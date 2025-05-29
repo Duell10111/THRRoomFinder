@@ -10,7 +10,7 @@ import { GeoJSONSource } from "maplibre-gl"
 export function RoomClicker() {
     const { current } = useMap()
     const [popup, setPopup] = useState<{ lat: number; lng: number }>()
-    const { setRoom, data } = useRoomContext()
+    const { setRoom, data, level } = useRoomContext()
 
     useEffect(() => {
         const map = current?.getMap()
@@ -39,6 +39,10 @@ export function RoomClicker() {
                     }
                 }
             })
+
+            map.on("levelchange", () => {
+                console.log("Level change")
+            })
         }
     }, [current, setRoom])
 
@@ -54,6 +58,13 @@ export function RoomClicker() {
             })
         }
     }, [current, data, popup])
+
+    // Hide popup when level changes
+    useEffect(() => {
+        if (level) {
+            setPopup(undefined)
+        }
+    }, [level])
 
     return (
         <>
