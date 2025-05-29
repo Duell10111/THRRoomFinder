@@ -7,23 +7,12 @@ on:
 #        type: string
 #        description: "Image tag to run tests against"
 
-# TODO: Adapt frontend image to allow runtime envs in the future
+# TODO: Make adaptive to allow input tag used for backup or use built image?
 
 permissions:
   packages: write
 
 jobs:
-#  frontend-build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: ./.github/actions/build-frontend
-#        with:
-#          maptiler_api_key: ${{ secrets.MAPTILER_API_KEY }}
-#          indoor_control_api_key: ${{ secrets.INDOOR_CONTROL_API_KEY }}
-#          firebase_api_key: ${{ secrets.FIREBASE_API_KEY }}
-#          backend_url: 'http://localhost:8080'
-#          image_tag: e2e
   backend-build:
     runs-on: ubuntu-latest
     steps:
@@ -77,6 +66,3 @@ jobs:
         with:
           name: cypress-screenshots
           path: frontend/cypress/screenshots
-      - name: Backend Logs
-        run: docker logs "${{ job.services.backend.id }}"
-        if: failure()
