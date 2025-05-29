@@ -9,6 +9,9 @@ on:
 
 # TODO: Adapt frontend image to allow runtime envs in the future
 
+permissions:
+  packages: write
+
 jobs:
 #  frontend-build:
 #    runs-on: ubuntu-latest
