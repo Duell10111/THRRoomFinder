@@ -82,3 +82,6 @@ jobs:
         with:
           name: cypress-screenshots
           path: frontend/cypress/screenshots
+      - name: Backend Logs
+        run: docker logs "${{ job.services.backend.id }}"
+        if: failure()
