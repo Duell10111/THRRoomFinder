@@ -71,6 +71,7 @@ jobs:
           NEXT_PUBLIC_TEST_ENV: true
         with:
           working-directory: frontend
+          browser: chrome
           build: npm run build
           start: npm start
       - name: Upload screenshots
