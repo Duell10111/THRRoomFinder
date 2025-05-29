@@ -69,11 +69,13 @@ jobs:
           NEXT_PUBLIC_INDOOR_CONTROL_API_KEY: ${{ secrets.INDOOR_CONTROL_API_KEY }}
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           NEXT_PUBLIC_TEST_ENV: true
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         with:
           working-directory: frontend
           browser: chrome
           build: npm run build
           start: npm start
+          record: true
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
         if: failure()
