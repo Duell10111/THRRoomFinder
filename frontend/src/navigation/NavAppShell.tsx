@@ -47,12 +47,14 @@ export function NavAppShell({ children }: NavAppShellProps) {
                         onClick={toggleMobile}
                         hiddenFrom="sm"
                         size="sm"
+                        data-testid={"nav-burger-mobile"}
                     />
                     <Burger
                         opened={desktopOpened}
                         onClick={toggleDesktop}
                         visibleFrom="sm"
                         size="sm"
+                        data-testid={"nav-burger-desktop"}
                     />
                     <NavLogo />
                 </Group>

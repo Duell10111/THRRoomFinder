@@ -12,7 +12,11 @@ export function RoomDetails() {
             component={data ? ScrollArea : undefined}
         >
             {!data ? (
-                <Center h={"100%"} w={"100%"}>
+                <Center
+                    h={"100%"}
+                    w={"100%"}
+                    data-testid={"room-details-no-selection"}
+                >
                     No room selected.
                 </Center>
             ) : (
