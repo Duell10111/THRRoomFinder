@@ -54,6 +54,8 @@ jobs:
           NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           NEXT_PUBLIC_TEST_ENV: true
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_ADMIN_EMAIL: ${{ secrets.TEST_ADMIN_EMAIL }}
+          CYPRESS_ADMIN_PASSWORD: ${{ secrets.TEST_ADMIN_PASSWORD }}
         with:
           working-directory: frontend
           browser: chrome
