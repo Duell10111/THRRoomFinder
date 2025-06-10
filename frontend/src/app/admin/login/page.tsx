@@ -52,6 +52,7 @@ export default function LoginPage() {
                             setEmail(event.currentTarget.value)
                         }
                         required
+                        data-testid={"login-email"}
                     />
 
                     <PasswordInput
@@ -64,10 +65,15 @@ export default function LoginPage() {
                         required
                         mt="md"
                         error={error}
+                        data-testid={"login-password"}
                     />
 
                     <Group mt="lg">
-                        <Button fullWidth type="submit">
+                        <Button
+                            fullWidth
+                            type="submit"
+                            data-testid={"login-submit"}
+                        >
                             Login
                         </Button>
                     </Group>

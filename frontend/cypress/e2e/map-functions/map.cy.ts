@@ -27,7 +27,9 @@ describe("Campus Map Tests", () => {
                 'layer[id=highlight-room-layer] filter["==", ["get", "id"], "A0.04"]'
             ).first<MapLocator>()
 
-            cy.get('[data-testid="roomData-name"]').contains("A0.04")
+            cy.get('[data-testid="roomData-name"]')
+                .contains("A0.04")
+                .should("be.visible")
 
             // Switch floor to 5th
             cy.get(".maplibregl-ctrl-indoorequal > :nth-child(1)").trigger(
@@ -50,7 +52,7 @@ describe("Campus Map Tests", () => {
             cy.mapController("mainMap").then((controller) => {
                 return controller.waitToMapLoaded()
             })
-            cy.get('[data-test-id="autocomplete-input"]').type("A5.00{enter}")
+            cy.get('[data-testid="autocomplete-input"]').type("A5.00{enter}")
 
             cy.get('[data-testid="roomData-name"]').contains("A5.00")
 
@@ -98,7 +100,9 @@ describe("Campus Map Tests", () => {
                 'layer[id=highlight-room-layer] filter["==", ["get", "id"], "A0.04"]'
             ).first<MapLocator>()
 
-            cy.get('[data-testid="roomData-name"]').contains("A0.04")
+            cy.get('[data-testid="roomData-name"]')
+                .contains("A0.04")
+                .should("be.visible")
 
             // Switch floor to 5th
             cy.get(".maplibregl-ctrl-indoorequal > :nth-child(1)").trigger(
@@ -121,7 +125,7 @@ describe("Campus Map Tests", () => {
             cy.mapController("mainMap").then((controller) => {
                 return controller.waitToMapLoaded()
             })
-            cy.get('[data-test-id="autocomplete-input"]').type("A5.00{enter}")
+            cy.get('[data-testid="autocomplete-input"]').type("A5.00{enter}")
 
             cy.get('[data-testid="roomData-name"]').contains("A5.00")
 
@@ -169,7 +173,9 @@ describe("Campus Map Tests", () => {
                 'layer[id=highlight-room-layer] filter["==", ["get", "id"], "A0.04"]'
             ).first<MapLocator>()
 
-            cy.get('[data-testid="roomData-name"]').contains("A0.04")
+            cy.get('[data-testid="roomData-name"]')
+                .contains("A0.04")
+                .should("be.visible")
 
             // Switch floor to 5th
             cy.get(".maplibregl-ctrl-indoorequal > :nth-child(1)").trigger(
@@ -192,7 +198,7 @@ describe("Campus Map Tests", () => {
             cy.mapController("mainMap").then((controller) => {
                 return controller.waitToMapLoaded()
             })
-            cy.get('[data-test-id="autocomplete-input"]').type("A5.00{enter}")
+            cy.get('[data-testid="autocomplete-input"]').type("A5.00{enter}")
 
             cy.get('[data-testid="roomData-name"]').contains("A5.00")
 
@@ -215,8 +221,6 @@ describe("Campus Map Tests", () => {
     })
 
     // TODO: Add iPhone Tests with check for navigator?
-
-    // TODO: Outsource duplicate code
 })
 
 function mockLocation(latitude: number, longitude: number) {
