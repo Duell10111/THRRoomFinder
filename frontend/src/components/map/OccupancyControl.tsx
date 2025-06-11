@@ -10,16 +10,6 @@ export default function OccupancyControl() {
     const { data } = useRoomContext()
     const { current } = useMap()
     const [showOccupancy, setShowOccupancy] = useState(false)
-    // const [updateData, setUpdateData] = useState(false)
-    //
-    // useEffect(() => {
-    //     const map = current?.getMap?.()
-    //     if (map) {
-    //         map.on("moveend", () => {
-    //             setUpdateData((prev) => !prev)
-    //         })
-    //     }
-    // }, [current])
 
     useEffect(() => {
         const map = current?.getMap?.()
