@@ -9,7 +9,10 @@ import {
     removeSchedulesFromCache,
 } from "@/admin/authData"
 import { RoomButton } from "@/components/admin/RoomButton"
-import { showSuccessNotification } from "@/utils/notifications"
+import {
+    showErrorNotification,
+    showSuccessNotification,
+} from "@/utils/notifications"
 
 export default function AdminDashboard() {
     const { user } = useAuthContext()
@@ -33,11 +36,20 @@ export default function AdminDashboard() {
                     mt="md"
                     radius="md"
                     action={async (token) => {
-                        await removeSchedulesFromCache(token)
-                        showSuccessNotification({
-                            title: "Cleared schedules",
-                            message: "All schedules deleted from cache",
-                        })
+                        try {
+                            await removeSchedulesFromCache(token)
+                            showSuccessNotification({
+                                title: "Cleared schedules",
+                                message: "All schedules deleted from cache",
+                            })
+                        } catch (ex) {
+                            showErrorNotification({
+                                title: "Cleared schedules",
+                                message:
+                                    ex.message ??
+                                    "Unknown error, try again later",
+                            })
+                        }
                     }}
                     data-testid={"clear-schedule-data"}
                 />
@@ -59,11 +71,20 @@ export default function AdminDashboard() {
                     mt="md"
                     radius="md"
                     action={async (token) => {
-                        await removeRoomsFromDatabase(token)
-                        showSuccessNotification({
-                            title: "Cleared rooms",
-                            message: "All rooms deleted from database",
-                        })
+                        try {
+                            await removeRoomsFromDatabase(token)
+                            showSuccessNotification({
+                                title: "Cleared rooms",
+                                message: "All rooms deleted from database",
+                            })
+                        } catch (ex) {
+                            showErrorNotification({
+                                title: "Error clearing rooms",
+                                message:
+                                    ex.message ??
+                                    "Unknown error, try again later",
+                            })
+                        }
                     }}
                     data-testid={"clear-room-data"}
                 />

@@ -6,6 +6,7 @@ import "./popup.css"
 import { getRoomName } from "@/components/map/MapUtils"
 import { useRoomContext } from "@/context/RoomContext"
 import { GeoJSONSource } from "maplibre-gl"
+import { showErrorNotification } from "@/utils/notifications"
 
 export function RoomClicker() {
     const { current } = useMap()
@@ -25,7 +26,15 @@ export function RoomClicker() {
                 const roomName = getRoomName(e, current)
                 if (roomName) {
                     setPopup({ lat: e.lngLat.lat, lng: e.lngLat.lng })
-                    setRoom(roomName).catch(console.error)
+                    setRoom(roomName).catch((error) => {
+                        console.error(error)
+                        showErrorNotification({
+                            title: "Could not fetch room data, please try again later",
+                            message: error.message,
+                        })
+                        // Close popup on error
+                        setPopup(undefined)
+                    })
 
                     if (feature) {
                         console.log("Feature: ", feature)
