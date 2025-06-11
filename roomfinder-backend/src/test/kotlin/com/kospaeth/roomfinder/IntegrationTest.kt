@@ -88,7 +88,7 @@ class IntegrationTest : DatabaseTestBase() {
         webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/")
             .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(2)
 
-        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room/")
+        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room")
             .exchange().expectStatus().isOk
 
         webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
@@ -109,7 +109,7 @@ class IntegrationTest : DatabaseTestBase() {
         webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/")
             .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(2)
 
-        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room/")
+        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room")
             .exchange().expectStatus().isOk
 
         webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
@@ -148,7 +148,7 @@ class IntegrationTest : DatabaseTestBase() {
         webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/extended")
             .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(2)
 
-        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room/")
+        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room")
             .exchange().expectStatus().isOk
 
         webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
@@ -169,7 +169,7 @@ class IntegrationTest : DatabaseTestBase() {
         webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/extended")
             .exchange().expectStatus().isOk.expectBody().jsonPath("$.length()").isEqualTo(2)
 
-        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room/")
+        webTestClient.delete().uri("${ControllerStruct.ADMIN_CONTROLLER}/room")
             .exchange().expectStatus().isOk
 
         webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.15")
