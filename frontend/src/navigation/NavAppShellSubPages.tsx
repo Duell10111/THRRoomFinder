@@ -9,7 +9,9 @@ interface NavAppShellSubPagesProps {
     children: React.ReactNode
 }
 
-export function NavAppShellSubPages({ children }: NavAppShellSubPagesProps) {
+export function NavAppShellSubPages({
+    children,
+}: Readonly<NavAppShellSubPagesProps>) {
     return (
         <AppShell header={{ height: 60 }} padding="md">
             <AppShell.Header>

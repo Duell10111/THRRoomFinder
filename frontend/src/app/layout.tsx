@@ -43,7 +43,7 @@ export default function RootLayout({
             </head>
             <body className={`${geistSans.variable} ${geistMono.variable}`}>
                 <MantineProvider defaultColorScheme="dark">
-                    <Notifications />
+                    <Notifications limit={5} />
                     {children}
                 </MantineProvider>
             </body>

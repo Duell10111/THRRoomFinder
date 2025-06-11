@@ -7,9 +7,9 @@ import { NavAppShell } from "@/navigation/NavAppShell"
 
 export default function Home({
     params,
-}: {
+}: Readonly<{
     params: Promise<{ slug?: string[] }>
-}) {
+}>) {
     return (
         <MapProvider>
             <RoomContextProvider homeParams={params}>

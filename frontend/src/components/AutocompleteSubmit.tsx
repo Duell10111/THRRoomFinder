@@ -21,7 +21,7 @@ export function AutocompleteSubmit({
     label,
     placeholder,
     onSubmit,
-}: AutocompleteSubmitProps) {
+}: Readonly<AutocompleteSubmitProps>) {
     const roomData = useAllRooms()
 
     const [data, setData] = useState<string[]>([])

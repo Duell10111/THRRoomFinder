@@ -9,7 +9,7 @@ interface ScheduleProps {
 
 const getHour = (date: string) => new Date(date).getHours()
 
-export function Schedule({ date, schedule }: ScheduleProps) {
+export function Schedule({ date, schedule }: Readonly<ScheduleProps>) {
     const filteredSchedule = schedule
         .filter((item) => isSameDay(parseISO(item.startTime), date))
         .sort(
@@ -59,7 +59,7 @@ export function Schedule({ date, schedule }: ScheduleProps) {
                             </Text>
                             {items.map((item, idx) => (
                                 <Paper
-                                    key={idx}
+                                    key={item.name}
                                     p="xs"
                                     radius="md"
                                     withBorder

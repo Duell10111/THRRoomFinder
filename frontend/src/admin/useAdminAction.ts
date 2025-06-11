@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useAuthContext } from "@/admin/AuthContext"
-import { notifications } from "@mantine/notifications"
 
 export type AdminActionFkt = (token: string) => Promise<void>
 
@@ -15,13 +14,9 @@ export default function useAdminAction(actionFkt: AdminActionFkt) {
             const token = await user!.getIdToken()
             await actionFkt(token)
         } catch (e) {
-            console.error(e)
             setError(e)
-            notifications.show({
-                color: "red",
-                title: "Error happened during API call",
-                message: error as string,
-            })
+            setLoading(false)
+            throw e
         }
         setLoading(false)
     }

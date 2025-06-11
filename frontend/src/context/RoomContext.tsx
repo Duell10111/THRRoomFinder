@@ -17,6 +17,7 @@ import {
     ScheduleData,
 } from "@/utils/data"
 import { useMap } from "react-map-gl/maplibre"
+import { showErrorNotification } from "@/utils/notifications"
 
 type RoomContextData = {
     roomData: RoomData
@@ -66,8 +67,6 @@ export function RoomContextProvider({
     const zoomToRoom = useRef(false)
     const [level, setLevel] = useState<string>()
 
-    console.log("Level: ", level)
-
     const setRoom = useCallback(
         async (roomName: string, zoomIn?: boolean) => {
             const room = await getRoom(roomName)
@@ -116,6 +115,13 @@ export function RoomContextProvider({
             ?.then(async (obj) => {
                 if (obj?.room) await setRoom(obj.room)
             })
+            .catch((error) => {
+                console.error("Error using room from url: ", error)
+                showErrorNotification({
+                    title: "Error using provided room from url",
+                    message: error.message,
+                })
+            })
     }, [homeParams, setRoom])
 
     const contextData: RoomContextData | undefined = useMemo(
@@ -140,9 +146,7 @@ export function RoomContextProvider({
                 setDate,
                 setLevel,
                 onMapLoad: () => {
-                    console.log("Map loaded")
                     if (roomData) {
-                        console.log("Fly to room")
                         // Fly to room and set needed level
                         setLevel(getLevel(roomData.name))
                         campus?.flyTo({
@@ -176,7 +180,7 @@ function parseHomeSlug(slug: string[]) {
 }
 
 function getLevel(roomName: string) {
-    const match = roomName.match(/-?\d+/)
+    const match = /-?\d+/.exec(roomName)
     if (match) {
         return match[0]
     }

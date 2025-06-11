@@ -30,6 +30,9 @@ import java.time.temporal.WeekFields
 
 private val logger = KotlinLogging.logger {}
 
+// Parser Attributes
+private const val ATTRIBUTE_DATA_DATE = "data-date"
+
 @Service
 class StarPlanService(
     private val webClient: WebClient,
@@ -97,7 +100,7 @@ class StarPlanService(
         val weekDayEntries = parsedData.getElementsByClass("ttweekdaycell")
         val days =
             weekDayEntries.map { weekDay ->
-                weekDay.getElementsByAttribute("data-date").attr("data-date").let { LocalDate.parse(it) }
+                weekDay.getElementsByAttribute(ATTRIBUTE_DATA_DATE).attr(ATTRIBUTE_DATA_DATE).let { LocalDate.parse(it) }
             }
 
         val boxWidths =
@@ -154,7 +157,15 @@ class StarPlanService(
                 val date =
                     updateClasses[1].let { dateElement ->
                         runCatching {
-                            val dateText = if (dateElement.hasAttr("data-date")) dateElement.attr("data-date") else dateElement.wholeText()
+                            val dateText =
+                                if (dateElement.hasAttr(
+                                        ATTRIBUTE_DATA_DATE,
+                                    )
+                                ) {
+                                    dateElement.attr(ATTRIBUTE_DATA_DATE)
+                                } else {
+                                    dateElement.wholeText()
+                                }
                             LocalDate.parse(dateText)
                         }.onFailure {
                             logger.error(it) { "Error while parsing last update date: $it" }
@@ -256,7 +267,7 @@ class StarPlanService(
         room: String,
         date: LocalDate,
     ): String {
-        val cacheKey = "${location.locationId}_${room}_${date.get(WeekFields.ISO.weekOfYear())}"
+        val cacheKey = "${location.locationId}_${room}_${date[WeekFields.ISO.weekOfYear()]}"
         return cacheKey
     }
 }

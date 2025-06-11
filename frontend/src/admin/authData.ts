@@ -13,7 +13,7 @@ export async function removeRoomFromDatabase(
 }
 
 export async function removeRoomsFromDatabase(accessToken: string) {
-    await fetch(`${backendUrl}/api/v1/admin/room/`, {
+    await fetch(`${backendUrl}/api/v1/admin/room`, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${accessToken}`,
