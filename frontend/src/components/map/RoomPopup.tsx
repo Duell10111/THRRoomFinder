@@ -9,7 +9,7 @@ interface RoomPopupProps {
     roomName: string
 }
 
-export function RoomPopup({ roomName }: RoomPopupProps) {
+export function RoomPopup({ roomName }: Readonly<RoomPopupProps>) {
     const { data } = useRoomContext()
 
     const next = useMemo(

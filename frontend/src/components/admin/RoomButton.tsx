@@ -12,7 +12,7 @@ export interface RoomButtonProps extends ButtonProps {
     action?: AdminActionFkt
 }
 
-export function RoomButton(props: RoomButtonProps) {
+export function RoomButton(props: Readonly<RoomButtonProps>) {
     const [room, setRoom] = useState<string>()
     const { loading, actionFkt } = useAdminAction(async (token) => {
         if (room) {

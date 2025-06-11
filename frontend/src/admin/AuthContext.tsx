@@ -20,7 +20,9 @@ interface AuthContextProviderProps {
     children: React.ReactNode
 }
 
-export function AuthContextProvider({ children }: AuthContextProviderProps) {
+export function AuthContextProvider({
+    children,
+}: Readonly<AuthContextProviderProps>) {
     const [user, setUser] = useState<User | null>()
 
     useEffect(() => {

@@ -14,7 +14,7 @@ export function DangerButton({
     action,
     color,
     ...props
-}: DangerButtonProps) {
+}: Readonly<DangerButtonProps>) {
     const { actionFkt, loading } = useAdminAction(action)
     const [confirm, setConfirm] = useState(false)
 
