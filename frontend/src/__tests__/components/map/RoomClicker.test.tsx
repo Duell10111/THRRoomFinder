@@ -49,10 +49,6 @@ describe("RoomClicker", () => {
         vi.clearAllMocks()
     })
 
-    it("renders without crashing", () => {
-        render(<RoomClicker />)
-    })
-
     it("attaches click listener to map on indoor-polygon layer", () => {
         render(<RoomClicker />)
         expect(mockMap.on).toHaveBeenCalledWith(
