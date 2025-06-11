@@ -31,7 +31,7 @@ import java.time.temporal.WeekFields
 private val logger = KotlinLogging.logger {}
 
 // Parser Attributes
-private const val dataDateAttribute = "data-date"
+private const val ATTRIBUTE_DATA_DATE = "data-date"
 
 @Service
 class StarPlanService(
@@ -100,7 +100,7 @@ class StarPlanService(
         val weekDayEntries = parsedData.getElementsByClass("ttweekdaycell")
         val days =
             weekDayEntries.map { weekDay ->
-                weekDay.getElementsByAttribute(dataDateAttribute).attr(dataDateAttribute).let { LocalDate.parse(it) }
+                weekDay.getElementsByAttribute(ATTRIBUTE_DATA_DATE).attr(ATTRIBUTE_DATA_DATE).let { LocalDate.parse(it) }
             }
 
         val boxWidths =
@@ -157,7 +157,15 @@ class StarPlanService(
                 val date =
                     updateClasses[1].let { dateElement ->
                         runCatching {
-                            val dateText = if (dateElement.hasAttr(dataDateAttribute)) dateElement.attr(dataDateAttribute) else dateElement.wholeText()
+                            val dateText =
+                                if (dateElement.hasAttr(
+                                        ATTRIBUTE_DATA_DATE,
+                                    )
+                                ) {
+                                    dateElement.attr(ATTRIBUTE_DATA_DATE)
+                                } else {
+                                    dateElement.wholeText()
+                                }
                             LocalDate.parse(dateText)
                         }.onFailure {
                             logger.error(it) { "Error while parsing last update date: $it" }
