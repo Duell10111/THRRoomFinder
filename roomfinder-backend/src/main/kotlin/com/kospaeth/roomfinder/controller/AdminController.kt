@@ -18,7 +18,7 @@ class AdminController(
         adminService.deleteRoomFromDatabase(roomName)
     }
 
-    @DeleteMapping("/room/")
+    @DeleteMapping("/room")
     suspend fun deleteAllRooms() {
         adminService.deleteAllRoomsFromDatabase()
     }
