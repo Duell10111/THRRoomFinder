@@ -46,6 +46,7 @@ export default function AdminDashboard() {
                             showErrorNotification({
                                 title: "Cleared schedules",
                                 message:
+                                    // @ts-expect-error Ignore unknown type for error exception
                                     ex.message ??
                                     "Unknown error, try again later",
                             })
@@ -81,6 +82,7 @@ export default function AdminDashboard() {
                             showErrorNotification({
                                 title: "Error clearing rooms",
                                 message:
+                                    // @ts-expect-error Ignore unknown type for error exception
                                     ex.message ??
                                     "Unknown error, try again later",
                             })
