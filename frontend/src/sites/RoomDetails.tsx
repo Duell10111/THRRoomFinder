@@ -12,12 +12,19 @@ export function RoomDetails() {
             component={data ? ScrollArea : undefined}
         >
             {!data ? (
-                <Center h={"100%"} w={"100%"}>
+                <Center
+                    h={"100%"}
+                    w={"100%"}
+                    data-testid={"room-details-no-selection"}
+                >
                     No room selected.
                 </Center>
             ) : (
                 <>
-                    <Center style={{ margin: "20px" }}>
+                    <Center
+                        style={{ margin: "20px" }}
+                        data-testid={"roomData-name"}
+                    >
                         Name: {data?.roomData?.name}
                     </Center>
                     {data.scheduleData?.[data.roomData.name] ? (

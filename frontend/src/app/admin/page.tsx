@@ -18,7 +18,7 @@ export default function AdminDashboard() {
         return <Loader data-testid={"loader"} />
     }
 
-    // Redirect to login if user is not logged in
+    // Redirect to login page if user is not logged in
     if (user === null) {
         return redirect("/admin/login")
     }
@@ -39,6 +39,7 @@ export default function AdminDashboard() {
                             message: "All schedules deleted from cache",
                         })
                     }}
+                    data-testid={"clear-schedule-data"}
                 />
             </Card>
             <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -46,7 +47,13 @@ export default function AdminDashboard() {
                     Room Actions
                 </Title>
 
-                <RoomButton color="blue" mt="md" radius="md" />
+                <RoomButton
+                    color="blue"
+                    mt="md"
+                    radius="md"
+                    // Test ID of submit button
+                    data-testid={"clear-specific-room-data-btn"}
+                />
                 <DangerButton
                     label={"Clear all rooms"}
                     mt="md"
@@ -58,6 +65,7 @@ export default function AdminDashboard() {
                             message: "All rooms deleted from database",
                         })
                     }}
+                    data-testid={"clear-room-data"}
                 />
             </Card>
         </SimpleGrid>

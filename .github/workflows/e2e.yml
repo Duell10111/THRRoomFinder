@@ -1,0 +1,69 @@
+name: E2E Tests
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+permissions:
+  packages: write
+
+jobs:
+  backend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/build-backend
+        with:
+          image_tag: ${{ github.sha }}
+  cypress:
+    runs-on: ubuntu-latest
+    needs:
+      - backend-build
+    services:
+      db:
+        image: postgis/postgis:15-3.3-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: user
+          POSTGRES_DB: roomFinderDB
+      backend:
+        image: ghcr.io/duell10111/thr-roomfinder/backend:${{ github.sha }}
+        ports:
+          - 8080:8080
+        env:
+          SPRING_PROFILES_ACTIVE: "local, no-auth"
+          SPRING_R2DBC_URL: r2dbc:postgresql://db:5432/roomFinderDB
+          SPRING_FLYWAY_URL: jdbc:postgresql://db:5432/roomFinderDB
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        env:
+          NEXT_PUBLIC_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
+          NEXT_PUBLIC_INDOOR_CONTROL_API_KEY: ${{ secrets.INDOOR_CONTROL_API_KEY }}
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          NEXT_PUBLIC_TEST_ENV: true
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_ADMIN_EMAIL: ${{ secrets.TEST_ADMIN_EMAIL }}
+          CYPRESS_ADMIN_PASSWORD: ${{ secrets.TEST_ADMIN_PASSWORD }}
+        with:
+          working-directory: frontend
+          browser: chrome
+          build: npm run build
+          start: npm start
+          record: true
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: frontend/cypress/screenshots

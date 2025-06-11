@@ -5,7 +5,7 @@ import { useRoomContext } from "@/context/RoomContext"
 import { useEffect } from "react"
 
 export function IndoorControls() {
-    const { level } = useRoomContext()
+    const { level, setLevel } = useRoomContext()
 
     const indoorEqual = useControl(({ map }) => {
         const indoorEqual = new IndoorEqual(map.getMap(), {
@@ -27,6 +27,16 @@ export function IndoorControls() {
             indoorEqual.setLevel(level)
         }
     }, [level, indoorEqual])
+
+    useEffect(() => {
+        const eventFkt = (level: string) => {
+            setLevel?.(level)
+        }
+
+        indoorEqual.on("levelchange", eventFkt)
+
+        return () => indoorEqual.off("levelchange", eventFkt)
+    }, [indoorEqual, setLevel])
 
     // Empty component
     return null

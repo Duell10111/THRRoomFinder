@@ -8,17 +8,17 @@ import { useControl } from "react-map-gl/maplibre"
 const { IndoorEqual, mockLoadSprite, mockSetLevel } = vi.hoisted(() => {
     const mockLoadSprite = vi.fn()
     const mockSetLevel = vi.fn()
+    const mockOn = vi.fn()
+    const mockOff = vi.fn()
 
     const IndoorEqual = vi.fn()
     IndoorEqual.prototype.loadSprite = mockLoadSprite
     IndoorEqual.prototype.setLevel = mockSetLevel
+    IndoorEqual.prototype.on = mockOn
+    IndoorEqual.prototype.off = mockOff
 
     return { IndoorEqual, mockLoadSprite, mockSetLevel }
 })
-
-// const {} = vi.hoisted(() => {
-//
-// })
 
 // Mock useControl hook
 vi.mock("react-map-gl/maplibre", () => ({
