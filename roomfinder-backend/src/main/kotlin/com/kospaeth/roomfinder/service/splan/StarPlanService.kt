@@ -267,7 +267,7 @@ class StarPlanService(
         room: String,
         date: LocalDate,
     ): String {
-        val cacheKey = "${location.locationId}_${room}_${date.get(WeekFields.ISO.weekOfYear())}"
+        val cacheKey = "${location.locationId}_${room}_${date[WeekFields.ISO.weekOfYear()]}"
         return cacheKey
     }
 }
