@@ -13,11 +13,5 @@ export default defineConfig({
             reporter: ["text", "lcov"],
         },
         clearMocks: true,
-        alias: {
-            "@mapgrab/map-interface": path.resolve(
-                __dirname,
-                "src/__mocks__/mabgrab-interface.ts"
-            ),
-        },
     },
 })
