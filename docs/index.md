@@ -1,5 +1,7 @@
 (welcome)=
 
+# THRRoomfinder
+
 ![icon.png](icon.png)
 
 THRRoomfinder is a helpful tool designed to assist students, staff, and visitors in quickly finding rooms and lecture halls on campus. Whether you’re late for a lecture or looking for a seminar room you’ve never heard of—Roomfinder has you covered.
@@ -67,5 +69,13 @@ caption: Contents
 self
 backend
 frontend
+```
+
+```{toctree}
+---
+maxdepth: 1
+hidden:
+caption: Arc42
+---
 arc42/arc42
 ```
