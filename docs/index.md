@@ -47,8 +47,25 @@ Currently supports:
    ```
    http://localhost:80
    ```
+### 📄 Documentation
 
+The documentation is spread in multiple files. These files can be found here:
+
+- Backend: {ref}`backend`
+- Arc42: {ref}`arc42/arc42`
 
 ### 🤝 Contributing
 
 We welcome contributions! Please open an issue first to discuss what you would like to change.
+
+```{toctree}
+---
+maxdepth: 3
+hidden:
+caption: Contents
+---
+self
+backend
+frontend
+arc42/arc42
+```
