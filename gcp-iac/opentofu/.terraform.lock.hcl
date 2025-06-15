@@ -2,19 +2,28 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.opentofu.org/hashicorp/google" {
-  version     = "6.29.0"
-  constraints = "6.29.0"
+  version     = "6.39.0"
+  constraints = "6.39.0"
   hashes = [
-    "h1:d+YDONHy62tzeuxsswm+T4OET7bGftz3JwyQMCmNwJs=",
-    "zh:22c34039642fa56b912e89451f5c44e574813d67ab0759fe36d5d3fa2ca5cdc6",
-    "zh:5064ba937b539ba89738ba5a7e8355d12feaf68584f901d7d55ffbd64183ba4f",
-    "zh:6350440669d41a3b98d877a65b55176cf93e2cc86c15a5904775587546874013",
-    "zh:63f61dbbe72fd1bf221e8b84ed5fda5afd958ff50267f804a6648deb3172eba0",
-    "zh:7e657c3a802febe7299cee481613f80b6acfc2d19a3957306350f03c4782966a",
-    "zh:8ebabf9f3a6f7b29b3cf7d63f69d5576f3bac6e1d5187d52093bece12a282c68",
-    "zh:b2126150d7d6099de4220b12a704f7bda6eb8e0dc95d1e78cfdb12594a5603fa",
-    "zh:b5154becbdb228b55c811376cf1bd023e5a62dc5b0e075d4e17ca565bb1cf9b5",
-    "zh:e3985b7fe814b87bfc36d743320762d314798ada47c7d91f7be7eb95f14ce59f",
-    "zh:f64bbdf8f0b6ff3d5696cfc2e1675d3b65dc7cc821cc83f1e584f5e0e34d1749",
+    "h1:+fAciU5UU30LmwmqNRcWoTeX/J6pZ/eFAF/N0HlfNM8=",
+    "h1:1rBcVcwuvE094Ol83bCp8fPhsoW5/s1QnAMmtoJwbeA=",
+    "h1:3+d0ndQ3bfFXPXT/RxKWkPoj01RaL6yhqHdNVoNiDtw=",
+    "h1:3L8/JYZol5UEhK53PL2196T2LdRJV9STLdAslEbOb3g=",
+    "h1:86cvfUmwKMRiC4Jq4L1ac3butz8bw3mo8bwoKU69Cao=",
+    "h1:CwEVMgMu7URPqx/LNbDhHOMXbtgPtTtIwU1J9bOIrG4=",
+    "h1:NQfOSXbtIeEPAVL62UaeCl3XaWAE5a9WFgTb3PxldYI=",
+    "h1:SgHqdG66wRSjlfNGagYNRCh+XW89wbUY7emHUnwEP64=",
+    "h1:Y6uRZva03WsAVwTgZiB2WDXymPU41fk9IdLbYeoCRyQ=",
+    "h1:yrzUIWwHPMqJqK0kWqSmXqX3uXtpwSt1oi7eYbiloHU=",
+    "zh:07cb55d572aaa5d929af125c3f43fdba68d9363b186d1c1d22871c8800f78e30",
+    "zh:1602787d200776e6159739fa4a0c0d4f4e95a1f860bd0a42cb95453720891b11",
+    "zh:30e244158a76d5de3a762505724796ad9d0b492c882f48a475ad29f4959e3b58",
+    "zh:47a59a9cad20e1f213686c4115d33370b500a493596199f8ed774df5c8f05707",
+    "zh:64ac49dce3702aa015edeeda436916152a738b7eabaf2721b8c982c60612f5a9",
+    "zh:729a1110f2aefe3e05915fb156f94ae5f7b316605a2c3ccffdcd499e070d9160",
+    "zh:754efb3057356b622dedaacd93305f370429aa3939763d65d4894f482bebee5f",
+    "zh:b316aa97e0be188f70ae82c4dea6b2a4fdb8bf265954ff8e0e47a54c786dc153",
+    "zh:b77191253616ba847c955d855734977e5512d64b045f945134fa407ba99a69b6",
+    "zh:dfb96666d9f5d69e62b46df5b93e31898d62011e818f57ea19342202110dd8c6",
   ]
 }
