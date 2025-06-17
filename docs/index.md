@@ -21,7 +21,7 @@ Currently supports:
 
 ### 🛠️ Built With
 - React / Next.js
-- Tailwind CSS
+- Mantine UI
 - TypeScript
 - MapLibre (for map display)
 - Kotlin / Spring Boot 3 (backend)
@@ -53,7 +53,7 @@ Currently supports:
 
 The documentation is spread in multiple files. These files can be found here:
 
-- Backend: {ref}`backend`
+- [Backend](backend.md)
 - Arc42: {ref}`arc42/arc42`
 
 ### 🤝 Contributing
