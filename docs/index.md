@@ -67,8 +67,9 @@ hidden:
 caption: Contents
 ---
 self
-backend
 frontend
+backend
+api.rst
 ```
 
 ```{toctree}

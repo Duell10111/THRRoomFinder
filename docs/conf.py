@@ -26,6 +26,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx_copybutton',
     'myst_parser',
+    'sphinxcontrib.openapi',
 ]
 
 templates_path = ['_templates']
