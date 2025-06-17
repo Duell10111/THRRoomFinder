@@ -15,8 +15,38 @@
   },
   "changelog-sections": [
     {
+      "type": "feat",
+      "section": "✨ Features",
+      "hidden": false
+    },
+    {
+      "type": "fix",
+      "section": "🐛 Bugfixes",
+      "hidden": false
+    },
+    {
+      "type": "refactor",
+      "section": "♻️ Refactor",
+      "hidden": false
+    },
+    {
       "type": "chore",
-      "section": "📚 Chore",
+      "section": "🔧 Chore",
+      "hidden": false
+    },
+    {
+      "type": "style",
+      "section": "💄 Style",
+      "hidden": false
+    },
+    {
+      "type": "perf",
+      "section": "⚡️ Performance",
+      "hidden": false
+    },
+    {
+      "type": "revert",
+      "section": "⏪ Revert",
       "hidden": false
     },
     {
