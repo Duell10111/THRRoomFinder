@@ -49,6 +49,19 @@ Currently supports:
    ```
    http://localhost:80
    ```
+   
+### ▶️ Github Actions
+
+The Github workflows are structured in the following way:
+
+- `Sonarqube Workflow` - Used to analyses frontend and backend by running their tests and then sending them to the Sonarcloud.
+Runs on pull requests and pushes on the main branch.
+- `E2E Tests` - Runs cypress e2e tests on pull requests and pushes on the main branch.
+- `Code analysis` - Runs unit and integration tests of the frontend and backend on every commit.
+- `Release Please` - Runs release please on every main branch commit.
+- `Deployment Frontend` - Deploys the frontend on workflow dispatch or on every main commit.
+- `Deployment Backend` - Deploys the backend on workflow dispatch or on every main commit.
+
 ### 📄 Documentation
 
 The documentation is spread in multiple files. These files can be found here:
