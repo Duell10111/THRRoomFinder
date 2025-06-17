@@ -23,7 +23,7 @@ THRRoomfinder is a web and mobile-friendly application that helps users locate r
 
 # Architecture Constraints
 
-- Frontend is built with React/Next.js, styled with Tailwind CSS, and uses TypeScript.
+- Frontend is built with React/Next.js, styled with Mantine UI library, and uses TypeScript.
 - Backend is implemented with Kotlin and Spring Boot 3.
 - Uses MapLibre for map rendering.
 - Indoor data is served from OpenStreetMap
@@ -239,12 +239,8 @@ Mapping of Building Blocks to Infrastructure
 
 # Glossary
 
-[//]: # (TODO: Add OpenStreetMap as well)
-
-+-----------------------+-----------------------------------------------+
-| Term                  | Definition                                    |
-+=======================+===============================================+
-| *MapLibre*           | *Open-source JavaScript map rendering library.*                             |
-+-----------------------+-----------------------------------------------+
-| *Tailwind CSS*           | *Utility-first CSS framework.*                             |
-+-----------------------+-----------------------------------------------+
+| Term               | Definition                                                                                                                                                   |
+|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| MapLibre           | Open-source JavaScript map rendering library.                                                                                                                |
+| Mantine UI library | A modern React component library that offers a comprehensive set of customizable UI elements and hooks for building responsive web applications efficiently. |
+| Open Street Map    | Is a free, open map database updated and maintained by a community of volunteers via open collaboration.                                                     |
