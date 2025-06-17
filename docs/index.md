@@ -54,7 +54,8 @@ Currently supports:
 The documentation is spread in multiple files. These files can be found here:
 
 - [Backend](backend.md)
-- Arc42: {ref}`arc42/arc42`
+- [Backend API](api.rst)
+- [Arc42](arc42/arc42.md)
 
 ### 🤝 Contributing
 
