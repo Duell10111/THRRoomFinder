@@ -34,4 +34,3 @@ jobs:
       - name: "Architecture Tests"
         run: gradle konsistTest
         working-directory: roomfinder-backend # Run in backend folder
-  # TODO: Add job to run bruno integration tests on dev or outsource in different workflow that runs after deployments?

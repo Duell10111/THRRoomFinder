@@ -5,3 +5,7 @@
 /gcp-iac/opentofu/.terraform/
 /gcp-iac/opentofu/terraform.tfstate
 /gcp-iac/opentofu/terraform.tfstate.backup
+
+# Bruno
+
+bruno-collection/.env

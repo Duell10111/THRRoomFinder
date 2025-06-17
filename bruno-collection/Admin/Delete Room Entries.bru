@@ -1,0 +1,15 @@
+meta {
+  name: Delete Room Entries
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{backend-url}}/api/v1/admin/room/
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{idpToken}}
+}

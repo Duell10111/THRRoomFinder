@@ -12,7 +12,9 @@ plugins {
 }
 
 group = "com.kospaeth"
-version = "0.0.1-SNAPSHOT" // TODO: Make dynamic to release env?
+// x-release-please-start-version
+version = "0.1.0"
+// # x-release-please-end
 
 java {
     toolchain {
@@ -78,6 +80,7 @@ dependencies {
     testImplementation("org.testcontainers:postgresql")
     testImplementation("org.testcontainers:r2dbc")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(kotlin("test"))
 }
 
 kotlin {
@@ -132,6 +135,5 @@ testing {
 
 // Spotless
 
-// TODO: Check if style check still works
-// Automatically apply spotlessApply on build
-tasks["compileKotlin"].dependsOn("spotlessApply")
+// Automatically check for spotless lint issues on build
+tasks["compileKotlin"].dependsOn("spotlessCheck")

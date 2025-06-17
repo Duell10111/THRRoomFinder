@@ -1,0 +1,29 @@
+meta {
+  name: Get Room from OSM
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://overpass-api.de/api/interpreter
+  body: text
+  auth: none
+}
+
+body:text {
+  [out:json];
+  
+  way(id:{{areaId}})->.root;
+  way(pivot.root)->.buildingArea;
+  (
+    way["indoor"="room"]["name"="{{roomName}}"](area.buildingArea);
+  );
+  out body;
+  >;
+  out skel qt;
+}
+
+vars:pre-request {
+  areaId: 28401106
+  roomName: Z0.01
+}
