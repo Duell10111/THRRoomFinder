@@ -5,9 +5,6 @@ import com.kospaeth.roomfinder.data.repository.BuildingRepository
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.stereotype.Service
 
-/**
- * Logger instance for logging events related to building operations.
- */
 private val logger = KotlinLogging.logger {}
 
 /**
