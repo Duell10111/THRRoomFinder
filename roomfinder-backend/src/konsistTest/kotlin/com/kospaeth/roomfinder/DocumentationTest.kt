@@ -10,14 +10,6 @@ class DocumentationTest {
     // Inspired from:
     // https://docs.konsist.lemonappdev.com/inspiration/snippets/library-snippets
 
-//    @Test
-//    fun `every api declaration has KDoc`() {
-//        Konsist
-//            .scopeFromPackage("..controller..", null, "main")
-//            .declarationsOf<KoKDocProvider>()
-//            .assertTrue { it.hasKDoc }
-//    }
-
     @Test
     fun `every service endpoint has KDoc`() {
         Konsist
