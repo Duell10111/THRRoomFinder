@@ -14,6 +14,10 @@ import com.kospaeth.roomfinder.data.repository.RoomRepository
 import com.kospaeth.roomfinder.service.osm.Element
 import com.kospaeth.roomfinder.service.osm.OSMExtractorService
 import com.kospaeth.roomfinder.service.osm.OverpassResponse
+import com.kospaeth.roomfinder.service.splan.RoomSchedule
+import com.kospaeth.roomfinder.service.splan.SPlanRoomResponseItem
+import com.kospaeth.roomfinder.service.splan.SPlanScheduleList
+import com.kospaeth.roomfinder.service.splan.StarPlanLocation
 import com.kospaeth.roomfinder.service.splan.StarPlanService
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -30,7 +34,9 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mapstruct.factory.Mappers
 import org.springframework.cache.CacheManager
 import org.springframework.data.geo.Point
-import java.util.UUID
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 
 @ExtendWith(MockKExtension::class)
 class RoomServiceTest {
@@ -314,7 +320,90 @@ class RoomServiceTest {
             coVerify(exactly = 1) { osmExtractorService.getIndoorRoomsForBuilding(eq("areaId"), eq("A0.10")) }
         }
 
-    // TODO: Add schedule tests
+    @Test
+    fun `getRoomScheduleForRoom should return a room schedule fetched from starplan service`() =
+        runTest {
+            coEvery { starPlanService.getScheduleForRoom(StarPlanLocation.RO, any(), any()) } returns
+                sPlanScheduleList
+
+            val schedule = roomService.getRoomScheduleForRoom("A0.10")
+
+            coVerify(exactly = 1) { starPlanService.getScheduleForRoom(StarPlanLocation.RO, any(), eq(LocalDate.now())) }
+
+            assertThat(schedule).isEqualTo(sPlanScheduleList)
+        }
+
+    @Test
+    fun `getRelatedRoomScheduleForRoom should return cached schedules and missing floor schedules fetched from starplan service`() =
+        runTest {
+            coEvery { starPlanService.getAvailableRooms(any()) } returns
+                availableRooms
+
+            coEvery { starPlanService.getCachedSchedulesForCurrentWeek(StarPlanLocation.RO) } returns
+                mapOf(
+                    "A1.01" to sPlanScheduleList,
+                )
+            coEvery { starPlanService.getScheduleForRoom(StarPlanLocation.RO, any(), any()) } returns
+                sPlanScheduleList
+
+            val scheduleMap = roomService.getRelatedRoomScheduleForRoom(roomName = "A1.01")
+
+            assertThat(scheduleMap.size).isEqualTo(4)
+            assertThat(scheduleMap["A1.01"]).isEqualTo(sPlanScheduleList)
+            assertThat(scheduleMap["A1.02"]).isEqualTo(sPlanScheduleList)
+            assertThat(scheduleMap["A1.03"]).isEqualTo(sPlanScheduleList)
+            assertThat(scheduleMap["A1.05"]).isEqualTo(sPlanScheduleList)
+
+            coVerify(exactly = 0) { starPlanService.getScheduleForRoom(StarPlanLocation.RO, eq("A1.01"), eq(LocalDate.now())) }
+            coVerify(exactly = 1) { starPlanService.getScheduleForRoom(StarPlanLocation.RO, eq("A1.02"), eq(LocalDate.now())) }
+            coVerify(exactly = 1) { starPlanService.getScheduleForRoom(StarPlanLocation.RO, eq("A1.03"), eq(LocalDate.now())) }
+            coVerify(exactly = 1) { starPlanService.getScheduleForRoom(StarPlanLocation.RO, eq("A1.05"), eq(LocalDate.now())) }
+        }
+
+    @Test
+    fun `getRelatedRoomScheduleForRoom should only return related rooms and cached ones`() =
+        runTest {
+            coEvery { starPlanService.getAvailableRooms(any()) } returns
+                availableRooms
+
+            coEvery { starPlanService.getCachedSchedulesForCurrentWeek(StarPlanLocation.RO) } returns
+                mapOf(
+                    "A1.01" to sPlanScheduleList,
+                )
+            coEvery { starPlanService.getScheduleForRoom(StarPlanLocation.RO, any(), any()) } returns
+                sPlanScheduleList
+
+            val scheduleMap = roomService.getRelatedRoomScheduleForRoom(roomName = "A0.10")
+
+            assertThat(scheduleMap.size).isEqualTo(2)
+            assertThat(scheduleMap["A0.10"]).isEqualTo(sPlanScheduleList)
+            assertThat(scheduleMap["A1.01"]).isEqualTo(sPlanScheduleList)
+
+            coVerify(exactly = 0) { starPlanService.getScheduleForRoom(StarPlanLocation.RO, eq("A1.01"), eq(LocalDate.now())) }
+            coVerify(exactly = 1) { starPlanService.getScheduleForRoom(StarPlanLocation.RO, eq("A0.10"), eq(LocalDate.now())) }
+        }
+
+    @Test
+    fun `getRelatedRoomScheduleForRoom should return only cached schedules when no related rooms exists`() =
+        runTest {
+            coEvery { starPlanService.getAvailableRooms(any()) } returns
+                availableRooms
+
+            coEvery { starPlanService.getCachedSchedulesForCurrentWeek(StarPlanLocation.RO) } returns
+                mapOf(
+                    "A1.01" to sPlanScheduleList,
+                )
+            coEvery { starPlanService.getScheduleForRoom(StarPlanLocation.RO, any(), any()) } returns
+                sPlanScheduleList
+
+            val scheduleMap = roomService.getRelatedRoomScheduleForRoom(roomName = "Z0.10")
+
+            assertThat(scheduleMap.size).isEqualTo(1)
+            assertThat(scheduleMap["A1.01"]).isEqualTo(sPlanScheduleList)
+
+            coVerify(exactly = 0) { starPlanService.getScheduleForRoom(StarPlanLocation.RO, eq("A1.01"), eq(LocalDate.now())) }
+            coVerify(exactly = 0) { starPlanService.getScheduleForRoom(any(), any(), any()) }
+        }
 
     companion object {
         val roomsList =
@@ -352,6 +441,49 @@ class RoomServiceTest {
                     buildingId = UUID.fromString("25db57aa-c623-409c-9a06-3975b4b3ab8a"),
                     buildingName = "A",
                 ),
+            )
+        val availableRooms =
+            listOf(
+                SPlanRoomResponseItem(
+                    10,
+                    "A0.10",
+                    "A0.10",
+                ),
+                SPlanRoomResponseItem(
+                    11,
+                    "A1.01",
+                    "Physik-Praktikum: Grundlagen",
+                ),
+                SPlanRoomResponseItem(
+                    12,
+                    "A1.02",
+                    "Physik-Praktikum: Grundlagen",
+                ),
+                SPlanRoomResponseItem(
+                    13,
+                    "A1.03",
+                    "HÃ¶rsaal (Physik)",
+                ),
+                SPlanRoomResponseItem(
+                    14,
+                    "A1.05",
+                    "HÃ¶rsaal (Chemie)",
+                ),
+            )
+        val sPlanScheduleList =
+            SPlanScheduleList(
+                listOf(
+                    RoomSchedule(
+                        location = StarPlanLocation.RO,
+                        room = "",
+                        name = "Vorlesungsfrei / no lectures",
+                        lecturer = "Tag der Arbeit",
+                        relevantDegrees = null,
+                        startTime = LocalDateTime.parse("2025-05-01T08:00"),
+                        endTime = LocalDateTime.parse("2025-05-01T20:00"),
+                    ),
+                ),
+                LocalDateTime.of(2025, 5, 1, 10, 0),
             )
     }
 }

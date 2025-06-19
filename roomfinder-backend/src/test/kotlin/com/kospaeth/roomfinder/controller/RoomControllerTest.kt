@@ -57,7 +57,10 @@ class RoomControllerTest {
             val schedules = roomController.getScheduleForRoom("A0.10")
             assertThat(schedules.body!!).isEmpty()
 
-            // TODO: Check if date is now()!
+            val updatedHeader = LocalDateTime.parse(schedules.headers["Updated-At"]!![0])
+            assertThat(updatedHeader).isBefore(LocalDateTime.now())
+            assertThat(updatedHeader).isAfter(LocalDateTime.now().minusMinutes(1))
+
             coVerify(exactly = 1) { roomService.getRoomScheduleForRoom(eq("A0.10"), any()) }
         }
 

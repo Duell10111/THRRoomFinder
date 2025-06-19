@@ -233,4 +233,16 @@ class IntegrationTest : DatabaseTestBase() {
         coVerify(exactly = 1) { roomService.getRoomScheduleForRoom(eq("S-1.40"), eq(LocalDate.now())) }
         coVerify(exactly = 1) { roomService.getRoomScheduleForRoom(eq("S-1.43"), eq(LocalDate.now())) }
     }
+
+    @Test
+    fun `test getRoomScheduleForRoom returns elements`() {
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/S-1.38/schedule")
+            .exchange().expectStatus().isEqualTo(200).expectBody().jsonPath("$.length()").isEqualTo(1)
+    }
+
+    @Test
+    fun `test getRoomScheduleForRoom returns empty list on non existing schedule`() {
+        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/S-1.40/schedule")
+            .exchange().expectStatus().isEqualTo(200).expectBody().jsonPath("$.length()").isEqualTo(0)
+    }
 }
