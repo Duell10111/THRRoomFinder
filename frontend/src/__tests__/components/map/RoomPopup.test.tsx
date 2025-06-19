@@ -85,5 +85,3 @@ describe("RoomPopup", () => {
         expect(screen.getByText("Nächste Veranstaltung")).toBeDefined()
     })
 })
-
-// TODO: Add more tests

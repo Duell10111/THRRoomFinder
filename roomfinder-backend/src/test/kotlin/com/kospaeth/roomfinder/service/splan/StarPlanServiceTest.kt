@@ -336,8 +336,6 @@ class StarPlanServiceTest {
             )
     }
 
-    // TODO: Add tests for cache extraction
-
     @Test
     fun `test getScheduleForRoom with non-parallel calendar entries`() =
         runTest {
@@ -367,7 +365,6 @@ class StarPlanServiceTest {
         runTest {
             val rooms = starPlanService.getAvailableRooms(StarPlanLocation.RO)
             assertThat(rooms).hasSize(228)
-            // TODO: Add more test asserts
         }
 
     @Test

@@ -47,8 +47,6 @@ class StarPlanService(
 ) {
     private val cache: Cache = cacheManager.getCache("splan") ?: throw IllegalStateException("Cache not initialized")
 
-    // TODO: Add fkt to parse iCal fkts and enhance with room latlongs
-
     /**
      * Clears the StarPlan cache.
      */
@@ -143,7 +141,7 @@ class StarPlanService(
             parsedData.getElementsByClass("ttevent").mapNotNull { timeEvent ->
                 val day =
                     timeEvent.getCalendarIndex(boxWidths)?.let { days[it] }
-                        ?: return@mapNotNull null // TODO: Add error log entry here
+                        ?: return@mapNotNull null
 
                 // Check if timeEvent is an holiday event
                 if (timeEvent.hasClass("holidayg")) {

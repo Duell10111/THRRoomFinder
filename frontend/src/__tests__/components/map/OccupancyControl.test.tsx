@@ -173,8 +173,6 @@ describe("OccupancyControl", () => {
         )
     })
 
-    // TODO: Add test for room without polygon found room and check console log
-
     it("should render nothing", () => {
         const { container } = render(<OccupancyControl />)
         expect(container.firstChild).toBeNull()

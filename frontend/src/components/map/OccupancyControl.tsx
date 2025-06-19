@@ -25,7 +25,6 @@ export default function OccupancyControl() {
                             "Source data features: ",
                             sourceData.features
                         )
-                        // TODO: Try to add all rooms on default?
                         // Add new rooms to source data
                         const newFeatures = _.chain(Object.keys(scheduleData))
                             .map((roomName) => {
@@ -67,7 +66,6 @@ export default function OccupancyControl() {
                         // Set Feature states for roomNames
                         Object.entries(scheduleData).forEach(
                             ([roomName, schedule]) => {
-                                // TODO: Check if feature state changed?
                                 const occupied = checkIfRoomIsOccupied(schedule)
                                 map.setFeatureState(
                                     {
@@ -84,7 +82,6 @@ export default function OccupancyControl() {
                 })
                 ?.catch(console.warn)
         }
-        // TODO: Remove showOccupancy from dep list to reduce lag?
     }, [data?.scheduleData, current, showOccupancy])
 
     useControl(() => {
@@ -98,7 +95,6 @@ export default function OccupancyControl() {
 }
 
 function getRoomFeature(map: Map, roomName: string) {
-    // TODO: Query all features to not only update rendered features?
     const nameFeatures = map.queryRenderedFeatures({ layers: ["indoor-name"] })
     const nameFeature = nameFeatures.find(
         (feature) => feature.properties.name === roomName
