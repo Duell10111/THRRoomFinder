@@ -8,9 +8,6 @@ import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitBody
 import org.springframework.web.reactive.function.client.awaitExchange
 
-/**
- * Logger instance used for logging query and response information related to OSM data extraction.
- */
 private val logger = KotlinLogging.logger {}
 
 /**
