@@ -33,6 +33,11 @@ private val logger = KotlinLogging.logger {}
 // Parser Attributes
 private const val ATTRIBUTE_DATA_DATE = "data-date"
 
+/**
+ * Service class responsible for interacting with the StarPlan scheduling system.
+ *
+ * Provides functionality to retrieve, parse, and cache room schedules and available rooms.
+ */
 @Service
 class StarPlanService(
     private val webClient: WebClient,
@@ -44,11 +49,20 @@ class StarPlanService(
 
     // TODO: Add fkt to parse iCal fkts and enhance with room latlongs
 
+    /**
+     * Clears the StarPlan cache.
+     */
     suspend fun clearCache() =
         withContext(Dispatchers.IO) {
             cache.clear()
         }
 
+    /**
+     * Retrieves cached schedules for all available rooms at the given location for the current week.
+     *
+     * @param location The StarPlan location to retrieve schedules for.
+     * @return A map of room names to their corresponding cached schedule lists.
+     */
     suspend fun getCachedSchedulesForCurrentWeek(location: StarPlanLocation): Map<String, SPlanScheduleList> {
         val rooms = getAvailableRooms(location)
         val keyMap =
@@ -61,6 +75,16 @@ class StarPlanService(
             .filterKeys { it !== "" }
     }
 
+    /**
+     * Retrieves the schedule for a specific room at a given location and date.
+     *
+     * First attempts to return a cached version; if not available, fetches and parses from StarPlan.
+     *
+     * @param location The location to retrieve the schedule for.
+     * @param room The name of the room.
+     * @param date The date for which to retrieve the schedule.
+     * @return The [SPlanScheduleList] for the specified room and date.
+     */
     suspend fun getScheduleForRoom(
         location: StarPlanLocation,
         room: String,
@@ -91,6 +115,13 @@ class StarPlanService(
         }
     }
 
+    /**
+     * Parses StarPlan HTML room data into a schedule list.
+     *
+     * @param roomData The HTML string containing the schedule data.
+     * @param location The StarPlan location for which the data applies.
+     * @return A [SPlanScheduleList] containing parsed room schedules and last update timestamp.
+     */
     private fun parseRoomData(
         roomData: String,
         location: StarPlanLocation,
@@ -186,6 +217,15 @@ class StarPlanService(
         return SPlanScheduleList(timeEvents, lastUpdate)
     }
 
+    /**
+     * Determines the index of the calendar column (weekday) that the current element aligns with.
+     *
+     * This is based on the element's horizontal position (`left` CSS style) relative to a list of known column start positions.
+     *
+     * @receiver The HTML element whose position is to be matched.
+     * @param timeBoxWidths A list of horizontal starting positions (in pixels) for each weekday column.
+     * @return The zero-based index of the matching weekday column, or null if it can't be determined.
+     */
     private fun Element.getCalendarIndex(timeBoxWidths: List<Int>): Int? {
         // Increase by one to be in style box
         return styleLeft?.inc()?.let { position ->
@@ -205,6 +245,7 @@ class StarPlanService(
 
     /**
      * Helper fkt to allow accessing a list from the end with negative indexes
+     * @param index Index to access element from list which also always negative indexes
      */
     private fun <E> List<E>.gett(index: Int): E =
         if (index < 0) {
@@ -213,6 +254,13 @@ class StarPlanService(
             this[index]
         }
 
+    /**
+     * Retrieves room metadata for a specific room at the given location.
+     *
+     * @param location The StarPlan location.
+     * @param room The short name of the room.
+     * @return A [SPlanRoomResponseItem] or null if the room is not found.
+     */
     suspend fun getRoom(
         location: StarPlanLocation,
         room: String,
@@ -220,6 +268,14 @@ class StarPlanService(
         return getAvailableRooms(location).firstOrNull { it.shortName == room }
     }
 
+    /**
+     * Retrieves a list of available rooms for the given location.
+     *
+     * First checks the cache; if not found, fetches from StarPlan and updates the cache.
+     *
+     * @param location The location to retrieve rooms for.
+     * @return A list of [SPlanRoomResponseItem].
+     */
     suspend fun getAvailableRooms(location: StarPlanLocation): List<SPlanRoomResponseItem> {
         getAvailableRoomsFromCache(location)?.let {
             logger.debug { "Found available rooms for location $location from cache: ${it.size}" }
@@ -246,12 +302,24 @@ class StarPlanService(
             }
     }
 
+    /**
+     * Attempts to retrieve available rooms from cache for the given location.
+     *
+     * @param location The StarPlan location.
+     * @return A list of [SPlanRoomResponseItem] or null if not cached.
+     */
     private suspend fun getAvailableRoomsFromCache(location: StarPlanLocation): List<SPlanRoomResponseItem>? {
         return mono {
             cache.get(location.avalRoomCacheKey, AvailableRoomsCacheEntry::class.java)?.rooms
         }.awaitSingleOrNull()
     }
 
+    /**
+     * Saves the list of available rooms to cache for the given location.
+     *
+     * @param location The location key to store the room list under.
+     * @param rooms The list of [SPlanRoomResponseItem] to cache.
+     */
     private suspend fun saveAvailableRooms(
         location: StarPlanLocation,
         rooms: List<SPlanRoomResponseItem>,
@@ -259,9 +327,20 @@ class StarPlanService(
         mono { cache[location.avalRoomCacheKey] = AvailableRoomsCacheEntry(rooms) }.awaitSingleOrNull()
     }
 
+    /**
+     * Generates the cache key string for storing available rooms for this location.
+     */
     private val StarPlanLocation.avalRoomCacheKey: String
         get() = "splan-room-list_$locationId"
 
+    /**
+     * Constructs the cache key for a room's schedule at a given location and date.
+     *
+     * @param location The StarPlan location.
+     * @param room The room name.
+     * @param date The date of the schedule.
+     * @return A unique cache key string.
+     */
     private fun getScheduleCacheKey(
         location: StarPlanLocation,
         room: String,
@@ -272,15 +351,33 @@ class StarPlanService(
     }
 }
 
+/**
+ * Wrapper class used to cache a list of available rooms for a given StarPlan location.
+ *
+ * @property rooms A list of [SPlanRoomResponseItem] representing the available rooms.
+ */
 data class AvailableRoomsCacheEntry(
     val rooms: List<SPlanRoomResponseItem>,
 )
 
+/**
+ * Data class representing a list of scheduled events for a room and the last update timestamp.
+ *
+ * @property schedule A list of [RoomSchedule] entries for the room.
+ * @property updatedAt The [LocalDateTime] when the schedule data was last updated.
+ */
 data class SPlanScheduleList(
     val schedule: List<RoomSchedule>,
     val updatedAt: LocalDateTime,
 )
 
+/**
+ * Enum representing supported StarPlan locations.
+ *
+ * Each enum entry corresponds to a specific location's ID used in StarPlan queries.
+ *
+ * @property locationId The numeric ID assigned by StarPlan to identify the location.
+ */
 enum class StarPlanLocation(val locationId: Int) {
     RO(3),
 }
