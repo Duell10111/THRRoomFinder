@@ -351,10 +351,21 @@ class StarPlanService(
     }
 }
 
+/**
+ * Wrapper class used to cache a list of available rooms for a given StarPlan location.
+ *
+ * @property rooms A list of [SPlanRoomResponseItem] representing the available rooms.
+ */
 data class AvailableRoomsCacheEntry(
     val rooms: List<SPlanRoomResponseItem>,
 )
 
+/**
+ * Data class representing a list of scheduled events for a room and the last update timestamp.
+ *
+ * @property schedule A list of [RoomSchedule] entries for the room.
+ * @property updatedAt The [LocalDateTime] when the schedule data was last updated.
+ */
 data class SPlanScheduleList(
     val schedule: List<RoomSchedule>,
     val updatedAt: LocalDateTime,
