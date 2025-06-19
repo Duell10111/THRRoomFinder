@@ -51,7 +51,6 @@ export function RoomClicker() {
         }
     }, [current, setRoom])
 
-    // TODO: Change to show highlight even if not selected by clicking on map
     useEffect(() => {
         if (data && !popup) {
             const source = current

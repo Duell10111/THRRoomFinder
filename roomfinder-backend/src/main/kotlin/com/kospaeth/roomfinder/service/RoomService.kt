@@ -118,8 +118,6 @@ class RoomService(
         return starPlanService.getScheduleForRoom(StarPlanLocation.RO, roomName, date)
     }
 
-    // TODO: Only check once in specific time
-
     /**
      * Attempts to fetch a room's location data from OpenStreetMap using building configuration.
      *

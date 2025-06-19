@@ -9,6 +9,7 @@ import {
 import { IconBrandGithub } from "@tabler/icons-react"
 import contributors from "../../contributors.json"
 import Link from "next/link"
+import packageJSON from "../../package.json"
 
 type Contributor = {
     name: string
@@ -17,12 +18,11 @@ type Contributor = {
 }
 
 export function CreditsPage() {
-    // TODO: Add current version of the app
-
     return (
         <Container size="lg" py="xl">
-            <Title order={2} mb="lg">
-                Our contributors
+            <Title order={2}>Our contributors</Title>
+            <Title order={6} mb="lg">
+                Version {packageJSON.version}
             </Title>
             <SimpleGrid cols={{ base: 1, sm: 2, lg: 3, xl: 4 }} spacing="xl">
                 {contributors.map((person: Contributor, index) => (
@@ -33,20 +33,7 @@ export function CreditsPage() {
                         radius="md"
                         withBorder
                     >
-                        {/*<Card.Section>*/}
-                        {/*    <Image*/}
-                        {/*        src={person.avatar}*/}
-                        {/*        height={160}*/}
-                        {/*        alt={person.name}*/}
-                        {/*    />*/}
-                        {/*</Card.Section>*/}
-
-                        <Text
-                            size="lg"
-                            // mt="md"
-                        >
-                            {person.name}
-                        </Text>
+                        <Text size="lg">{person.name}</Text>
                         <Text c={"dimmed"} size={"sm"}>
                             {person.role}
                         </Text>

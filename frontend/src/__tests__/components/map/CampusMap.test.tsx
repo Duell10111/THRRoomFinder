@@ -9,5 +9,3 @@ describe("CampusMap", () => {
         expect(element).toBeDefined()
     })
 })
-
-// TODO: Add more tests

@@ -219,8 +219,6 @@ describe("Campus Map Tests", () => {
             cy.get(".maplibregl-user-location-dot")
         })
     })
-
-    // TODO: Add iPhone Tests with check for navigator?
 })
 
 function mockLocation(latitude: number, longitude: number) {
