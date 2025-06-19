@@ -7,7 +7,6 @@ import com.lemonappdev.konsist.api.verify.assertTrue
 import org.junit.jupiter.api.Test
 
 class GeneralTest {
-
     @Test
     fun `DTO classes should be data classes`() {
         Konsist
@@ -16,5 +15,4 @@ class GeneralTest {
             .withNameEndingWith("DTO")
             .assertTrue { it.hasModifier(KoModifier.DATA) }
     }
-
 }
