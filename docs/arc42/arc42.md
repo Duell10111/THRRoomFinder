@@ -37,7 +37,7 @@ THRRoomfinder is a web and mobile-friendly application that helps users locate r
 ![Business Context](images/business-context.jpg)
 
 | Element         | Description                                                                                                 |
-|-----------------|-------------------------------------------------------------------------------------------------------------|
+| --------------- | ----------------------------------------------------------------------------------------------------------- |
 | User            | Students, university staff, campus visitors who uses the room finder to access locations and time schedules |
 | Open Street Map | Open Street Map used to fetch current inroom location data if not stored in service                         |
 | SPlan           | Stores schedules of Rooms                                                                                   |
@@ -92,7 +92,7 @@ Motivation
 Contained Building Blocks
 
 | Building Block | Description                                 |
-|----------------|---------------------------------------------|
+| -------------- | ------------------------------------------- |
 | THRR Frontend  | User Interface for user access              |
 | THRR Backend   | Room location data and schedule information |
 
@@ -130,7 +130,7 @@ Provides room locations and room schedules to be shown by the frontend module.
 #### Contained Blackboxes:
 
 | Building blackbox | Description                                                          |
-|-------------------|----------------------------------------------------------------------|
+| ----------------- | -------------------------------------------------------------------- |
 | RestController    | Entry Point for REST Requests                                        |
 | WebSecurity       | Checks specific endpoints for authentication using the Firebase IDP. |
 | RoomService       | Room Service is used to handle all room related requests.            |
@@ -157,9 +157,10 @@ The service can fetch the schedule for the current week or the week of the speci
 ![Runtime Room Location](images/Runtime-RoomLocation.jpg)
 
 1. User calls `getLocationForRoom()` on RestController
-2. RestController calls `getLocationForRoom()` on RoomService
-3. RoomService fetches Room from OSM Extractor via `getIndoorRoomsForBuilding()`
 
+2. RestController calls `getLocationForRoom()` on RoomService
+
+3. RoomService fetches Room from OSM Extractor via `getIndoorRoomsForBuilding()`
 - *\<insert runtime diagram or textual description of the scenario>*
 
 - *\<insert description of the notable aspects of the interactions
@@ -221,7 +222,68 @@ Mapping of Building Blocks to Infrastructure
 
 *\<explanation>*
 
-# Architecture Decisions {#section-design-decisions}
+# Architecture Decisions
+
+### **Architecture Decision Record (ADR): Use of OSM Indoor Data Instead of a Custom Map Database**
+
+**Status:** Accepted
+
+**Date:** 2025-06-21
+
+**Deciders:** Konstantin Späth
+
+**Component:** RoomFinder Backend – Location Data Integration
+
+#### **1. Context and Problem Statement**
+
+The RoomFinder system requires indoor location data to accurately place rooms on a digital map. Two options were considered:
+
+1. Build and maintain a custom indoor map database.
+
+2. Utilize indoor data from OpenStreetMap (OSM), particularly via Overpass API queries.
+
+The system must be able to:
+
+- Determine spatial room positions (latitude/longitude),
+
+- Support building-specific geometries,
+
+- Be kept reasonably up-to-date with minimal maintenance.
+
+#### **2. Considered Options**
+
+1. **Use OSM indoor data** (via Overpass API)
+
+2. **Develop and manage a custom indoor map database**
+
+#### **3. Decision Outcome**
+
+**Chosen Alternative:** Use OSM indoor data
+
+- ✅ Leverages crowd-sourced data that already exists for many public buildings.
+
+- ✅ No need to build and maintain our own data collection and update infrastructure.
+
+- ✅ Enables rapid bootstrapping of building and room geometries.
+
+- ⚠️ Indoor data coverage on OSM can be inconsistent or outdated depending on the location.
+
+- ⚠️ Parsing and extracting reliable data requires additional logic and validation.
+
+#### **4. Pros and Cons of the Options**
+
+| **Option**               | **Pros**                                                                                                    | **Cons**                                                                                                     |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **OSM indoor data**      | - Freely available- Easily accessible via Overpass API- Updated by global community- Scales well            | - Coverage varies by region- Data schema may be inconsistent- Requires parsing logic for nodes and relations |
+| **Custom indoor map DB** | - Full control over structure- Can ensure data completeness and precision- Optimized for app-specific needs | - High initial development cost- Needs a data entry and update process- Potentially redundant with OSM       |
+
+#### **5. Links**
+
+- [OpenStreetMap Indoor Mapping](https://wiki.openstreetmap.org/wiki/Indoor_Mapping)
+
+- [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API)
+
+- Implementation: OSMExtractorService.kt 
 
 # Quality Requirements {#section-quality-scenarios}
 
@@ -240,7 +302,7 @@ Mapping of Building Blocks to Infrastructure
 # Glossary
 
 | Term               | Definition                                                                                                                                                   |
-|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | MapLibre           | Open-source JavaScript map rendering library.                                                                                                                |
 | Mantine UI library | A modern React component library that offers a comprehensive set of customizable UI elements and hooks for building responsive web applications efficiently. |
 | Open Street Map    | Is a free, open map database updated and maintained by a community of volunteers via open collaboration.                                                     |

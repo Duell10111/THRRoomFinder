@@ -26,6 +26,20 @@ Currently supports:
 - MapLibre (for map display)
 - Kotlin / Spring Boot 3 (backend)
 
+### 🔑 API Keys
+
+You need the following API Keys to built and run the application successfully:
+
+- Maptiler API Key (used for light theme of map):
+  For development you can [create](https://www.maptiler.com/) a free account and use the API Key from there, the quota should be enough for your use case.
+- Indoor Equal (used to fetch indoor map tiles):
+  Free API Key can be generated with your email address from [here](https://indoorequal.com/).
+- Firebase API Key (used for IDP authentication for admin dashboard):
+  An API Key can be fetched after creating your own Firebase project for development.
+  
+  **Important**: You should change the authDomain as well when creating your own project to get the auth working.
+  Filepath: `frontend/src/admin/auth.ts`
+
 🚀 Getting Started
 
 1. Clone the repository:
@@ -36,9 +50,9 @@ Currently supports:
    
 2. Add API keys as build args to frontend build.
     - Needed API Keys as following env variables:
-      - **NEXT_PUBLIC_MAPTILER_API_KEY** (used for light mode map tiles)
-      - **NEXT_PUBLIC_INDOOR_CONTROL_API_KEY** (used for indoor map data)
-      - **NEXT_PUBLIC_FIREBASE_API_KEY** (used for admin dashboard identity provider)
+      - **NEXT_PUBLIC_MAPTILER_API_KEY**
+      - **NEXT_PUBLIC_INDOOR_CONTROL_API_KEY** (enter Indoor Equal API Key from above)
+      - **NEXT_PUBLIC_FIREBASE_API_KEY**
    
 3. Run the docker compose:
    ```bash
