@@ -20,12 +20,17 @@ export function RoomPopup({ roomName }: Readonly<RoomPopupProps>) {
         [data, roomName]
     )
 
+    /* Loading data */
+    if (next === undefined)
+        return (
+            <Card shadow="md" padding="sm" radius="md">
+                <Loader size={"xs"} data-testid={"loader-room-popup"} />
+            </Card>
+        )
+
     return (
         <Card shadow="md" padding="sm" radius="md">
-            {/* Loading data */}
-            {next === undefined ? (
-                <Loader size={"xs"} data-testid={"loader-room-popup"} />
-            ) : next ? (
+            {next ? (
                 <>
                     <Group gap={"xs"} mb={"xs"}>
                         <IconCalendarEvent size={20} />

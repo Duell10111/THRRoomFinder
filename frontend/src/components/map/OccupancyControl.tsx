@@ -5,6 +5,7 @@ import { useRoomContext } from "@/context/RoomContext"
 import { useEffect, useState } from "react"
 import { ScheduleData } from "@/utils/data"
 import _ from "lodash"
+import { GeoJSON } from "geojson"
 
 export default function OccupancyControl() {
     const { data } = useRoomContext()
@@ -14,71 +15,17 @@ export default function OccupancyControl() {
     useEffect(() => {
         const map = current?.getMap?.()
         if (data?.scheduleData && map) {
-            console.log("Belegung anzeigen: ", Object.keys(data.scheduleData))
             const scheduleData = data.scheduleData
             const source = map.getSource("occupancy-room") as GeoJSONSource
             source
                 ?.getData()
                 ?.then((sourceData) => {
-                    if (sourceData.type === "FeatureCollection") {
-                        console.log(
-                            "Source data features: ",
-                            sourceData.features
-                        )
-                        // Add new rooms to source data
-                        const newFeatures = _.chain(Object.keys(scheduleData))
-                            .map((roomName) => {
-                                if (
-                                    !sourceData.features?.find(
-                                        (feature) =>
-                                            feature.properties?.roomName ===
-                                            roomName
-                                    )
-                                ) {
-                                    const { polygonFeature } = getRoomFeature(
-                                        map,
-                                        roomName
-                                    )
-                                    if (polygonFeature) {
-                                        polygonFeature.properties["roomName"] =
-                                            roomName
-                                        return polygonFeature
-                                    } else {
-                                        console.warn(
-                                            `Could not find room feature for room ${roomName}`
-                                        )
-                                    }
-                                }
-                            })
-                            .compact()
-                            .value()
-                        // Update only if newFeatures available
-                        if (newFeatures.length > 0) {
-                            source.setData({
-                                type: "FeatureCollection",
-                                features: [
-                                    ...sourceData.features,
-                                    ...newFeatures,
-                                ],
-                            })
-                        }
-
-                        // Set Feature states for roomNames
-                        Object.entries(scheduleData).forEach(
-                            ([roomName, schedule]) => {
-                                const occupied = checkIfRoomIsOccupied(schedule)
-                                map.setFeatureState(
-                                    {
-                                        source: "occupancy-room",
-                                        id: roomName,
-                                    },
-                                    { occupied: occupied }
-                                )
-                            }
-                        )
-                    } else {
-                        console.warn("Source data is not a FeatureCollection")
-                    }
+                    setRoomOccupancyStates(
+                        sourceData,
+                        scheduleData,
+                        map,
+                        source
+                    )
                 })
                 ?.catch(console.warn)
         }
@@ -92,6 +39,60 @@ export default function OccupancyControl() {
 
     // Empty component
     return null
+}
+
+function setRoomOccupancyStates(
+    sourceData: GeoJSON,
+    scheduleData: {
+        [p: string]: ScheduleData[]
+    },
+    map: Map,
+    source: GeoJSONSource
+) {
+    if (sourceData.type === "FeatureCollection") {
+        // Add new rooms to source data
+        const newFeatures = _.chain(Object.keys(scheduleData))
+            .map((roomName) => {
+                if (
+                    !sourceData.features?.find(
+                        (feature) => feature.properties?.roomName === roomName
+                    )
+                ) {
+                    const { polygonFeature } = getRoomFeature(map, roomName)
+                    if (polygonFeature) {
+                        polygonFeature.properties["roomName"] = roomName
+                        return polygonFeature
+                    } else {
+                        console.warn(
+                            `Could not find room feature for room ${roomName}`
+                        )
+                    }
+                }
+            })
+            .compact()
+            .value()
+        // Update only if newFeatures available
+        if (newFeatures.length > 0) {
+            source.setData({
+                type: "FeatureCollection",
+                features: [...sourceData.features, ...newFeatures],
+            })
+        }
+
+        // Set Feature states for roomNames
+        Object.entries(scheduleData).forEach(([roomName, schedule]) => {
+            const occupied = checkIfRoomIsOccupied(schedule)
+            map.setFeatureState(
+                {
+                    source: "occupancy-room",
+                    id: roomName,
+                },
+                { occupied: occupied }
+            )
+        })
+    } else {
+        console.warn("Source data is not a FeatureCollection")
+    }
 }
 
 function getRoomFeature(map: Map, roomName: string) {
