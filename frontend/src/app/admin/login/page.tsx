@@ -28,7 +28,6 @@ export default function LoginPage() {
 
         signInWithEmailAndPassword(auth, email, password)
             .then(() => {
-                console.log("Login successful")
                 router.push("/admin")
             })
             .catch((error) => {
