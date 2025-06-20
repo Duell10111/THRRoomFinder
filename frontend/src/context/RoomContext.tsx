@@ -57,7 +57,7 @@ interface RoomContextProviderProps {
 export function RoomContextProvider({
     homeParams,
     children,
-}: RoomContextProviderProps) {
+}: Readonly<RoomContextProviderProps>) {
     const { campus } = useMap()
 
     const [roomData, setRoomData] = useState<RoomContextData["roomData"]>()
@@ -138,28 +138,31 @@ export function RoomContextProvider({
 
     return (
         <RoomContext.Provider
-            value={{
-                data: contextData,
-                level,
-                setRoomData,
-                setRoom,
-                setDate,
-                setLevel,
-                onMapLoad: () => {
-                    if (roomData) {
-                        // Fly to room and set needed level
-                        setLevel(getLevel(roomData.name))
-                        campus?.flyTo({
-                            center: [
-                                roomData.location.lng,
-                                roomData.location.lat,
-                            ],
-                            zoom: 20,
-                        })
-                        zoomToRoom.current = false
-                    }
-                },
-            }}
+            value={useMemo(
+                () => ({
+                    data: contextData,
+                    level,
+                    setRoomData,
+                    setRoom,
+                    setDate,
+                    setLevel,
+                    onMapLoad: () => {
+                        if (roomData) {
+                            // Fly to room and set needed level
+                            setLevel(getLevel(roomData.name))
+                            campus?.flyTo({
+                                center: [
+                                    roomData.location.lng,
+                                    roomData.location.lat,
+                                ],
+                                zoom: 20,
+                            })
+                            zoomToRoom.current = false
+                        }
+                    },
+                }),
+                [contextData, level, setRoom, roomData, campus]
+            )}
         >
             {children}
         </RoomContext.Provider>

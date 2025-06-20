@@ -3,6 +3,9 @@ name: Code analysis
 on:
   push:
 
+permissions:
+  contents: read
+
 jobs:
   Frontend-Analysis:
     name: Frontend Analysis

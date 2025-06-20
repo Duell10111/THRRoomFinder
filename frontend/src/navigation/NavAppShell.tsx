@@ -14,7 +14,7 @@ interface NavAppShellProps {
     children: React.ReactNode
 }
 
-export function NavAppShell({ children }: NavAppShellProps) {
+export function NavAppShell({ children }: Readonly<NavAppShellProps>) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure()
     const [desktopOpened, { toggle: toggleDesktop, open: openDesktop }] =
         useDisclosure(true)

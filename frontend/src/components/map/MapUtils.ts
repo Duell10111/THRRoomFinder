@@ -18,7 +18,6 @@ export function getRoomName(
             // Ignore non compatible geometry
             return false
         })
-        console.log("Room Name: ", roomName)
         if (roomName) {
             return roomName?.properties.name
         }

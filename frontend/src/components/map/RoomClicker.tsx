@@ -19,9 +19,6 @@ export function RoomClicker() {
             map.on("click", "indoor-polygon", (e) => {
                 const feature = e.features?.[0]
 
-                console.log(map.getStyle().sources) // Zeigt alle Quellen
-                console.log(map.getStyle().layers) // Zeigt alle Layer
-
                 // Fetch room name
                 const roomName = getRoomName(e, current)
                 if (roomName) {
@@ -37,7 +34,6 @@ export function RoomClicker() {
                     })
 
                     if (feature) {
-                        console.log("Feature: ", feature)
                         const source = map.getSource(
                             "highlight-room"
                         ) as GeoJSONSource
