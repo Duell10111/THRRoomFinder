@@ -8,7 +8,7 @@ THRRoomfinder is a web and mobile-friendly application that helps users locate r
 
 - Provide fast and intuitive room search functionality.
 - Deliver map-based visual guidance to room locations.
-- Additionally show schedule information for selected room.
+- Additionally show schedule information for a selected room.
 - Offers a responsive UI for both desktop and mobile users.
 - Ensure scalability for additional campus locations.
 
@@ -329,11 +329,18 @@ Our users expect fast and reliable access to room schedules. To meet this requir
 
 - [Spring Cache docs](https://docs.spring.io/spring-framework/reference/integration/cache.html)
 
-# Quality Requirements {#section-quality-scenarios}
+# Quality Requirements
 
-## Quality Tree {#_quality_tree}
+## Quality Scenarios
 
-## Quality Scenarios {#_quality_scenarios}
+| Quality Attribute | Scenario Description                                                                                     |
+|-------------------|----------------------------------------------------------------------------------------------------------|
+| Performance       | A student queries a room’s schedule at peak time; the result is returned within 500ms using cached data. |
+| Availability      | Even if the external SPlan service is unavailable, previously cached room schedules are still served.    |
+| Usability         | A new student accesses the mobile version and finds the room immediately via map and text search.        |
+| Maintainability   | A developer updates the caching logic with minimal side effects due to modular service architecture.     |
+| Scalability       | A new campus location is added with no need for frontend changes due to flexible backend design.         |
+| Security          | An admin clears cached entries; the request is validated via Firebase authentication token.              |
 
 # Risks and Technical Debts
 
