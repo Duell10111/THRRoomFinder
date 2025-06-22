@@ -154,7 +154,7 @@ The service can fetch the schedule for the current week or the week of the speci
 2. RestController calls `getRoomScheduleForRoom()` on RoomService.
 
 3. RoomService fetches Room from StarPlanService via `getScheduleForRoom()`.
-
+   
    Further, the result is cached on successful responses.
 
 ## Fetch Available Rooms
@@ -166,7 +166,7 @@ The service can fetch the schedule for the current week or the week of the speci
 2. RestController calls `getAllRooms()` on RoomService.
 
 3. RoomService fetches Rooms from RoomRepository via `findAll()`.
-
+   
    Further, the result is cached on successful responses.
 
 # Deployment View
@@ -210,7 +210,7 @@ Mapping of Building Blocks to Infrastructure
 
 **Status:** Accepted
 
-**Date:** 2025-06-21
+**Date:** 2025-04-15
 
 **Deciders:** Konstantin Späth
 
@@ -254,10 +254,10 @@ The system must be able to:
 
 #### **4. Pros and Cons of the Options**
 
-| **Option**               | **Pros**                                                                                                    | **Cons**                                                                                                     |
-|--------------------------|-------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| **OSM indoor data**      | - Freely available- Easily accessible via Overpass API- Updated by global community- Scales well            | - Coverage varies by region- Data schema may be inconsistent- Requires parsing logic for nodes and relations |
-| **Custom indoor map DB** | - Full control over structure- Can ensure data completeness and precision- Optimized for app-specific needs | - High initial development cost- Needs a data entry and update process- Potentially redundant with OSM       |
+| **Option**               | **Pros**                                                                                                              | **Cons**                                                                                                               |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| **OSM indoor data**      | - Freely available<br/>- Easily accessible via Overpass API<br/>- Updated by global community- Scales well            | - Coverage varies by region<br/>- Data schema may be inconsistent<br/>- Requires parsing logic for nodes and relations |
+| **Custom indoor map DB** | - Full control over structure<br/>- Can ensure data completeness and precision<br/>- Optimized for app-specific needs | - High initial development cost<br/>- Needs a data entry and update process<br/>- Potentially redundant with OSM       |
 
 #### **5. Links**
 
@@ -266,6 +266,66 @@ The system must be able to:
 - [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API)
 
 - Implementation: OSMExtractorService.kt 
+
+### **Architecture Decision Record (ADR): Caching StarPlan Responses to Reduce External Load**
+
+**Status:** Accepted
+
+**Date:** 2025-04-31
+
+**Deciders:** Konstantin Späth
+
+**Component:** RoomFinder Backend – StarPlan Integration
+
+#### **1. Context and Problem Statement**
+
+The RoomFinder backend integrates with the external **StarPlan** system to fetch room schedules and availability information. StarPlan is an external service not under our control, and it:
+
+- Can become a bottleneck if queried too frequently,
+
+- May impose rate limits or throttling,
+
+- Increases latency due to network overhead and response size.
+
+Our users expect fast and reliable access to room schedules. To meet this requirement while avoiding excessive load on StarPlan, we need an efficient solution to reduce the number of outgoing requests.
+
+#### **2. Considered Options**
+
+1. **Introduce a caching mechanism for StarPlan responses**
+
+2. **Query StarPlan live on every request**
+
+3. **Pre-fetch and persist StarPlan data periodically in our own database**
+
+#### **3. Decision Outcome**
+
+**Chosen Alternative:** Cache StarPlan responses in memory (or via a managed cache)
+
+- ✅ Significantly reduces redundant API calls to StarPlan
+
+- ✅ Improves backend response time for repeated queries
+
+- ✅ Transparent to consumers of the API
+
+- ⚠️ Requires cache invalidation strategy (e.g., TTL or manual clearing)
+
+- ⚠️ Risk of serving slightly outdated data depending on cache lifespan
+
+#### **4. Pros and Cons of the Options**
+
+| **Option**                   | **Pros**                                                                                                        | **Cons**                                                                                 |
+|------------------------------|-----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| **Cache StarPlan responses** | - Reduces external requests<br/>- Fast access to recent data<br/>- Easy to implement with Spring Cache/Caffeine | - Needs TTL or eviction strategy<br/>- May serve stale data                              |
+| **Query StarPlan live**      | - Always fresh data<br/>- No cache complexity                                                                   | - Slow responses<br/>- High dependency on external service<br/>- Potential rate limiting |
+| **Persist StarPlan data**    | - Full control over availability<br/>- Can aggregate historical data                                            | - Requires storage, sync mechanism<br/>- Potentially complex for real-time updates       |
+
+#### **5. Links**
+
+- Implementation class: StarPlanService.kt
+
+- Related utilities: getEntry(), putEntry(), getAllKeysPresent()
+
+- [Spring Cache docs](https://docs.spring.io/spring-framework/reference/integration/cache.html)
 
 # Quality Requirements {#section-quality-scenarios}
 
