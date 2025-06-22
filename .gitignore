@@ -9,3 +9,6 @@
 # Bruno
 
 bruno-collection/.env
+
+# C4
+/c4/.structurizr/

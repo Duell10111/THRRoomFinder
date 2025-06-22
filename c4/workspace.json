@@ -1,0 +1,546 @@
+{
+  "configuration" : {
+    "scope" : "SoftwareSystem"
+  },
+  "description" : "Description",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedAgent" : "structurizr-ui",
+  "lastModifiedDate" : "2025-06-22T17:29:10Z",
+  "model" : {
+    "people" : [ {
+      "description" : "Students, staff, and visitors using the RoomFinder application",
+      "id" : "1",
+      "location" : "Unspecified",
+      "name" : "User",
+      "properties" : {
+        "structurizr.dsl.identifier" : "u"
+      },
+      "relationships" : [ {
+        "description" : "Uses via browser",
+        "destinationId" : "4",
+        "id" : "7",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Uses via browser",
+        "destinationId" : "3",
+        "id" : "8",
+        "linkedRelationshipId" : "7",
+        "sourceId" : "1"
+      } ],
+      "tags" : "Element,Person"
+    }, {
+      "description" : "Manages room data and schedules through the admin dashboard",
+      "id" : "2",
+      "location" : "Unspecified",
+      "name" : "Administrator",
+      "properties" : {
+        "structurizr.dsl.identifier" : "admin"
+      },
+      "relationships" : [ {
+        "description" : "Uses for administration",
+        "destinationId" : "4",
+        "id" : "9",
+        "sourceId" : "2",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Uses for administration",
+        "destinationId" : "3",
+        "id" : "10",
+        "linkedRelationshipId" : "9",
+        "sourceId" : "2"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "containers" : [ {
+        "components" : [ {
+          "description" : "Admin Dashboard",
+          "documentation" : { },
+          "id" : "5",
+          "name" : "Admin Dashboard",
+          "properties" : {
+            "structurizr.dsl.identifier" : "ss.frontend.admindashboard"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Campus Map",
+          "documentation" : { },
+          "id" : "6",
+          "name" : "Map",
+          "properties" : {
+            "structurizr.dsl.identifier" : "ss.frontend.campusmap"
+          },
+          "tags" : "Element,Component"
+        } ],
+        "description" : "Provides web and mobile UI for students and staff",
+        "documentation" : { },
+        "id" : "4",
+        "name" : "Frontend",
+        "properties" : {
+          "structurizr.dsl.identifier" : "ss.frontend"
+        },
+        "relationships" : [ {
+          "description" : "Sends API requests",
+          "destinationId" : "11",
+          "id" : "25",
+          "sourceId" : "4",
+          "tags" : "Relationship"
+        }, {
+          "description" : "Loads map tiles",
+          "destinationId" : "21",
+          "id" : "27",
+          "sourceId" : "4",
+          "tags" : "Relationship"
+        }, {
+          "description" : "Authenticates admin",
+          "destinationId" : "22",
+          "id" : "29",
+          "sourceId" : "4",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "React, Next.js, Mantine UI"
+      }, {
+        "components" : [ {
+          "description" : "Handles logic for room location and OSM fetching",
+          "documentation" : { },
+          "id" : "12",
+          "name" : "Room Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "ss.backend.roomservice"
+          },
+          "relationships" : [ {
+            "description" : "Uses",
+            "destinationId" : "13",
+            "id" : "16",
+            "sourceId" : "12",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Uses",
+            "destinationId" : "14",
+            "id" : "17",
+            "sourceId" : "12",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Uses",
+            "destinationId" : "15",
+            "id" : "18",
+            "sourceId" : "12",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Handles calulation of positions using the Overpass API",
+          "documentation" : { },
+          "id" : "13",
+          "name" : "OSM Extractor Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "ss.backend.osmextractorservice"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Fetches and caches room schedules from StarPlan",
+          "documentation" : { },
+          "id" : "14",
+          "name" : "StarPlan Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "ss.backend.scheduleservice"
+          },
+          "relationships" : [ {
+            "description" : "Uses",
+            "destinationId" : "15",
+            "id" : "19",
+            "sourceId" : "14",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "In-Memory Cache",
+          "documentation" : { },
+          "id" : "15",
+          "name" : "Cache",
+          "properties" : {
+            "structurizr.dsl.identifier" : "ss.backend.cache"
+          },
+          "tags" : "Element,Component"
+        } ],
+        "description" : "Exposes REST API for room and schedule data",
+        "documentation" : { },
+        "id" : "11",
+        "name" : "Backend",
+        "properties" : {
+          "structurizr.dsl.identifier" : "ss.backend"
+        },
+        "relationships" : [ {
+          "description" : "Reads from and writes to",
+          "destinationId" : "20",
+          "id" : "26",
+          "sourceId" : "11",
+          "tags" : "Relationship"
+        }, {
+          "description" : "Verifies ID token",
+          "destinationId" : "22",
+          "id" : "31",
+          "sourceId" : "11",
+          "tags" : "Relationship"
+        }, {
+          "description" : "Requests data when cache/db is empty",
+          "destinationId" : "23",
+          "id" : "32",
+          "sourceId" : "11",
+          "tags" : "Relationship"
+        }, {
+          "description" : "Requests schedule data",
+          "destinationId" : "24",
+          "id" : "34",
+          "sourceId" : "11",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Kotlin, Spring Boot"
+      }, {
+        "documentation" : { },
+        "id" : "20",
+        "name" : "Database Schema",
+        "properties" : {
+          "structurizr.dsl.identifier" : "ss.db"
+        },
+        "tags" : "Element,Container,Database"
+      } ],
+      "description" : "A web and mobile-friendly app to locate rooms and view schedules across campus buildings.",
+      "documentation" : { },
+      "id" : "3",
+      "location" : "Unspecified",
+      "name" : "THRRoomFinder",
+      "properties" : {
+        "structurizr.dsl.identifier" : "ss"
+      },
+      "relationships" : [ {
+        "description" : "Loads map tiles",
+        "destinationId" : "21",
+        "id" : "28",
+        "linkedRelationshipId" : "27",
+        "sourceId" : "3"
+      }, {
+        "description" : "Authenticates admin",
+        "destinationId" : "22",
+        "id" : "30",
+        "linkedRelationshipId" : "29",
+        "sourceId" : "3"
+      }, {
+        "description" : "Requests data when cache/db is empty",
+        "destinationId" : "23",
+        "id" : "33",
+        "linkedRelationshipId" : "32",
+        "sourceId" : "3"
+      }, {
+        "description" : "Requests schedule data",
+        "destinationId" : "24",
+        "id" : "35",
+        "linkedRelationshipId" : "34",
+        "sourceId" : "3"
+      } ],
+      "tags" : "Element,Software System"
+    }, {
+      "description" : "Serves map tiles",
+      "documentation" : { },
+      "id" : "21",
+      "location" : "Unspecified",
+      "name" : "MapTiler",
+      "properties" : {
+        "structurizr.dsl.identifier" : "maptiler"
+      },
+      "tags" : "Element,Software System"
+    }, {
+      "description" : "Provides identity and access management for admins",
+      "documentation" : { },
+      "id" : "22",
+      "location" : "Unspecified",
+      "name" : "Firebase Auth",
+      "properties" : {
+        "structurizr.dsl.identifier" : "firebase"
+      },
+      "tags" : "Element,Software System"
+    }, {
+      "description" : "Provides indoor room geometry data",
+      "documentation" : { },
+      "id" : "23",
+      "location" : "Unspecified",
+      "name" : "OpenStreetMap (Overpass)",
+      "properties" : {
+        "structurizr.dsl.identifier" : "osmapi"
+      },
+      "tags" : "Element,Software System"
+    }, {
+      "description" : "Provides schedule information for rooms",
+      "documentation" : { },
+      "id" : "24",
+      "location" : "Unspecified",
+      "name" : "StarPlan",
+      "properties" : {
+        "structurizr.dsl.identifier" : "starplanapi"
+      },
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Name",
+  "properties" : {
+    "structurizr.dsl" : "d29ya3NwYWNlICJOYW1lIiAiRGVzY3JpcHRpb24iIHsKCiAgICAhaWRlbnRpZmllcnMgaGllcmFyY2hpY2FsCgogICAgbW9kZWwgewogICAgICAgIHUgPSBwZXJzb24gIlVzZXIiIHsKICAgICAgICAgICAgZGVzY3JpcHRpb24gIlN0dWRlbnRzLCBzdGFmZiwgYW5kIHZpc2l0b3JzIHVzaW5nIHRoZSBSb29tRmluZGVyIGFwcGxpY2F0aW9uIgogICAgICAgIH0KICAgICAgICBhZG1pbiA9IHBlcnNvbiAiQWRtaW5pc3RyYXRvciIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiTWFuYWdlcyByb29tIGRhdGEgYW5kIHNjaGVkdWxlcyB0aHJvdWdoIHRoZSBhZG1pbiBkYXNoYm9hcmQiCiAgICAgICAgfQoKICAgICAgICBzcyA9IHNvZnR3YXJlU3lzdGVtICJUSFJSb29tRmluZGVyIiB7CiAgICAgICAgICAgIGRlc2NyaXB0aW9uICJBIHdlYiBhbmQgbW9iaWxlLWZyaWVuZGx5IGFwcCB0byBsb2NhdGUgcm9vbXMgYW5kIHZpZXcgc2NoZWR1bGVzIGFjcm9zcyBjYW1wdXMgYnVpbGRpbmdzLiIKCiAgICAgICAgICAgIGZyb250ZW5kID0gY29udGFpbmVyIEZyb250ZW5kICJGcm9udGVuZCAoTmV4dC5qcykiIHsKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIlJlYWN0LCBOZXh0LmpzLCBNYW50aW5lIFVJIgogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlByb3ZpZGVzIHdlYiBhbmQgbW9iaWxlIFVJIGZvciBzdHVkZW50cyBhbmQgc3RhZmYiCgogICAgICAgICAgICAgICAgYWRtaW5EYXNoYm9hcmQgPSBjb21wb25lbnQgIkFkbWluIERhc2hib2FyZCIgewogICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJBZG1pbiBEYXNoYm9hcmQiCiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgY2FtcHVzTWFwID0gY29tcG9uZW50ICJNYXAiIHsKICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiQ2FtcHVzIE1hcCIKICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICB1IC0+IHRoaXMgIlVzZXMgdmlhIGJyb3dzZXIiCiAgICAgICAgICAgICAgICBhZG1pbiAtPiB0aGlzICJVc2VzIGZvciBhZG1pbmlzdHJhdGlvbiIKICAgICAgICAgICAgfQoKICAgICAgICAgICAgYmFja2VuZCA9IGNvbnRhaW5lciBCYWNrZW5kICJCYWNrZW5kIChTcHJpbmcgQm9vdCkiIHsKICAgICAgICAgICAgICAgIHRlY2hub2xvZ3kgIktvdGxpbiwgU3ByaW5nIEJvb3QiCiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiRXhwb3NlcyBSRVNUIEFQSSBmb3Igcm9vbSBhbmQgc2NoZWR1bGUgZGF0YSIKCiAgICAgICAgICAgICAgICByb29tU2VydmljZSA9IGNvbXBvbmVudCAiUm9vbSBTZXJ2aWNlIiB7CiAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkhhbmRsZXMgbG9naWMgZm9yIHJvb20gbG9jYXRpb24gYW5kIE9TTSBmZXRjaGluZyIKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIG9zbUV4dHJhY3RvclNlcnZpY2UgPSBjb21wb25lbnQgIk9TTSBFeHRyYWN0b3IgU2VydmljZSIgewogICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJIYW5kbGVzIGNhbHVsYXRpb24gb2YgcG9zaXRpb25zIHVzaW5nIHRoZSBPdmVycGFzcyBBUEkiCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICBzY2hlZHVsZVNlcnZpY2UgPSBjb21wb25lbnQgIlN0YXJQbGFuIFNlcnZpY2UiIHsKICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiRmV0Y2hlcyBhbmQgY2FjaGVzIHJvb20gc2NoZWR1bGVzIGZyb20gU3RhclBsYW4iCiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICBjYWNoZSA9IGNvbXBvbmVudCBDYWNoZSAiSW4tTWVtb3J5IENhY2hlIgoKICAgICAgICAgICAgICAgIHJvb21TZXJ2aWNlIC0+IG9zbUV4dHJhY3RvclNlcnZpY2UgIlVzZXMiCiAgICAgICAgICAgICAgICByb29tU2VydmljZSAtPiBzY2hlZHVsZVNlcnZpY2UgIlVzZXMiCiAgICAgICAgICAgICAgICByb29tU2VydmljZSAtPiBjYWNoZSAiVXNlcyIKICAgICAgICAgICAgICAgIHNjaGVkdWxlU2VydmljZSAtPiBjYWNoZSAiVXNlcyIKICAgICAgICAgICAgfQoKICAgICAgICAgICAgZGIgPSBjb250YWluZXIgIkRhdGFiYXNlIFNjaGVtYSIgewogICAgICAgICAgICAgICAgdGFncyAiRGF0YWJhc2UiCiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgIG1hcFRpbGVyID0gc29mdHdhcmVTeXN0ZW0gIk1hcFRpbGVyIiB7CiAgICAgICAgICAgIGRlc2NyaXB0aW9uICJTZXJ2ZXMgbWFwIHRpbGVzIgogICAgICAgIH0KICAgICAgICBmaXJlYmFzZSA9IHNvZnR3YXJlU3lzdGVtICJGaXJlYmFzZSBBdXRoIiB7CiAgICAgICAgICAgIGRlc2NyaXB0aW9uICJQcm92aWRlcyBpZGVudGl0eSBhbmQgYWNjZXNzIG1hbmFnZW1lbnQgZm9yIGFkbWlucyIKICAgICAgICB9CiAgICAgICAgb3NtQVBJID0gc29mdHdhcmVTeXN0ZW0gIk9wZW5TdHJlZXRNYXAgKE92ZXJwYXNzKSIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiUHJvdmlkZXMgaW5kb29yIHJvb20gZ2VvbWV0cnkgZGF0YSIKICAgICAgICB9CiAgICAgICAgc3RhclBsYW5BUEkgPSBzb2Z0d2FyZVN5c3RlbSAiU3RhclBsYW4iIHsKICAgICAgICAgICAgZGVzY3JpcHRpb24gIlByb3ZpZGVzIHNjaGVkdWxlIGluZm9ybWF0aW9uIGZvciByb29tcyIKICAgICAgICB9CgoKICAgICAgICBzcy5mcm9udGVuZCAtPiBzcy5iYWNrZW5kICJTZW5kcyBBUEkgcmVxdWVzdHMiCiAgICAgICAgc3MuYmFja2VuZCAtPiBzcy5kYiAiUmVhZHMgZnJvbSBhbmQgd3JpdGVzIHRvIgoKICAgICAgICBzcy5mcm9udGVuZCAtPiBtYXBUaWxlciAiTG9hZHMgbWFwIHRpbGVzIgogICAgICAgIHNzLmZyb250ZW5kIC0+IGZpcmViYXNlICJBdXRoZW50aWNhdGVzIGFkbWluIgogICAgICAgIHNzLmJhY2tlbmQgLT4gZmlyZWJhc2UgIlZlcmlmaWVzIElEIHRva2VuIgogICAgICAgIHNzLmJhY2tlbmQgLT4gb3NtQVBJICJSZXF1ZXN0cyBkYXRhIHdoZW4gY2FjaGUvZGIgaXMgZW1wdHkiCiAgICAgICAgc3MuYmFja2VuZCAtPiBzdGFyUGxhbkFQSSAiUmVxdWVzdHMgc2NoZWR1bGUgZGF0YSIKICAgIH0KCiAgICB2aWV3cyB7CiAgICAgICAgc3lzdGVtQ29udGV4dCBzcyAiU3lzdGVtLVZpZXciIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIGF1dG9sYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIGNvbnRhaW5lciBzcyAiQ29udGFpbmVyLVZpZXciIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIGF1dG9sYXlvdXQgbHIKICAgICAgICB9CgogICAgICAgIGNvbXBvbmVudCBzcy5mcm9udGVuZCB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0IGxyCiAgICAgICAgfQoKICAgICAgICBjb21wb25lbnQgc3MuYmFja2VuZCB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0IGxyCiAgICAgICAgfQoKICAgICAgICBzdHlsZXMgewogICAgICAgICAgICBlbGVtZW50ICJFbGVtZW50IiB7CiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiUGVyc29uIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNkMzQ0MDcKICAgICAgICAgICAgICAgIHNoYXBlIHBlcnNvbgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlNvZnR3YXJlIFN5c3RlbSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZjg2NjI4CiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICNmODg3MjgKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJDb21wb25lbnQiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2Y4ODgyOAogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkRhdGFiYXNlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBjeWxpbmRlcgogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQoKICAgIGNvbmZpZ3VyYXRpb24gewogICAgICAgIHNjb3BlIHNvZnR3YXJlc3lzdGVtCiAgICB9Cgp9"
+  },
+  "views" : {
+    "componentViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "4",
+      "dimensions" : {
+        "height" : 1411,
+        "width" : 890
+      },
+      "elements" : [ {
+        "id" : "5",
+        "x" : 219,
+        "y" : 185
+      }, {
+        "id" : "6",
+        "x" : 219,
+        "y" : 785
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "generatedKey" : true,
+      "key" : "Component-001",
+      "order" : 3
+    }, {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "11",
+      "elements" : [ {
+        "id" : "12",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "13",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "14",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "15",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "generatedKey" : true,
+      "key" : "Component-002",
+      "order" : 4,
+      "relationships" : [ {
+        "id" : "16"
+      }, {
+        "id" : "17"
+      }, {
+        "id" : "18"
+      }, {
+        "id" : "19"
+      } ]
+    } ],
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "Component-001",
+      "metadataSymbols" : "SquareBrackets",
+      "styles" : {
+        "elements" : [ {
+          "color" : "#ffffff",
+          "tag" : "Element"
+        }, {
+          "background" : "#d34407",
+          "shape" : "Person",
+          "tag" : "Person"
+        }, {
+          "background" : "#f86628",
+          "tag" : "Software System"
+        }, {
+          "background" : "#f88728",
+          "tag" : "Container"
+        }, {
+          "background" : "#f88828",
+          "tag" : "Component"
+        }, {
+          "shape" : "Cylinder",
+          "tag" : "Database"
+        } ]
+      },
+      "terminology" : { }
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "dimensions" : {
+        "height" : 2900,
+        "width" : 3070
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 200,
+        "y" : 165
+      }, {
+        "id" : "2",
+        "x" : 200,
+        "y" : 865
+      }, {
+        "id" : "4",
+        "x" : 900,
+        "y" : 565
+      }, {
+        "id" : "11",
+        "x" : 1650,
+        "y" : 565
+      }, {
+        "id" : "20",
+        "x" : 2400,
+        "y" : 565
+      }, {
+        "id" : "21",
+        "x" : 1650,
+        "y" : 1165
+      }, {
+        "id" : "22",
+        "x" : 2400,
+        "y" : 2365
+      }, {
+        "id" : "23",
+        "x" : 2400,
+        "y" : 1165
+      }, {
+        "id" : "24",
+        "x" : 2400,
+        "y" : 1765
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "Container-View",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "25"
+      }, {
+        "id" : "26"
+      }, {
+        "id" : "27"
+      }, {
+        "id" : "29",
+        "vertices" : [ {
+          "x" : 1650,
+          "y" : 1615
+        } ]
+      }, {
+        "id" : "31",
+        "vertices" : [ {
+          "x" : 2100,
+          "y" : 1015
+        }, {
+          "x" : 2400,
+          "y" : 2215
+        } ]
+      }, {
+        "id" : "32"
+      }, {
+        "id" : "34",
+        "vertices" : [ {
+          "x" : 2100,
+          "y" : 1015
+        }, {
+          "x" : 2400,
+          "y" : 1615
+        } ]
+      }, {
+        "id" : "7"
+      }, {
+        "id" : "9"
+      } ],
+      "softwareSystemId" : "3"
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "dimensions" : {
+        "height" : 2500,
+        "width" : 2300
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 200,
+        "y" : 665
+      }, {
+        "id" : "2",
+        "x" : 200,
+        "y" : 1365
+      }, {
+        "id" : "3",
+        "x" : 900,
+        "y" : 1065
+      }, {
+        "id" : "21",
+        "x" : 1650,
+        "y" : 165
+      }, {
+        "id" : "22",
+        "x" : 1650,
+        "y" : 765
+      }, {
+        "id" : "23",
+        "x" : 1650,
+        "y" : 1365
+      }, {
+        "id" : "24",
+        "x" : 1650,
+        "y" : 1965
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "System-View",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "10"
+      }, {
+        "id" : "28"
+      }, {
+        "id" : "30"
+      }, {
+        "id" : "33"
+      }, {
+        "id" : "35"
+      }, {
+        "id" : "8"
+      } ],
+      "softwareSystemId" : "3"
+    } ]
+  }
+}
