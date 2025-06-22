@@ -8,7 +8,8 @@ THRRoomfinder is a web and mobile-friendly application that helps users locate r
 
 - Provide fast and intuitive room search functionality.
 - Deliver map-based visual guidance to room locations.
-- Offer responsive UI for both desktop and mobile users.
+- Additionally show schedule information for selected room.
+- Offers a responsive UI for both desktop and mobile users.
 - Ensure scalability for additional campus locations.
 
 ## Stakeholders
@@ -37,7 +38,7 @@ THRRoomfinder is a web and mobile-friendly application that helps users locate r
 ![Business Context](images/business-context.jpg)
 
 | Element         | Description                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------- |
+|-----------------|-------------------------------------------------------------------------------------------------------------|
 | User            | Students, university staff, campus visitors who uses the room finder to access locations and time schedules |
 | Open Street Map | Open Street Map used to fetch current inroom location data if not stored in service                         |
 | SPlan           | Stores schedules of Rooms                                                                                   |
@@ -63,12 +64,6 @@ THRRoomfinder is a web and mobile-friendly application that helps users locate r
 
 - Delivered via Docker Compose and runs on a web server (localhost:80 or production domain).
 
-**\<Diagram or Table>**
-
-**\<optionally: Explanation of technical interfaces>**
-
-**\<Mapping Input/Output to Channels>**
-
 # Solution Strategy
 
 - Use **Spring Boot** backend to expose APIs for room search and schedule data.
@@ -92,7 +87,7 @@ Motivation
 Contained Building Blocks
 
 | Building Block | Description                                 |
-| -------------- | ------------------------------------------- |
+|----------------|---------------------------------------------|
 | THRR Frontend  | User Interface for user access              |
 | THRR Backend   | Room location data and schedule information |
 
@@ -110,17 +105,6 @@ The frontend also provides a admin dashboard to clear schedule cache data and de
 
 Provides room locations and room schedules to be shown by the frontend module.
 
-[//]: # (### Open Street Map)
-
-[//]: # ()
-[//]: # (This interface provides Open Street Map node information, thus from indoor room nodes to lat and long coordinates can be fetched.)
-
-[//]: # ()
-[//]: # (### SPlan)
-
-[//]: # ()
-[//]: # (This interface is used to fetch the room schedule using the specific room name.)
-
 ## Level 2
 
 ### THRR Backend (Whitebox)
@@ -130,7 +114,7 @@ Provides room locations and room schedules to be shown by the frontend module.
 #### Contained Blackboxes:
 
 | Building blackbox | Description                                                          |
-| ----------------- | -------------------------------------------------------------------- |
+|-------------------|----------------------------------------------------------------------|
 | RestController    | Entry Point for REST Requests                                        |
 | WebSecurity       | Checks specific endpoints for authentication using the Firebase IDP. |
 | RoomService       | Room Service is used to handle all room related requests.            |
@@ -156,31 +140,48 @@ The service can fetch the schedule for the current week or the week of the speci
 
 ![Runtime Room Location](images/Runtime-RoomLocation.jpg)
 
-1. User calls `getLocationForRoom()` on RestController
+1. User calls `getLocationForRoom()` on RestController.
 
-2. RestController calls `getLocationForRoom()` on RoomService
+2. RestController calls `getLocationForRoom()` on RoomService.
 
-3. RoomService fetches Room from OSM Extractor via `getIndoorRoomsForBuilding()`
-- *\<insert runtime diagram or textual description of the scenario>*
+3. RoomService fetches Room from OSM Extractor via `getIndoorRoomsForBuilding()`.
+   
+   Further, the result is cached on successful responses.
 
-- *\<insert description of the notable aspects of the interactions
-  between the building block instances depicted in this diagram.\>*
+## Fetch Room Schedule
 
-## \<Runtime Scenario 2> {#__runtime_scenario_2}
+![Runtime Room Schedule](images/Runtime-RoomSchedule.jpg)
 
-## ... {#_}
+1. User calls `getScheduleForRoom()` on RestController.
 
-## \<Runtime Scenario n> {#__runtime_scenario_n}
+2. RestController calls `getRoomScheduleForRoom()` on RoomService.
 
-# Deployment View {#section-deployment-view}
+3. RoomService fetches Room from StarPlanService via `getScheduleForRoom()`.
 
-## Infrastructure Level 1 {#_infrastructure_level_1}
+   Further, the result is cached on successful responses.
 
-***\<Overview Diagram>***
+## Fetch Available Rooms
+
+![Runtime Room List](images/Runtime-RoomBuildingList.jpg)
+
+1. User calls `getRooms()` on RestController.
+
+2. RestController calls `getAllRooms()` on RoomService.
+
+3. RoomService fetches Rooms from RoomRepository via `findAll()`.
+
+   Further, the result is cached on successful responses.
+
+# Deployment View
+
+## Infrastructure
+
+![Infrastructure View](images/Infrastructure-View.jpg)
 
 Motivation
 
-:   *\<explanation in text form>*
+:   The frontend and backend service resist each in their own container.
+The separate containers allow the app to be scaled independently.
 
 Quality and/or Performance Features
 
@@ -189,22 +190,6 @@ Quality and/or Performance Features
 Mapping of Building Blocks to Infrastructure
 
 :   *\<description of the mapping>*
-
-## Infrastructure Level 2 {#_infrastructure_level_2}
-
-### *\<Infrastructure Element 1>* {#__emphasis_infrastructure_element_1_emphasis}
-
-*\<diagram + explanation>*
-
-### *\<Infrastructure Element 2>* {#__emphasis_infrastructure_element_2_emphasis}
-
-*\<diagram + explanation>*
-
-...
-
-### *\<Infrastructure Element n>* {#__emphasis_infrastructure_element_n_emphasis}
-
-*\<diagram + explanation>*
 
 # Cross-cutting Concepts {#section-concepts}
 
@@ -273,7 +258,7 @@ The system must be able to:
 #### **4. Pros and Cons of the Options**
 
 | **Option**               | **Pros**                                                                                                    | **Cons**                                                                                                     |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+|--------------------------|-------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | **OSM indoor data**      | - Freely available- Easily accessible via Overpass API- Updated by global community- Scales well            | - Coverage varies by region- Data schema may be inconsistent- Requires parsing logic for nodes and relations |
 | **Custom indoor map DB** | - Full control over structure- Can ensure data completeness and precision- Optimized for app-specific needs | - High initial development cost- Needs a data entry and update process- Potentially redundant with OSM       |
 
@@ -302,7 +287,7 @@ The system must be able to:
 # Glossary
 
 | Term               | Definition                                                                                                                                                   |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+|--------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | MapLibre           | Open-source JavaScript map rendering library.                                                                                                                |
 | Mantine UI library | A modern React component library that offers a comprehensive set of customizable UI elements and hooks for building responsive web applications efficiently. |
 | Open Street Map    | Is a free, open map database updated and maintained by a community of volunteers via open collaboration.                                                     |

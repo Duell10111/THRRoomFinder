@@ -4,6 +4,11 @@
 
 ![icon.png](icon.png)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Duell10111_THRRoomFinder&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Duell10111_THRRoomFinder)
+[![THRRoomfinder](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/2zo3t1/main&style=flat&logo=cypress)](https://cloud.cypress.io/projects/2zo3t1/runs)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Duell10111_THRRoomFinder&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Duell10111_THRRoomFinder)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Duell10111_THRRoomFinder&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Duell10111_THRRoomFinder)
+
 THRRoomfinder is a helpful tool designed to assist students, staff, and visitors in quickly finding rooms and lecture halls on campus. Whether you’re late for a lecture or looking for a seminar room you’ve never heard of—Roomfinder has you covered.
 
 ### 🔍 Features
@@ -63,7 +68,19 @@ You need the following API Keys to built and run the application successfully:
    ```
    http://localhost:80
    ```
-   
+
+### 💻 Usage
+
+The app can be added as PWA on all common web browsers.
+
+Additionally the app supports direct linking to rooms to be used by other apps or to be shared for events.
+Therefore the room name has to be added directly after the url of the app.
+
+Example:
+```
+https://thrroomfinder.duell10111.de/A0.02
+```
+
 ### ▶️ Github Actions
 
 The Github workflows are structured in the following way:
