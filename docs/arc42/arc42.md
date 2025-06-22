@@ -79,7 +79,7 @@ THRRoomfinder is a web and mobile-friendly application that helps users locate r
 
 Motivation
 
-:   *\<text explanation>*
+:   The overall architecture follows a layered, modular design to promote separation of concerns and scalability. Each block represents a logical or technical unit that handles a specific responsibility, enabling clearer ownership and easier maintenance.
 
 Contained Building Blocks
 
@@ -90,7 +90,7 @@ Contained Building Blocks
 
 Important Interfaces
 
-:   *\<Description of important interfaces>*
+:   RESTful APIs form the primary communication mechanism between the frontend and backend. These APIs expose endpoints for room location lookup, schedule retrieval, and administrative functions (e.g., clearing cache, deleting entries). Authentication is enforced on administrative endpoints via Firebase IDP.
 
 ### THRR Frontend
 
@@ -182,27 +182,29 @@ The separate containers allow the app to be scaled independently.
 
 Quality and/or Performance Features
 
-:   *\<explanation in text form>*
+:   The application is optimized for fast user interaction by minimizing latency through caching (StarPlan and RoomRepository queries). 
+Performance is further enhanced by container-based deployment, allowing backend and frontend services to scale independently. Use of MapLibre ensures smooth map rendering.
 
 Mapping of Building Blocks to Infrastructure
 
-:   *\<description of the mapping>*
+- THRR Frontend → Docker container running Next.js served via NGINX or equivalent reverse proxy.
+- THRR Backend → Spring Boot service container with API endpoints and database integration.
+- Database → PostgreSQL with PostGIS extension for spatial data support.
+- External services (OSM, SPlan, Firebase, MapTiler) are accessed via HTTPS.
 
-# Cross-cutting Concepts {#section-concepts}
+# Cross-cutting Concepts
 
-## *\<Concept 1>* {#__emphasis_concept_1_emphasis}
+## Authentication and Authorization
 
-*\<explanation>*
+Firebase Authentication is integrated into the admin dashboard. Backend endpoints requiring admin-level privileges are secured using Firebase ID tokens verified via Spring Security.
 
-## *\<Concept 2>* {#__emphasis_concept_2_emphasis}
+## Caching Strategy
 
-*\<explanation>*
+Spring Cache abstraction (with Caffeine) is used to cache StarPlan and Room responses. RoomService caches available rooms and schedules, with optional manual invalidation via the admin dashboard.
 
-...
+## API Design
 
-## *\<Concept n>* {#__emphasis_concept_n_emphasis}
-
-*\<explanation>*
+Follows REST principles. Each endpoint is well-documented and exposes clear resource-based routes (e.g., `/api/room/{name}`, `/api/schedule/{room}`).
 
 # Architecture Decisions
 
