@@ -14,13 +14,10 @@ THRRoomfinder is a web and mobile-friendly application that helps users locate r
 
 ## Stakeholders
 
-+-------------+---------------------------+---------------------------+
-| Role/Name   | Contact                   | Expectations              |
-+=============+===========================+===========================+
-| *\<Role-1>* | *\<Contact-1>*            | *\<Expectation-1>*        |
-+-------------+---------------------------+---------------------------+
-| *\<Role-2>* | *\<Contact-2>*            | *\<Expectation-2>*        |
-+-------------+---------------------------+---------------------------+
+| Role/Name                  | Contact                | Expectations         |
+|----------------------------|------------------------|----------------------|
+| Konstantin Späth           | duell10111@t-online.de | Developer and User   |
+| Felix Rampf (SQS lecturer) | -                      | Quality requirements |
 
 # Architecture Constraints
 
