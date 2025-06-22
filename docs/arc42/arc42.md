@@ -36,8 +36,8 @@ THRRoomfinder is a web and mobile-friendly application that helps users locate r
 
 | Element         | Description                                                                                                 |
 |-----------------|-------------------------------------------------------------------------------------------------------------|
-| User            | Students, university staff, campus visitors who uses the room finder to access locations and time schedules |
-| Open Street Map | Open Street Map used to fetch current inroom location data if not stored in service                         |
+| User            | Students, university staff, campus visitors who use the RoomFinder to access location and schedule information |
+| Open Street Map | Open Street Map used to fetch current indoor location data if not stored in service                         |
 | SPlan           | Stores schedules of Rooms                                                                                   |
 | MapTiler        | Used as tiler service for map data                                                                          |
 | Indoor Control  | Serves indoor data for the frontend map                                                                     |
@@ -94,9 +94,9 @@ Important Interfaces
 
 ### THRR Frontend
 
-Used to provide a user interface for the using including a map showing indoor data.
+Provides the user interface, including a map showing indoor data.
 Further a direct link can be used to show a specific room.
-The frontend also provides a admin dashboard to clear schedule cache data and delete room data in the database to trigger a fetch from Open Street Map.
+The frontend also provides an admin dashboard to clear schedule cache data and delete room data in the database to trigger a fetch from Open Street Map.
 
 ### THRR Backend
 
@@ -124,11 +124,11 @@ Handles all room related functionalities and performs caching on successful requ
 
 ### OSM Extractor
 
-For a given room name and location, `OSM Extractor` fetches a location searching under a specific node configured for the location. 
+For a given room name and location, `OSM Extractor` fetches a location by searching within a predefined node configuration for the location. 
 
 ### SPlan Extractor
 
-For a given room name and location, `SPlan Extractor` fetches the schedule for the specified room under in the specified location.
+For a given room name and location, `SPlan Extractor` fetches the schedule for the specified room in the specified location.
 The service can fetch the schedule for the current week or the week of the specified date.
 
 # Runtime View
@@ -177,7 +177,7 @@ The service can fetch the schedule for the current week or the week of the speci
 
 Motivation
 
-:   The frontend and backend service resist each in their own container.
+:   The frontend and backend services reside in separate containers.
 The separate containers allow the app to be scaled independently.
 
 Quality and/or Performance Features
@@ -205,6 +205,10 @@ Spring Cache abstraction (with Caffeine) is used to cache StarPlan and Room resp
 ## API Design
 
 Follows REST principles. Each endpoint is well-documented and exposes clear resource-based routes (e.g., `/api/room/{name}`, `/api/schedule/{room}`).
+
+## Reactive Request Processing
+
+The backend uses a nonblocking mechanism to process the requests, which improves availability by preventing thread blocking caused by slow external services.
 
 # Architecture Decisions
 
