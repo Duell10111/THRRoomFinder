@@ -1,4 +1,8 @@
+(welcome)=
+
 # THRRoomfinder
+
+![icon.png](icon.png)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Duell10111_THRRoomFinder&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Duell10111_THRRoomFinder)
 [![THRRoomfinder](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/2zo3t1/main&style=flat&logo=cypress)](https://cloud.cypress.io/projects/2zo3t1/runs)
@@ -37,7 +41,7 @@ You need the following API Keys to built and run the application successfully:
   Free API Key can be generated with your email address from [here](https://indoorequal.com/).
 - Firebase API Key (used for IDP authentication for admin dashboard):
   An API Key can be fetched after creating your own Firebase project for development.
-
+  
   **Important**: You should change the authDomain as well when creating your own project to get the auth working.
   Filepath: `frontend/src/admin/auth.ts`
 
@@ -48,29 +52,41 @@ You need the following API Keys to built and run the application successfully:
    git clone https://github.com/Duell10111/THRRoomFinder.git
    cd THRRoomFinder
    ```
-
+   
 2. Add API keys as build args to frontend build.
     - Needed API Keys as following env variables:
-        - **NEXT_PUBLIC_MAPTILER_API_KEY**
-        - **NEXT_PUBLIC_INDOOR_CONTROL_API_KEY** (enter Indoor Equal API Key from above)
-        - **NEXT_PUBLIC_FIREBASE_API_KEY**
-
+      - **NEXT_PUBLIC_MAPTILER_API_KEY**
+      - **NEXT_PUBLIC_INDOOR_CONTROL_API_KEY** (enter Indoor Equal API Key from above)
+      - **NEXT_PUBLIC_FIREBASE_API_KEY**
+   
 3. Run the docker compose:
    ```bash
    docker-compose up -d
    ```
-
+   
 4. Open app in browser:
    ```
    http://localhost:80
    ```
+
+### 💻 Usage
+
+The app can be added as PWA on all common web browsers.
+
+Additionally the app supports direct linking to rooms to be used by other apps or to be shared for events.
+Therefore the room name has to be added directly after the url of the app.
+
+Example:
+```
+https://thrroomfinder.duell10111.de/A0.02
+```
 
 ### ▶️ Github Actions
 
 The Github workflows are structured in the following way:
 
 - `Sonarqube Workflow` - Used to analyses frontend and backend by running their tests and then sending them to the Sonarcloud.
-  Runs on pull requests and pushes on the main branch.
+Runs on pull requests and pushes on the main branch.
 - `E2E Tests` - Runs cypress e2e tests on pull requests and pushes on the main branch.
 - `Code analysis` - Runs unit and integration tests of the frontend and backend on every commit.
 - `Release Please` - Runs release please on every main branch commit.
@@ -79,9 +95,36 @@ The Github workflows are structured in the following way:
 
 ### 📄 Documentation
 
-The documentation is provided by Read the Docs under:
-https://thrroomfinder.readthedocs.io/en/
+The documentation is spread in multiple files. These files can be found here:
+
+- [Backend](backend.md)
+- [Backend API](api.rst)
+- [Arc42](arc42/arc42.md)
 
 ### 🤝 Contributing
 
 We welcome contributions! Please open an issue first to discuss what you would like to change.
+
+```{toctree}
+---
+maxdepth: 3
+hidden:
+caption: Contents
+---
+self
+frontend
+backend
+test-concept
+c4
+
+api.rst
+```
+
+```{toctree}
+---
+maxdepth: 1
+hidden:
+caption: Arc42
+---
+arc42/arc42
+```
