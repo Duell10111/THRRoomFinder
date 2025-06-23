@@ -6,7 +6,7 @@
   "documentation" : { },
   "id" : 1,
   "lastModifiedAgent" : "structurizr-ui",
-  "lastModifiedDate" : "2025-06-22T17:29:10Z",
+  "lastModifiedDate" : "2025-06-23T12:29:00Z",
   "model" : {
     "people" : [ {
       "description" : "Students, staff, and visitors using the RoomFinder application",
@@ -320,7 +320,7 @@
       "order" : 3
     }, {
       "automaticLayout" : {
-        "applied" : false,
+        "applied" : true,
         "edgeSeparation" : 0,
         "implementation" : "Graphviz",
         "nodeSeparation" : 300,
@@ -329,22 +329,26 @@
         "vertices" : false
       },
       "containerId" : "11",
+      "dimensions" : {
+        "height" : 1565,
+        "width" : 2390
+      },
       "elements" : [ {
         "id" : "12",
-        "x" : 0,
-        "y" : 0
+        "x" : 220,
+        "y" : 339
       }, {
         "id" : "13",
-        "x" : 0,
-        "y" : 0
+        "x" : 970,
+        "y" : 939
       }, {
         "id" : "14",
-        "x" : 0,
-        "y" : 0
+        "x" : 970,
+        "y" : 339
       }, {
         "id" : "15",
-        "x" : 0,
-        "y" : 0
+        "x" : 1720,
+        "y" : 185
       } ],
       "externalContainerBoundariesVisible" : false,
       "generatedKey" : true,
@@ -355,14 +359,21 @@
       }, {
         "id" : "17"
       }, {
-        "id" : "18"
+        "id" : "18",
+        "vertices" : [ {
+          "x" : 970,
+          "y" : 189
+        }, {
+          "x" : 1420,
+          "y" : 189
+        } ]
       }, {
         "id" : "19"
       } ]
     } ],
     "configuration" : {
       "branding" : { },
-      "lastSavedView" : "Component-001",
+      "lastSavedView" : "System-View",
       "metadataSymbols" : "SquareBrackets",
       "styles" : {
         "elements" : [ {
@@ -497,31 +508,31 @@
       },
       "elements" : [ {
         "id" : "1",
-        "x" : 200,
+        "x" : 199,
         "y" : 665
       }, {
         "id" : "2",
-        "x" : 200,
+        "x" : 199,
         "y" : 1365
       }, {
         "id" : "3",
-        "x" : 900,
+        "x" : 899,
         "y" : 1065
       }, {
         "id" : "21",
-        "x" : 1650,
+        "x" : 1649,
         "y" : 165
       }, {
         "id" : "22",
-        "x" : 1650,
+        "x" : 1649,
         "y" : 765
       }, {
         "id" : "23",
-        "x" : 1650,
+        "x" : 1649,
         "y" : 1365
       }, {
         "id" : "24",
-        "x" : 1650,
+        "x" : 1649,
         "y" : 1965
       } ],
       "enterpriseBoundaryVisible" : true,
