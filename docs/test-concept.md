@@ -13,7 +13,7 @@ The tests are structured in the following hierarchy:
 | Unit          | JUnit5, MockK, Vitest          |
 | Integration   | SpringBootTest, Testcontainers |
 | E2E           | Cypress                        |
-| Static Checks | Detekt, ESLint (JS/TS)         |
+| Static Checks | Sonarqube, ESLint              |
 | Coverage      | JaCoCo, Sonarqube              |
 
 ### 🕵️ Coverage Strategy

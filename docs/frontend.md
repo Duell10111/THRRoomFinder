@@ -7,6 +7,7 @@ The frontend is built using Next.js with PWA support.
 - UI Library: Mantine UI
 - Maps: MapLibre GL JS with MapTiler tiles
 - Auth: Firebase Authentication
+- Testing: Sonarqube, Vitest
 - Language: TypeScript
 
 ### 🚀 Features

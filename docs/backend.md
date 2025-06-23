@@ -4,7 +4,7 @@ The backend is built as reactive Spring Boot backend written with Kotlin corouti
 
 ### 🌍 Tech Stack
 - Framework: Spring Boot 3 (Reactive Coroutines)
-- Testing: Detect, MockK, Testcontainers, Wiremock
+- Testing: Sonarqube, MockK, Testcontainers, Wiremock
 - Language: Kotlin
 
 ### 🔧 Configurations
