@@ -8,6 +8,18 @@ import { useRoomContext } from "@/context/RoomContext"
 import { GeoJSONSource } from "maplibre-gl"
 import { showErrorNotification } from "@/utils/notifications"
 
+/**
+ * React component that handles click interactions on indoor map polygons to display room details.
+ *
+ * - Listens for click events on the "indoor-polygon" layer of the map.
+ * - When a room is clicked, sets the selected room in context and highlights it on the map.
+ * - Displays a popup with room details fetched asynchronously.
+ * - Clears the popup if the indoor level changes or if the user clicks away.
+ *
+ * Utilizes MapLibre GL for event handling and dynamic source updates.
+ *
+ * @returns A map popup component showing selected room info, or null if no room is selected.
+ */
 export function RoomClicker() {
     const { current } = useMap()
     const [popup, setPopup] = useState<{ lat: number; lng: number }>()

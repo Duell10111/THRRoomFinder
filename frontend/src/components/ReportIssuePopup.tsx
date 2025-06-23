@@ -2,6 +2,14 @@ import { useDisclosure } from "@mantine/hooks"
 import { Anchor, Center, Modal, NavLink, Text } from "@mantine/core"
 import { IconExclamationCircleFilled } from "@tabler/icons-react"
 
+/**
+ * A navigation bar item that displays a modal popup allowing users to report issues with map data.
+ *
+ * When clicked, a modal explains how users can update indoor data on OpenStreetMap.
+ * Includes a direct link to OSMInEdit as a recommended editing tool.
+ *
+ * @returns A React component that renders the navigation link and modal popup.
+ */
 export function ReportIssuePopupNavBarItem() {
     const [opened, { open, close }] = useDisclosure(false)
 

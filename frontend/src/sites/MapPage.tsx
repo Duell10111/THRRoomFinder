@@ -3,6 +3,15 @@ import { CampusMap } from "@/components/map/CampusMap"
 import { AutocompleteSubmit } from "@/components/AutocompleteSubmit"
 import { useRoomContext } from "@/context/RoomContext"
 
+/**
+ * A page component that displays the main interactive map and room search input.
+ *
+ * - Includes an autocomplete input allowing users to search for a room by name.
+ * - Submitting a room triggers the RoomContext to update the selected room.
+ * - Renders the CampusMap component, which visualizes indoor features and room status.
+ *
+ * @returns The full layout including the search bar and the map view.
+ */
 export function MapPage() {
     const { setRoom } = useRoomContext()
 

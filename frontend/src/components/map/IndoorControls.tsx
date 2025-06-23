@@ -4,6 +4,17 @@ import { useControl } from "react-map-gl/maplibre"
 import { useRoomContext } from "@/context/RoomContext"
 import { useEffect } from "react"
 
+/**
+ * React component that integrates the IndoorEqual library into the map for indoor level control.
+ *
+ * - Loads indoor level graphics and sets the initial level from context.
+ * - Syncs indoor level changes between the map and the application context.
+ * - Listens for level change events emitted by IndoorEqual and updates context state.
+ *
+ * This component does not render any visible UI elements.
+ *
+ * @returns null
+ */
 export function IndoorControls() {
     const { level, setLevel } = useRoomContext()
 
@@ -42,6 +53,13 @@ export function IndoorControls() {
     return null
 }
 
+/**
+ * IndoorEqual-compatible layer configuration used to render indoor areas and POIs on the map.
+ *
+ * This configuration includes default styling for indoor polygons, lines, POIs, and custom overlays
+ * like room occupancy and room highlighting. These layers define how features are visually styled
+ * and how interactivity such as feature-state logic is applied.
+ */
 // Original fetched from indoorequal library
 // https://github.com/indoorequal/maplibre-gl-indoorequal/blob/master/src/layers.js
 const commonPoi = {

@@ -1,6 +1,13 @@
 import { Container, Title, Text, Stack } from "@mantine/core"
 import Head from "next/head"
 
+/**
+ * A static page component that renders the legal disclosure (Impressum) for the website.
+ *
+ * Includes contact information, address, and a liability disclaimer for external links.
+ *
+ * @returns A React functional component displaying legal information about the site operator.
+ */
 export default function Impressum() {
     return (
         <>

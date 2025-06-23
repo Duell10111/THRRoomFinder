@@ -11,6 +11,20 @@ import { useRoomContext } from "@/context/RoomContext"
 import "./map.css"
 import OccupancyControl from "@/components/map/OccupancyControl"
 
+/**
+ * Renders the interactive campus map using MapLibre with indoor and occupancy overlays.
+ *
+ * This map includes:
+ * - Indoor level controls via IndoorEqual
+ * - Room highlighting and popups
+ * - Occupancy visualization
+ * - Geolocation and fullscreen controls
+ *
+ * The map is initialized with restricted bounds around the RO site and supports dark/light themes
+ * based on the user's color scheme. Upon load, custom sources for highlight and occupancy are added.
+ *
+ * @returns A full-screen map component with indoor and admin overlays.
+ */
 export function CampusMap() {
     const colorScheme = useColorScheme("dark")
     const { onMapLoad } = useRoomContext()

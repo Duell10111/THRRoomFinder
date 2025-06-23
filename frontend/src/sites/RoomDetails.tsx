@@ -2,6 +2,16 @@ import { useRoomContext } from "@/context/RoomContext"
 import { Schedule } from "@/components/schedule/Schedule"
 import { AppShell, Center, ScrollArea } from "@mantine/core"
 
+/**
+ * A component that displays room details and its schedule if a room is selected.
+ *
+ * - If no room is selected in context, shows a placeholder message.
+ * - If a room is selected, displays the room name and its schedule (if available).
+ *
+ * Uses `useRoomContext` to access selected room and schedule data.
+ *
+ * @returns A section of the UI showing room details or a message prompting room selection.
+ */
 export function RoomDetails() {
     const { data } = useRoomContext()
 
