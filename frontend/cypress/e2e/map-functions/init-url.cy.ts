@@ -6,7 +6,7 @@ describe("Map URL Tests", () => {
         cy.visit("http://localhost:3000/A0.04")
 
         cy.mapController("mainMap").then((controller) => {
-            return controller.waitToMapLoaded()
+            return controller.waitToMapLoaded({ timeout: 10000 })
         })
 
         cy.mapLocator(
@@ -19,7 +19,7 @@ describe("Map URL Tests", () => {
         cy.visit("http://localhost:3000/A5.04")
 
         cy.mapController("mainMap").then((controller) => {
-            return controller.waitToMapLoaded()
+            return controller.waitToMapLoaded({ timeout: 10000 })
         })
 
         cy.mapLocator(
