@@ -45,7 +45,7 @@ class StarPlanService(
     private val objectMapper: ObjectMapper,
     cacheManager: CacheManager,
 ) {
-    private val cache: Cache = cacheManager.getCache("splan") ?: throw IllegalStateException("Cache not initialized")
+    private val cache: Cache = cacheManager.getCache("splan") ?: error("Cache not initialized")
 
     /**
      * Clears the StarPlan cache.
