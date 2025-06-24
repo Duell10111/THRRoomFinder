@@ -3,6 +3,7 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
+      # args: ADD YOUR ENV VARIABLES HERE
     ports:
       - "80:3000"
   backend:
