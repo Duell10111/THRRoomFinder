@@ -14,10 +14,12 @@ THRRoomfinder is a web and mobile-friendly application that helps users locate r
 
 ## Stakeholders
 
-| Role/Name                  | Contact                | Expectations         |
-|----------------------------|------------------------|----------------------|
-| Konstantin Späth           | duell10111@t-online.de | Developer and User   |
-| Felix Rampf (SQS lecturer) | -                      | Quality requirements |
+| Role                      | Name/Contact               | Expectations                                                         |
+|---------------------------|----------------------------|----------------------------------------------------------------------|
+| Primary Users             | Students, Lecturers        | Fast access to room locations and schedules via web or mobile device |
+| Developer & Maintainer    | Konstantin Späth           | System functionality, maintainability, and deployment readiness      |
+| Quality Assurance Advisor | Felix Rampf (SQS Lecturer) | High code quality, testability, and maintainable architecture        |
+| Infrastructure Provider   | IT Operations (University) | Container-based deployment, low-maintenance operation                |
 
 # Architecture Constraints
 
