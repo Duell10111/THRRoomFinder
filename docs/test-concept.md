@@ -2,9 +2,9 @@
 
 The tests are structured in the following hierarchy:
 
-         UI / E2E Tests     ← Cypress
-       Integration Tests    ← SpringBootTest, WebTestClient, Testcontainers
-     Unit Tests             ← JUnit5, MockK, Vitest
+         UI / E2E Tests                             ← Cypress
+       Integration Tests, Penetatration Tests    ← SpringBootTest, WebTestClient, Testcontainers
+     Unit Tests                                ← JUnit5, MockK, Vitest
 
 ### 🧰 Tools & Libraries
 
