@@ -72,6 +72,18 @@ You need the following API keys to build and run the application successfully:
    http://localhost:80
    ```
 
+### 💻 Usage
+
+The app can be added as PWA on all common web browsers.
+
+Additionally the app supports direct linking to rooms to be used by other apps or to be shared for events.
+Therefore the room name has to be added directly after the url of the app.
+
+Example:
+```
+https://thrroomfinder.duell10111.de/A0.02
+```
+
 ### ▶️ GitHub Actions
 
 The GitHub workflows are structured as follows:
