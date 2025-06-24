@@ -1,18 +1,20 @@
-import {useEffect, useState} from "react";
-import {backendUrl} from "@/utils/const";
-import {ScheduleData} from "@/utils/data";
+import { useEffect, useState } from "react"
+import { fetchScheduleData, ScheduleData } from "@/utils/data"
 
-
+/**
+ * Custom React hook to fetch and return the schedule data for a given room.
+ *
+ * Automatically re-fetches whenever the room name changes.
+ *
+ * @param roomName - The name of the room whose schedule should be retrieved.
+ * @returns An array of ScheduleData objects or undefined while loading.
+ */
 export default function useScheduleData(roomName: string) {
-    const [scheduleData, setScheduleData] = useState<ScheduleData[]>();
+    const [scheduleData, setScheduleData] = useState<ScheduleData[]>()
 
     useEffect(() => {
-        async function fetchScheduleData() {
-            const data = await fetch(`${backendUrl}/api/v1/room/${roomName}/schedule`)
-            return await data.json() as ScheduleData[]
-        }
-        fetchScheduleData().then(setScheduleData).catch(console.warn)
+        fetchScheduleData(roomName).then(setScheduleData).catch(console.warn)
     }, [roomName])
 
-    return scheduleData;
+    return scheduleData
 }

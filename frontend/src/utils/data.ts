@@ -83,3 +83,8 @@ export async function getAllRoomsWithBuildings() {
         )
     }
 }
+
+export async function fetchScheduleData(roomName: string) {
+    const data = await fetch(`${backendUrl}/api/v1/room/${roomName}/schedule`)
+    return (await data.json()) as ScheduleData[]
+}

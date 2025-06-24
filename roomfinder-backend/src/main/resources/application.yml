@@ -29,7 +29,7 @@ logging:
     com.kospaeth.roomfinder: DEBUG
 
 room-finder:
-  admin-ids: # TODO: Add check for admin uids
+  admin-ids:
     - i4nLJYwjqpTsUBU5K8eiEKWSFs23
   splan:
     url: "https://splan.th-rosenheim.de/splan/json"
