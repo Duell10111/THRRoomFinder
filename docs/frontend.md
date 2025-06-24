@@ -3,12 +3,12 @@
 The frontend is built using Next.js with PWA support.
 
 ### 🌍 Tech Stack
-- Framework: Next.js (React + SSR)
-- UI Library: Mantine UI
-- Maps: MapLibre GL JS with MapTiler tiles
-- Auth: Firebase Authentication
-- Testing: Sonarqube, Vitest
-- Language: TypeScript
+- **Framework**: Next.js (React + SSR)
+- **UI Library**: Mantine UI
+- **Maps**: MapLibre GL JS with MapTiler tiles
+- **Auth**: Firebase Authentication
+- **Testing**: Sonarqube, Vitest, Cypress
+- **Language**: TypeScript
 
 ### 🚀 Features
 - 🔎 Search for rooms by name
