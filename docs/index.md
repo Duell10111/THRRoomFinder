@@ -84,6 +84,12 @@ Example:
 https://thrroomfinder.duell10111.de/A0.02
 ```
 
+The admin dashboard can be accessed through the `/admin` path.
+In the same example the url would be:
+```
+https://thrroomfinder.duell10111.de/admin
+```
+
 ### ▶️ GitHub Actions
 
 The GitHub workflows are structured as follows:
