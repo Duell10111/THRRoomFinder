@@ -98,7 +98,9 @@ class StarPlanService(
         logger.debug { "No cached schedule found for room $room and date $date, fetching from SPlan" }
         @Suppress("ktlint:standard:max-line-length")
         return getRoom(location, room)?.id.let { roomId ->
-            val splanURL = "${properties.url}?m=getTT&sel=ro&pu=41&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
+            // TODO: Fetch semester dynamically using specific endpoint and cache locally?
+            // PU= Semester
+            val splanURL = "${properties.url}?m=getTT&sel=ro&pu=42&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
             logger.debug { "Fetching SPlan Schedule via url $splanURL" }
 
             webClient.get()
