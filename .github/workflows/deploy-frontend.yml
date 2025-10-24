@@ -14,7 +14,7 @@ permissions:
 concurrency: frontend-dev
 
 env:
-  IMAGE_TAG: canary
+  IMAGE_TAG: ${{ github.ref == 'refs/heads/main' && 'latest' || 'canary' }}
 
 jobs:
   Build:
