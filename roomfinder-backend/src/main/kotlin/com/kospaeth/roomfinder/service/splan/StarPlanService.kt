@@ -270,12 +270,32 @@ class StarPlanService(
         return getAvailableRooms(location).firstOrNull { it.shortName == room }
     }
 
+    /**
+     * Retrieves the appropriate Planning Unit (PU) for a given date.
+     *
+     * This function determines which PU (semester) the provided date belongs to by checking
+     * the list of available PUs retrieved from [getAvailablePU]. If the date does not fall
+     * within any of the defined PU date ranges, it returns the first available PU as a fallback.
+     *
+     * @param date The [LocalDate] to find the corresponding PU for.
+     * @return The [SPlanPUResponseItem] representing the PU that includes the given date,
+     *         or the first available PU if no matching range is found.
+     */
     suspend fun getPUForDate(date: LocalDate): SPlanPUResponseItem? {
         return getAvailablePU().let { pus ->
             pus.find { it.startDate <= date && date <= it.endDate } ?: pus.firstOrNull()
         }
     }
 
+    /**
+     * Retrieves the list of available PU (planning units or semesters) from the StarPlan system.
+     *
+     * The PU data defines valid time ranges (semesters) for which schedules can be fetched.
+     * This function performs a web request to the StarPlan API, decodes the response manually
+     * due to the unsupported ISO_8859_1 charset, and deserializes it into a list of [SPlanPUResponseItem].
+     *
+     * @return A list of [SPlanPUResponseItem] representing available planning units (semesters).
+     */
     suspend fun getAvailablePU(): List<SPlanPUResponseItem> {
         return webClient.get()
             .uri("${properties.url}?m=getpus")
