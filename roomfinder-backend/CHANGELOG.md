@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.1](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.0...v0.2.1) (2025-10-24)
+
+
+### 🐛 Bugfixes
+
+* use the latest semster code in url and add TODO: to do this dynamically in the future ([c8aadf5](https://github.com/Duell10111/THRRoomFinder/commit/c8aadf5c570e0a5baf238ed54c2298e57cb5ecb1))
+
+
+### 🔧 Chore
+
+* upgrade kotlin to v2 and add dynamic pu fetching to fix tests ([#46](https://github.com/Duell10111/THRRoomFinder/issues/46)) ([7a9272c](https://github.com/Duell10111/THRRoomFinder/commit/7a9272c2daf89e1e4259616c1e931c62278f7239))
+
 ## [0.2.0](https://github.com/Duell10111/THRRoomFinder/compare/v0.1.0...v0.2.0) (2025-06-24)
 
 
