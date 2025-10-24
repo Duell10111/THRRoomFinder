@@ -24,13 +24,13 @@ jobs:
       - uses: ./.github/actions/build-backend
         with:
           image_tag: ${{ env.IMAGE_TAG }}
-  Deploy:
-    runs-on: ubuntu-latest
-    needs: Build
-    environment: backend-dev
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/gcp-deploy
-        with:
-          service: "backend-dev"
-          image: "europe-west4-docker.pkg.dev/thrrosenheim/ghcr-mirror/duell10111/thr-roomfinder/backend:${{ env.IMAGE_TAG }}"
+#  Deploy:
+#    runs-on: ubuntu-latest
+#    needs: Build
+#    environment: backend-dev
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: ./.github/actions/gcp-deploy
+#        with:
+#          service: "backend-dev"
+#          image: "europe-west4-docker.pkg.dev/thrrosenheim/ghcr-mirror/duell10111/thr-roomfinder/backend:${{ env.IMAGE_TAG }}"
