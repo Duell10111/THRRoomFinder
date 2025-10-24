@@ -60,6 +60,9 @@ dependencies {
     // HTML Parser
     implementation("org.jsoup:jsoup:1.19.1")
 
+    // iCal Parser
+    implementation("org.mnode.ical4j:ical4j:4.2.0")
+
     // Logging
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.0")
 
