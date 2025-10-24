@@ -1,5 +1,6 @@
 package com.kospaeth.roomfinder.service.splan
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension
@@ -58,7 +59,13 @@ class StarPlanServiceTest {
         every { cache.get(any(), SPlanScheduleList::class.java) } returns null
 
         val webClient = WebClient.builder().clientConnector(ReactorClientHttpConnector(httpClient)).build()
-        starPlanService = StarPlanService(webClient, properties, jacksonObjectMapper(), cacheManager)
+        starPlanService =
+            StarPlanService(
+                webClient,
+                properties,
+                jacksonObjectMapper().also { it.registerModule(JavaTimeModule()) },
+                cacheManager,
+            )
     }
 
     companion object {
@@ -365,6 +372,13 @@ class StarPlanServiceTest {
         runTest {
             val rooms = starPlanService.getAvailableRooms(StarPlanLocation.RO)
             assertThat(rooms).hasSize(228)
+        }
+
+    @Test
+    fun `test getAvailablePU`() =
+        runTest {
+            val pus = starPlanService.getAvailablePU()
+            assertThat(pus).hasSize(7)
         }
 
     @Test

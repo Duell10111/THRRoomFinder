@@ -96,11 +96,13 @@ class StarPlanService(
         }
 
         logger.debug { "No cached schedule found for room $room and date $date, fetching from SPlan" }
+        val puVar = getPUForDate(date) ?: throw IllegalStateException("Can't fetch PU for date $date")
+
         @Suppress("ktlint:standard:max-line-length")
         return getRoom(location, room)?.id.let { roomId ->
             // TODO: Fetch semester dynamically using specific endpoint and cache locally?
             // PU= Semester
-            val splanURL = "${properties.url}?m=getTT&sel=ro&pu=42&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
+            val splanURL = "${properties.url}?m=getTT&sel=ro&pu=${puVar.id}&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
             logger.debug { "Fetching SPlan Schedule via url $splanURL" }
 
             webClient.get()
@@ -266,6 +268,28 @@ class StarPlanService(
         room: String,
     ): SPlanRoomResponseItem? {
         return getAvailableRooms(location).firstOrNull { it.shortName == room }
+    }
+
+    suspend fun getPUForDate(date: LocalDate): SPlanPUResponseItem? {
+        return getAvailablePU().let { pus ->
+            pus.find { it.startDate <= date && date <= it.endDate } ?: pus.firstOrNull()
+        }
+    }
+
+    suspend fun getAvailablePU(): List<SPlanPUResponseItem> {
+        return webClient.get()
+            .uri("${properties.url}?m=getpus")
+            .headers { headers ->
+                headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            }
+            .awaitExchange { response ->
+                // Parse byteArray manually as sever return unsupported ISO_8859_1 Charset
+                val str = response.awaitBody<ByteArrayResource>().byteArray.toString(Charsets.ISO_8859_1)
+                // Nested list
+                val value: List<List<SPlanPUResponseItem>> = objectMapper.readValue(str)
+
+                value.firstOrNull() ?: emptyList()
+            }
     }
 
     /**
