@@ -96,11 +96,13 @@ class StarPlanService(
         }
 
         logger.debug { "No cached schedule found for room $room and date $date, fetching from SPlan" }
+        val puVar = getPUForDate(date) ?: throw IllegalStateException("Can't fetch PU for date $date")
+
         @Suppress("ktlint:standard:max-line-length")
         return getRoom(location, room)?.id.let { roomId ->
             // TODO: Fetch semester dynamically using specific endpoint and cache locally?
             // PU= Semester
-            val splanURL = "${properties.url}?m=getTT&sel=ro&pu=42&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
+            val splanURL = "${properties.url}?m=getTT&sel=ro&pu=${puVar.id}&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
             logger.debug { "Fetching SPlan Schedule via url $splanURL" }
 
             webClient.get()
@@ -266,6 +268,48 @@ class StarPlanService(
         room: String,
     ): SPlanRoomResponseItem? {
         return getAvailableRooms(location).firstOrNull { it.shortName == room }
+    }
+
+    /**
+     * Retrieves the appropriate Planning Unit (PU) for a given date.
+     *
+     * This function determines which PU (semester) the provided date belongs to by checking
+     * the list of available PUs retrieved from [getAvailablePU]. If the date does not fall
+     * within any of the defined PU date ranges, it returns the first available PU as a fallback.
+     *
+     * @param date The [LocalDate] to find the corresponding PU for.
+     * @return The [SPlanPUResponseItem] representing the PU that includes the given date,
+     *         or the first available PU if no matching range is found.
+     */
+    suspend fun getPUForDate(date: LocalDate): SPlanPUResponseItem? {
+        return getAvailablePU().let { pus ->
+            pus.find { it.startDate <= date && date <= it.endDate } ?: pus.firstOrNull()
+        }
+    }
+
+    /**
+     * Retrieves the list of available PU (planning units or semesters) from the StarPlan system.
+     *
+     * The PU data defines valid time ranges (semesters) for which schedules can be fetched.
+     * This function performs a web request to the StarPlan API, decodes the response manually
+     * due to the unsupported ISO_8859_1 charset, and deserializes it into a list of [SPlanPUResponseItem].
+     *
+     * @return A list of [SPlanPUResponseItem] representing available planning units (semesters).
+     */
+    suspend fun getAvailablePU(): List<SPlanPUResponseItem> {
+        return webClient.get()
+            .uri("${properties.url}?m=getpus")
+            .headers { headers ->
+                headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            }
+            .awaitExchange { response ->
+                // Parse byteArray manually as sever return unsupported ISO_8859_1 Charset
+                val str = response.awaitBody<ByteArrayResource>().byteArray.toString(Charsets.ISO_8859_1)
+                // Nested list
+                val value: List<List<SPlanPUResponseItem>> = objectMapper.readValue(str)
+
+                value.firstOrNull() ?: emptyList()
+            }
     }
 
     /**

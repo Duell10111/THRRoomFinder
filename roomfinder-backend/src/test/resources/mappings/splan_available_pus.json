@@ -1,0 +1,93 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/splan/json",
+    "queryParameters": {
+      "m": { "equalTo": "getpus" },
+      "sel": { "absent": true },
+      "ro": { "absent": true },
+      "loc": { "absent": true }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/html;charset=ISO-8859-1",
+      "Cache-Control": "no-cache"
+    },
+    "jsonBody": [
+      [
+        {
+          "id": 41,
+          "shortname": "2025 SoSe",
+          "name": "Sommersemester 2025",
+          "startdate": "2025-03-15",
+          "enddate": "2025-09-30",
+          "dateasdefault": true,
+          "defaultloc": null,
+          "visibleonweb": true
+        },
+        {
+          "id": 40,
+          "shortname": "2024 WS",
+          "name": "Wintersemester 2024/25",
+          "startdate": "2024-10-01",
+          "enddate": "2025-03-14",
+          "dateasdefault": false,
+          "defaultloc": null,
+          "visibleonweb": true
+        },
+        {
+          "id": 37,
+          "shortname": "2024 SoSe",
+          "name": "Sommersemester 2024",
+          "startdate": "2024-03-15",
+          "enddate": "2024-09-30",
+          "dateasdefault": true,
+          "defaultloc": null,
+          "visibleonweb": true
+        },
+        {
+          "id": 34,
+          "shortname": "2023 WS",
+          "name": "Wintersemester 2023/24",
+          "startdate": "2023-10-01",
+          "enddate": "2024-03-14",
+          "dateasdefault": true,
+          "defaultloc": null,
+          "visibleonweb": true
+        },
+        {
+          "id": 33,
+          "shortname": "2023 SoSe",
+          "name": "Sommersemester 2023",
+          "startdate": "2023-03-15",
+          "enddate": "2023-09-30",
+          "dateasdefault": true,
+          "defaultloc": null,
+          "visibleonweb": true
+        },
+        {
+          "id": 24,
+          "shortname": "2022 WS",
+          "name": "Wintersemester 2022/23",
+          "startdate": "2022-10-01",
+          "enddate": "2023-03-14",
+          "dateasdefault": true,
+          "defaultloc": null,
+          "visibleonweb": true
+        },
+        {
+          "id": 23,
+          "shortname": "2022 SS",
+          "name": "Sommersemester 2022",
+          "startdate": "2022-03-15",
+          "enddate": "2022-09-30",
+          "dateasdefault": true,
+          "defaultloc": null,
+          "visibleonweb": true
+        }
+      ]
+    ]
+  }
+}
