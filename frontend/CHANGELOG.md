@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.0...v0.2.1) (2025-10-25)
+
+
+### 🔧 Chore
+
+* **deps:** update dependency cypress to v15 ([#51](https://github.com/Duell10111/THRRoomFinder/issues/51)) ([1f424bb](https://github.com/Duell10111/THRRoomFinder/commit/1f424bb4149f8f83491c0290d1cecde30126cdf1))
+
 ## [0.2.0](https://github.com/Duell10111/THRRoomFinder/compare/v0.1.0...v0.2.0) (2025-06-24)
 
 
