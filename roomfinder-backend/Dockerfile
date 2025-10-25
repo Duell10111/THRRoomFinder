@@ -7,7 +7,7 @@ COPY . .
 RUN gradle assemble
 
 
-FROM --platform=$BUILDPLATFORM eclipse-temurin:21-alpine
+FROM --platform=$BUILDPLATFORM eclipse-temurin:25-alpine
 
 WORKDIR /app
 
