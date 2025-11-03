@@ -10,7 +10,7 @@ export function ScheduleDatePicker() {
             placeholder="Pick date for scheduling"
             defaultValue={new Date()}
             value={data?.date}
-            onChange={(d) => setDate(d ?? undefined)}
+            onChange={(d) => setDate(d ? new Date(d) : undefined)}
         />
     )
 }
