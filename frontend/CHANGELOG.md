@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.1](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.0...v0.2.1) (2025-11-03)
+
+
+### 🐛 Bugfixes
+
+* **deps:** update mantine monorepo to v8 (major) ([#27](https://github.com/Duell10111/THRRoomFinder/issues/27)) ([dbf484b](https://github.com/Duell10111/THRRoomFinder/commit/dbf484b001a6d8c02d4240a0eaf666a6cf9c5a18))
+
+
+### 🔧 Chore
+
+* **deps:** update dependency @vitejs/plugin-react to v5 ([#50](https://github.com/Duell10111/THRRoomFinder/issues/50)) ([795e3b0](https://github.com/Duell10111/THRRoomFinder/commit/795e3b018bd8f30584c3815c5affa83aff77af0b))
+* **deps:** update dependency cypress to v15 ([#51](https://github.com/Duell10111/THRRoomFinder/issues/51)) ([1f424bb](https://github.com/Duell10111/THRRoomFinder/commit/1f424bb4149f8f83491c0290d1cecde30126cdf1))
+* **deps:** update dependency node to v24 ([#55](https://github.com/Duell10111/THRRoomFinder/issues/55)) ([1eb9202](https://github.com/Duell10111/THRRoomFinder/commit/1eb9202e9288bf20019e1ad9d31b81415072ed85))
+
 ## [0.2.0](https://github.com/Duell10111/THRRoomFinder/compare/v0.1.0...v0.2.0) (2025-06-24)
 
 
