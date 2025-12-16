@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.2.1](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.0...v0.2.1) (2025-12-16)
+
+
+### 🐛 Bugfixes
+
+* **deps:** update dependency firebase to v12 ([#61](https://github.com/Duell10111/THRRoomFinder/issues/61)) ([c5c2236](https://github.com/Duell10111/THRRoomFinder/commit/c5c22367053029bb0aa416c2715e9cab533c85af))
+* **deps:** update mantine monorepo to v8 (major) ([#27](https://github.com/Duell10111/THRRoomFinder/issues/27)) ([dbf484b](https://github.com/Duell10111/THRRoomFinder/commit/dbf484b001a6d8c02d4240a0eaf666a6cf9c5a18))
+* fix security vulnabillity in nextjs ([fad53cf](https://github.com/Duell10111/THRRoomFinder/commit/fad53cfd4c5a79d16a562edb339fada6c411d5e0))
+* fix security vulnabillity in nextjs ([6f668d0](https://github.com/Duell10111/THRRoomFinder/commit/6f668d0f88fc201c4014e1256d1d0ffeae794979))
+
+
+### 🔧 Chore
+
+* **deps:** update dependency @vitejs/plugin-react to v5 ([#50](https://github.com/Duell10111/THRRoomFinder/issues/50)) ([795e3b0](https://github.com/Duell10111/THRRoomFinder/commit/795e3b018bd8f30584c3815c5affa83aff77af0b))
+* **deps:** update dependency cypress to v15 ([#51](https://github.com/Duell10111/THRRoomFinder/issues/51)) ([1f424bb](https://github.com/Duell10111/THRRoomFinder/commit/1f424bb4149f8f83491c0290d1cecde30126cdf1))
+* **deps:** update dependency jsdom to v27 ([#52](https://github.com/Duell10111/THRRoomFinder/issues/52)) ([d714900](https://github.com/Duell10111/THRRoomFinder/commit/d7149005e70ed9824a62be24db60d1648f8e8dcf))
+* **deps:** update dependency node to v24 ([#55](https://github.com/Duell10111/THRRoomFinder/issues/55)) ([1eb9202](https://github.com/Duell10111/THRRoomFinder/commit/1eb9202e9288bf20019e1ad9d31b81415072ed85))
+* **deps:** update vitest monorepo to v4 ([#60](https://github.com/Duell10111/THRRoomFinder/issues/60)) ([166d83c](https://github.com/Duell10111/THRRoomFinder/commit/166d83c4d03df9127347586582d0f1ae73249017))
+
 ## [0.2.0](https://github.com/Duell10111/THRRoomFinder/compare/v0.1.0...v0.2.0) (2025-06-24)
 
 
