@@ -6,7 +6,7 @@ plugins {
     kotlin("kapt") version "2.2.20"
     id("org.springframework.boot") version "3.4.3"
     id("com.google.cloud.tools.jib") version "3.4.4"
-    id("com.diffplug.spotless") version "6.25.0"
+    id("com.diffplug.spotless") version "8.1.0"
     id("jacoco")
     id("jvm-test-suite")
 }
