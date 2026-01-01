@@ -51,7 +51,7 @@ dependencies {
     implementation("org.postgresql:r2dbc-postgresql") // Implementation needed for Config Adaptions
 
     // Springdoc
-    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.7.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:3.0.1")
 
     // Mapping
     implementation("org.mapstruct:mapstruct:1.6.0")
