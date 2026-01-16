@@ -1,11 +1,11 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    kotlin("jvm") version "2.2.20"
-    kotlin("plugin.spring") version "2.2.20"
-    kotlin("kapt") version "2.2.20"
-    id("org.springframework.boot") version "3.4.3"
-    id("com.google.cloud.tools.jib") version "3.4.4"
+    kotlin("jvm") version "2.3.0"
+    kotlin("plugin.spring") version "2.3.0"
+    kotlin("kapt") version "2.3.0"
+    id("org.springframework.boot") version "3.5.9"
+    id("com.google.cloud.tools.jib") version "3.5.2"
     id("com.diffplug.spotless") version "6.25.0"
     id("jacoco")
     id("jvm-test-suite")
@@ -51,27 +51,27 @@ dependencies {
     implementation("org.postgresql:r2dbc-postgresql") // Implementation needed for Config Adaptions
 
     // Springdoc
-    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.7.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.8.15")
 
     // Mapping
-    implementation("org.mapstruct:mapstruct:1.6.0")
-    kapt("org.mapstruct:mapstruct-processor:1.6.0")
+    implementation("org.mapstruct:mapstruct:1.6.3")
+    kapt("org.mapstruct:mapstruct-processor:1.6.3")
 
     // HTML Parser
-    implementation("org.jsoup:jsoup:1.19.1")
+    implementation("org.jsoup:jsoup:1.22.1")
 
     // Logging
-    implementation("io.github.oshai:kotlin-logging-jvm:7.0.0")
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.14")
 
     // Caching
-    implementation("com.github.ben-manes.caffeine:caffeine:3.2.0")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.2.3")
 
     // Tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testImplementation("io.mockk:mockk:1.13.17")
+    testImplementation("io.mockk:mockk:1.14.7")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
-    testImplementation("org.wiremock:wiremock-standalone:3.12.1")
+    testImplementation("org.wiremock:wiremock-standalone:3.13.2")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
