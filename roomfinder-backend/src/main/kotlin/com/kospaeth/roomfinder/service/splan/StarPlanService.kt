@@ -1,7 +1,5 @@
 package com.kospaeth.roomfinder.service.splan
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.kospaeth.roomfinder.config.SPlanProperties
 import com.kospaeth.roomfinder.utils.getAllKeysPresent
 import com.kospaeth.roomfinder.utils.getEntry
@@ -23,6 +21,8 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitBody
 import org.springframework.web.reactive.function.client.awaitExchange
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.readValue
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -42,7 +42,7 @@ private const val ATTRIBUTE_DATA_DATE = "data-date"
 class StarPlanService(
     private val webClient: WebClient,
     private val properties: SPlanProperties,
-    private val objectMapper: ObjectMapper,
+    private val jsonMapper: JsonMapper,
     cacheManager: CacheManager,
 ) {
     private val cache: Cache = cacheManager.getCache("splan") ?: error("Cache not initialized")
@@ -306,7 +306,7 @@ class StarPlanService(
                 // Parse byteArray manually as sever return unsupported ISO_8859_1 Charset
                 val str = response.awaitBody<ByteArrayResource>().byteArray.toString(Charsets.ISO_8859_1)
                 // Nested list
-                val value: List<List<SPlanPUResponseItem>> = objectMapper.readValue(str)
+                val value: List<List<SPlanPUResponseItem>> = jsonMapper.readValue(str)
 
                 value.firstOrNull() ?: emptyList()
             }
@@ -335,7 +335,7 @@ class StarPlanService(
                 // Parse byteArray manually as sever return unsupported ISO_8859_1 Charset
                 val str = response.awaitBody<ByteArrayResource>().byteArray.toString(Charsets.ISO_8859_1)
                 // Nested list
-                val value: List<List<SPlanRoomResponseItem>> = objectMapper.readValue(str)
+                val value: List<List<SPlanRoomResponseItem>> = jsonMapper.readValue(str)
 
                 value.firstOrNull() ?: emptyList()
             }.also { list ->

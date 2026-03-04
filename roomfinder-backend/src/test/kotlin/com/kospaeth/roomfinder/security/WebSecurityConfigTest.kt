@@ -5,7 +5,7 @@ import com.kospaeth.roomfinder.controller.ControllerStruct
 import com.kospaeth.roomfinder.data.dto.LocationDTO
 import com.kospaeth.roomfinder.data.dto.RoomDTO
 import com.kospaeth.roomfinder.service.RoomService
-import com.ninjasquad.springmockk.SpykBean
+import com.ninjasquad.springmockk.MockkSpyBean
 import io.mockk.coEvery
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -25,7 +25,7 @@ class WebSecurityConfigTest : DatabaseTestBase() {
 
     private lateinit var webTestClient: WebTestClient
 
-    @SpykBean
+    @MockkSpyBean
     private lateinit var roomService: RoomService
 
     @BeforeEach

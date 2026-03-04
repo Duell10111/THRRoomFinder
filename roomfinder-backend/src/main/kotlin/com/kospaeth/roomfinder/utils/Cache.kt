@@ -15,7 +15,7 @@ import org.springframework.cache.caffeine.CaffeineCache
  * @param key The cache key to retrieve the value for.
  * @return The cached value cast to type [T], or null if not found or type mismatch.
  */
-suspend inline fun <reified T> Cache.getEntry(key: String): T? {
+suspend inline fun <reified T : Any> Cache.getEntry(key: String): T? {
     return mono {
         get(key, T::class.java)
     }.awaitSingleOrNull()
