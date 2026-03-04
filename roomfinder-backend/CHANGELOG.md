@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.1...v0.2.2) (2026-03-04)
+
+
+### 🔧 Chore
+
+* **deps:** update plugin org.springframework.boot to v4 ([#66](https://github.com/Duell10111/THRRoomFinder/issues/66)) ([7bebc8b](https://github.com/Duell10111/THRRoomFinder/commit/7bebc8b196f88e6934b837d301a1aadc0858c1d4))
+
 ## [0.2.1](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.0...v0.2.1) (2025-12-16)
 
 
