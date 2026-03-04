@@ -7,7 +7,10 @@ import net.fortuna.ical4j.data.CalendarOutputter
 import net.fortuna.ical4j.model.PropertyList
 import net.fortuna.ical4j.model.component.VEvent
 import net.fortuna.ical4j.model.property.Geo
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.awaitBody
 import java.io.ByteArrayOutputStream
 import java.io.StringReader
 
@@ -16,12 +19,19 @@ private val logger = KotlinLogging.logger {}
 @Service
 class ICalService(
     private val roomService: RoomService,
+    private val webClient: WebClient,
 ) {
-    val calendarBuilder = CalendarBuilder()
+    @Cacheable("iCalCalendar", key = "#icalUrl")
+    suspend fun enhanceICalURLWithLocations(icalUrl: String): String {
+        logger.info { "Fetching iCal URL: $icalUrl" }
+        webClient.get().uri(icalUrl).retrieve().awaitBody<String>().let { icalValue ->
+            return enhanceICalWithLocations(icalValue)
+        }
+    }
 
-    suspend fun enhanceICalWithLocations(icalUrl: String): String {
-        return StringReader(icalUrl).use { reader ->
-            calendarBuilder.build(reader).let { calendar ->
+    suspend fun enhanceICalWithLocations(icalValue: String): String {
+        return StringReader(icalValue).use { reader ->
+            CalendarBuilder().build(reader).let { calendar ->
                 val events =
                     calendar.componentList.all.mapNotNull { component ->
                         if (component is VEvent) {
