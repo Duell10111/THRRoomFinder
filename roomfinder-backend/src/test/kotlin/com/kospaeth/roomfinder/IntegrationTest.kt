@@ -9,7 +9,7 @@ import com.kospaeth.roomfinder.service.AdminService
 import com.kospaeth.roomfinder.service.RoomService
 import com.kospaeth.roomfinder.service.osm.OSMExtractorService
 import com.ninjasquad.springmockk.MockkBean
-import com.ninjasquad.springmockk.SpykBean
+import com.ninjasquad.springmockk.MockkSpyBean
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.junit5.MockKExtension
@@ -34,16 +34,16 @@ class IntegrationTest : DatabaseTestBase() {
 
     private lateinit var webTestClient: WebTestClient
 
-    @SpykBean
+    @MockkSpyBean
     private lateinit var osmProperties: OSMProperties
 
     @MockkBean
     private lateinit var sPlanProperties: SPlanProperties
 
-    @SpykBean
+    @MockkSpyBean
     private lateinit var roomService: RoomService
 
-    @SpykBean
+    @MockkSpyBean
     private lateinit var osmExtractorService: OSMExtractorService
 
     @Autowired

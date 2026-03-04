@@ -38,13 +38,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
     // Spring Extensions
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("tools.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     // Spring Data
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("org.springframework.boot:spring-boot-starter-flyway")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")
     runtimeOnly("org.postgresql:postgresql")
@@ -68,17 +69,20 @@ dependencies {
 
     // Tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-cache-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-data-r2dbc-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-flyway-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("io.mockk:mockk:1.13.17")
-    testImplementation("com.ninja-squad:springmockk:4.0.2")
+    testImplementation("com.ninja-squad:springmockk:5.0.1")
     testImplementation("org.wiremock:wiremock-standalone:3.12.1")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
-    testImplementation("org.springframework.security:spring-security-test")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:r2dbc")
+    testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers-postgresql")
+    testImplementation("org.testcontainers:testcontainers-r2dbc")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation(kotlin("test"))
 }

@@ -1,7 +1,5 @@
 package com.kospaeth.roomfinder.service.splan
 
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
@@ -23,6 +21,7 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
 import reactor.netty.transport.logging.AdvancedByteBufFormat
+import tools.jackson.module.kotlin.jsonMapper
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.WeekFields
@@ -63,7 +62,7 @@ class StarPlanServiceTest {
             StarPlanService(
                 webClient,
                 properties,
-                jacksonObjectMapper().also { it.registerModule(JavaTimeModule()) },
+                jsonMapper {},
                 cacheManager,
             )
     }
