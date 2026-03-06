@@ -24,6 +24,7 @@ import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
+import kotlin.io.encoding.Base64
 
 @ExtendWith(MockKExtension::class)
 @ActiveProfiles("no-auth")
@@ -244,5 +245,41 @@ class IntegrationTest : DatabaseTestBase() {
     fun `test getRoomScheduleForRoom returns empty list on non existing schedule`() {
         webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/S-1.40/schedule")
             .exchange().expectStatus().isEqualTo(200).expectBody().jsonPath("$.length()").isEqualTo(0)
+    }
+
+    @Test
+    fun `test enhanceICalURLWithLocations returns enhanced iCal List`() {
+        val base64EncodedUrl = Base64.encode("${wireMockExtension.baseUrl()}/ical".encodeToByteArray())
+        webTestClient.get()
+            .uri {
+                it.path("${ControllerStruct.CALENDAR_CONTROLLER}/")
+                    .queryParam("iCalUrl", base64EncodedUrl)
+                    .build()
+            }
+            .exchange().expectStatus().isEqualTo(200).expectBody()
+
+        coVerify(exactly = 13) { roomService.getLocationForRoom("B0.07") }
+    }
+
+    @Test
+    fun `test enhanceICalURLWithLocations is cached`() {
+        val base64EncodedUrl = "${wireMockExtension.baseUrl()}/ical".base64Encode()
+        webTestClient.get()
+            .uri {
+                it.path("${ControllerStruct.CALENDAR_CONTROLLER}/")
+                    .queryParam("iCalUrl", base64EncodedUrl)
+                    .build()
+            }
+            .exchange().expectStatus().isEqualTo(200).expectBody()
+
+        webTestClient.get()
+            .uri {
+                it.path("${ControllerStruct.CALENDAR_CONTROLLER}/")
+                    .queryParam("iCalUrl", base64EncodedUrl)
+                    .build()
+            }
+            .exchange().expectStatus().isEqualTo(200).expectBody()
+
+        coVerify(exactly = 13) { roomService.getLocationForRoom("B0.07") }
     }
 }
