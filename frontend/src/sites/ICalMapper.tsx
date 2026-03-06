@@ -37,6 +37,7 @@ export default function ICalMapper() {
             // Create the mapped URL
             return `${origin}/api/ical/?iCalUrl=${encoded}`
         } catch (err) {
+            console.error("Error during url mapping:", err)
             setError("Ungültige URL. Bitte geben Sie eine gültige iCal URL ein.")
             return ""
         }
