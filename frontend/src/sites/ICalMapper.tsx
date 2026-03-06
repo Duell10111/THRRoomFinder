@@ -35,7 +35,7 @@ export default function ICalMapper() {
             const origin = typeof window !== "undefined" ? window.location.origin : ""
 
             // Create the mapped URL
-            return `${origin}/api/v1/calendar/?iCalUrl=${encoded}`
+            return `${origin}/api/ical/?iCalUrl=${encoded}`
         } catch (err) {
             setError("Ungültige URL. Bitte geben Sie eine gültige iCal URL ein.")
             return ""

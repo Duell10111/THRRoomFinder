@@ -1,5 +1,6 @@
 package com.kospaeth.roomfinder.service
 
+import com.kospaeth.roomfinder.config.SPlanProperties
 import com.kospaeth.roomfinder.data.dto.RoomDTO
 import io.github.oshai.kotlinlogging.KotlinLogging
 import net.fortuna.ical4j.data.CalendarBuilder
@@ -18,11 +19,15 @@ private val logger = KotlinLogging.logger {}
 
 @Service
 class ICalService(
+    private val sPlanProperties: SPlanProperties,
     private val roomService: RoomService,
     private val webClient: WebClient,
 ) {
     @Cacheable("iCalCalendar", key = "#icalUrl")
     suspend fun enhanceICalURLWithLocations(icalUrl: String): String {
+        if (sPlanProperties.trustedIcalPrefixes.none { icalUrl.startsWith(it) }) {
+            error("iCal URL must be trusted")
+        }
         logger.info { "Fetching iCal URL: $icalUrl" }
         webClient.get().uri(icalUrl).retrieve().awaitBody<String>().let { icalValue ->
             return enhanceICalWithLocations(icalValue)
