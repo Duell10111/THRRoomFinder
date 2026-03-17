@@ -14,6 +14,7 @@ data class AppProperties(
 @Validated
 data class SPlanProperties(
     @field:NotEmpty val url: String,
+    val trustedIcalPrefixes: List<String> = emptyList(),
 )
 
 @ConfigurationProperties(prefix = "room-finder.osm")

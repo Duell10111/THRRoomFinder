@@ -7,7 +7,7 @@ import { AppShell, Burger, Group, NavLink } from "@mantine/core"
 import { ScheduleDatePicker } from "@/components/schedule/ScheduleDatePicker"
 import { RoomDetails } from "@/sites/RoomDetails"
 import { ReportIssuePopupNavBarItem } from "@/components/ReportIssuePopup"
-import { IconScale, IconUsers, IconBrandGithub } from "@tabler/icons-react"
+import { IconScale, IconUsers, IconBrandGithub, IconBrandCitymapper } from "@tabler/icons-react"
 import { NavLogo } from "@/navigation/NavLogo"
 
 interface NavAppShellProps {
@@ -71,6 +71,11 @@ export function NavAppShell({ children }: Readonly<NavAppShellProps>) {
                         label={"Github"}
                         leftSection={<IconBrandGithub size={16} stroke={1.5} />}
                         target="_blank"
+                    />
+                    <NavLink
+                        href="/ical"
+                        label={"SPlan iCal Mapper"}
+                        leftSection={<IconBrandCitymapper size={16} stroke={1.5} />}
                     />
                     <NavLink
                         href="/credits"
