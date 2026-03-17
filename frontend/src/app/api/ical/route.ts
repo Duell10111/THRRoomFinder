@@ -37,6 +37,7 @@ export async function GET(request: NextRequest) {
         )
 
         if (!backendResponse.ok) {
+            console.error("Backend error body:", await backendResponse.text())
             return NextResponse.json(
                 { error: `Backend error: ${backendResponse.statusText}` },
                 { status: backendResponse.status }

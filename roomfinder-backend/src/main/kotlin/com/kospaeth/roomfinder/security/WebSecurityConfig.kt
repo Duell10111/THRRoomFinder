@@ -19,6 +19,7 @@ class WebSecurityConfig {
             authorizeExchange {
                 authorize("/actuator/health", permitAll)
                 authorize("${ControllerStruct.ROOM_CONTROLLER}/**", permitAll)
+                authorize("${ControllerStruct.CALENDAR_CONTROLLER}/**", permitAll)
                 authorize(anyExchange, authenticated)
             }
             csrf { disable() }
