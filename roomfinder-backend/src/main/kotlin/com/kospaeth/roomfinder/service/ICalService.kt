@@ -26,7 +26,7 @@ class ICalService(
     @Cacheable("iCalCalendar", key = "#icalUrl")
     suspend fun enhanceICalURLWithLocations(icalUrl: String): String {
         if (sPlanProperties.trustedIcalPrefixes.none { icalUrl.startsWith(it) }) {
-            error("iCal URL must be trusted")
+            error("iCal URL must be trusted - URL used: $icalUrl")
         }
         logger.info { "Fetching iCal URL: $icalUrl" }
         webClient.get().uri(icalUrl).retrieve().awaitBody<String>().let { icalValue ->
@@ -35,16 +35,25 @@ class ICalService(
     }
 
     suspend fun enhanceICalWithLocations(icalValue: String): String {
+        val roomLocationCache = mutableMapOf<String, RoomDTO?>()
+
         return StringReader(icalValue).use { reader ->
             CalendarBuilder().build(reader).let { calendar ->
                 val events =
                     calendar.componentList.all.mapNotNull { component ->
                         if (component is VEvent) {
                             val iCalLocation = component.location.value
+                            val room =
+                                roomLocationCache.getOrLoad(iCalLocation) {
+                                    roomService.getLocationForRoom(iCalLocation) ?: run {
+                                        logger.warn { "No location found for room $iCalLocation" }
+                                        null
+                                    }
+                                }
 
-                            roomService.getLocationForRoom(iCalLocation)?.let {
+                            room?.let {
                                 component.propertyList = component.propertyList.add(it.iCalGeoProperty) as PropertyList
-                            } ?: logger.warn { "No location found for room: $iCalLocation" }
+                            }
                             component
                         } else {
                             null
@@ -58,6 +67,17 @@ class ICalService(
             }
         }
     }
+}
+
+private suspend fun <K, V> MutableMap<K, V?>.getOrLoad(
+    key: K,
+    loader: suspend () -> V?,
+): V? {
+    if (containsKey(key)) {
+        return this[key]
+    }
+
+    return loader().also { this[key] = it }
 }
 
 val RoomDTO.iCalGeoProperty: Geo

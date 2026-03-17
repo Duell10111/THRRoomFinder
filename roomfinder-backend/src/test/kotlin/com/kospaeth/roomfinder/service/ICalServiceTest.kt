@@ -44,7 +44,7 @@ class ICalServiceTest {
         runTest {
             every { sPlanProperties.trustedIcalPrefixes } returns listOf("http://localhost:7000")
             val exception = assertThrows<IllegalStateException> { iCalService.enhanceICalURLWithLocations("http://non-trusted.de") }
-            assertThat(exception.message).isEqualTo("iCal URL must be trusted")
+            assertThat(exception.message).isEqualTo("iCal URL must be trusted - URL used: http://non-trusted.de")
         }
 
     @Test
@@ -59,7 +59,19 @@ class ICalServiceTest {
             val iCal = loadClassFileContent("splan_config.ics")
             val rtn = iCalService.enhanceICalWithLocations(iCal)
             assertThat(rtn).containsSequence("GEO:10.0;20.0")
-            coVerify(exactly = 13) { roomService.getLocationForRoom("B0.07") }
+            coVerify(exactly = 1) { roomService.getLocationForRoom("B0.07") }
+        }
+
+    @Test
+    fun `parseICal caches missing rooms inside one run`() =
+        runTest {
+            coEvery { roomService.getLocationForRoom(any()) } returns null
+
+            val iCal = loadClassFileContent("splan_config.ics")
+            val rtn = iCalService.enhanceICalWithLocations(iCal)
+
+            assertThat(rtn).doesNotContain("GEO:")
+            coVerify(exactly = 1) { roomService.getLocationForRoom("B0.07") }
         }
 
     @Test

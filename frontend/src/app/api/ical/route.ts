@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import {backendUrl} from "@/utils/const";
 
 /**
  * GET /api/ical
@@ -20,9 +21,6 @@ export async function GET(request: NextRequest) {
                 { status: 400 }
             )
         }
-
-        // Get the backend URL from environment variables
-        const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"
 
         // Forward the request to the backend
         const backendResponse = await fetch(

@@ -12,6 +12,7 @@ import com.ninjasquad.springmockk.MockkBean
 import com.ninjasquad.springmockk.MockkSpyBean
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeEach
@@ -60,6 +61,7 @@ class IntegrationTest : DatabaseTestBase() {
 
         // Use wiremock instead of real apis
         coEvery { sPlanProperties.url } returns "${wireMockExtension.baseUrl()}/splan/json"
+        every { sPlanProperties.trustedIcalPrefixes } returns listOf(wireMockExtension.baseUrl())
         coEvery { osmProperties.overPassUrl } returns "${wireMockExtension.baseUrl()}/api/interpreter"
 
         // Clear database
@@ -258,7 +260,7 @@ class IntegrationTest : DatabaseTestBase() {
             }
             .exchange().expectStatus().isEqualTo(200).expectBody()
 
-        coVerify(exactly = 13) { roomService.getLocationForRoom("B0.07") }
+        coVerify(exactly = 1) { roomService.getLocationForRoom("B0.07") }
     }
 
     @Test
@@ -280,6 +282,6 @@ class IntegrationTest : DatabaseTestBase() {
             }
             .exchange().expectStatus().isEqualTo(200).expectBody()
 
-        coVerify(exactly = 13) { roomService.getLocationForRoom("B0.07") }
+        coVerify(exactly = 1) { roomService.getLocationForRoom("B0.07") }
     }
 }
