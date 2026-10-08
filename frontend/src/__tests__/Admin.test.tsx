@@ -39,6 +39,12 @@ vi.mock("@/admin/authData", async () => {
     }
 })
 
+vi.mock("@/hooks/useAllRooms", async () => {
+    return {
+        default: () => ({}),
+    }
+})
+
 vi.mock("@/admin/AuthContext", async () => {
     return {
         useAuthContext,

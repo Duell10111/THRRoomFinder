@@ -72,11 +72,13 @@ export function RoomClicker() {
     }, [current, data, popup])
 
     // Hide popup when level changes
-    useEffect(() => {
+    const [prevLevel, setPrevLevel] = useState(level)
+    if (level !== prevLevel) {
+        setPrevLevel(level)
         if (level) {
             setPopup(undefined)
         }
-    }, [level])
+    }
 
     return (
         <>

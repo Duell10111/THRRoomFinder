@@ -3,6 +3,7 @@ import IndoorEqual from "maplibre-gl-indoorequal"
 import { useControl } from "react-map-gl/maplibre"
 import { useRoomContext } from "@/context/RoomContext"
 import { useEffect } from "react"
+import type { Map as MaplibreMap } from "maplibre-gl"
 
 /**
  * React component that integrates the IndoorEqual library into the map for indoor level control.
@@ -19,7 +20,14 @@ export function IndoorControls() {
     const { level, setLevel } = useRoomContext()
 
     const indoorEqual = useControl(({ map }) => {
-        const indoorEqual = new IndoorEqual(map.getMap(), {
+        const maplibreMap = map.getMap()
+        // IndoorEqual adds its layers on "style.load", so the sources of the custom layers have to be added before
+        maplibreMap.on("style.load", () => addCustomLayerSources(maplibreMap))
+        if (maplibreMap.isStyleLoaded()) {
+            addCustomLayerSources(maplibreMap)
+        }
+
+        const indoorEqual = new IndoorEqual(maplibreMap, {
             apiKey: `${process.env.NEXT_PUBLIC_INDOOR_CONTROL_API_KEY}`,
             heatmap: false,
             layers: layers,
@@ -51,6 +59,33 @@ export function IndoorControls() {
 
     // Empty component
     return null
+}
+
+/**
+ * Adds the GeoJSON sources used by the custom occupancy and highlight layers, if not already present.
+ *
+ * @param map - The maplibre map instance.
+ */
+function addCustomLayerSources(map: MaplibreMap) {
+    if (!map.getSource("highlight-room")) {
+        map.addSource("highlight-room", {
+            type: "geojson",
+            data: {
+                type: "FeatureCollection",
+                features: [],
+            },
+        })
+    }
+    if (!map.getSource("occupancy-room")) {
+        map.addSource("occupancy-room", {
+            type: "geojson",
+            data: {
+                type: "FeatureCollection",
+                features: [],
+            },
+            promoteId: "roomName",
+        })
+    }
 }
 
 /**
