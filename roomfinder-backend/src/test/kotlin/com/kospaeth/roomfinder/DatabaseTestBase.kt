@@ -3,9 +3,9 @@ package com.kospaeth.roomfinder
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.postgresql.PostgreSQLContainer
 import org.testcontainers.utility.DockerImageName
 
 @ActiveProfiles("test")
@@ -32,16 +32,14 @@ abstract class DatabaseTestBase {
             registry.add("spring.flyway.password", postgres::getPassword)
         }
 
-        fun jdbcUrl(): String {
-            return "jdbc:postgresql://${postgres.host}:${postgres.getMappedPort(
+        fun jdbcUrl(): String =
+            "jdbc:postgresql://${postgres.host}:${postgres.getMappedPort(
                 PostgreSQLContainer.POSTGRESQL_PORT,
             )}/${postgres.databaseName}"
-        }
 
-        fun r2dbcUrl(): String {
-            return "r2dbc:postgresql://${postgres.host}:${postgres.getMappedPort(
+        fun r2dbcUrl(): String =
+            "r2dbc:postgresql://${postgres.host}:${postgres.getMappedPort(
                 PostgreSQLContainer.POSTGRESQL_PORT,
             )}/${postgres.databaseName}"
-        }
     }
 }
