@@ -1,6 +1,12 @@
-import { expect, test } from "vitest"
+import { expect, test, vi } from "vitest"
 import { render, screen } from "../test-utils"
 import { MapPage } from "@/sites/MapPage"
+
+vi.mock("@/hooks/useAllRooms", async () => {
+    return {
+        default: () => ({}),
+    }
+})
 
 test("MapPage", () => {
     render(<MapPage />)

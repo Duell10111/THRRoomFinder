@@ -35,13 +35,16 @@ describe("Admin Dashboard Tests", () => {
 })
 
 function loginAdminUser() {
-    const email = Cypress.env("ADMIN_EMAIL")
-    const password = Cypress.env("ADMIN_PASSWORD")
-    cy.session([email, password], () => {
-        cy.visit("http://localhost:3000/admin/login")
-        cy.get('[data-testid="login-email"]').type(email)
-        cy.get('[data-testid="login-password"]').type(password)
-        cy.get('[data-testid="login-submit"]').click()
-        cy.url().should("not.contain", "/login")
+    cy.env<{ ADMIN_EMAIL: string; ADMIN_PASSWORD: string }>([
+        "ADMIN_EMAIL",
+        "ADMIN_PASSWORD",
+    ]).then(({ ADMIN_EMAIL: email, ADMIN_PASSWORD: password }) => {
+        cy.session([email, password], () => {
+            cy.visit("http://localhost:3000/admin/login")
+            cy.get('[data-testid="login-email"]').type(email)
+            cy.get('[data-testid="login-password"]').type(password)
+            cy.get('[data-testid="login-submit"]').click()
+            cy.url().should("not.contain", "/login")
+        })
     })
 }

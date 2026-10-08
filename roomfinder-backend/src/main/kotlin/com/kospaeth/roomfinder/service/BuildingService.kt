@@ -30,14 +30,13 @@ class BuildingService(
     suspend fun getBuildingForRoom(
         roomName: String,
         buildingName: String? = null,
-    ): Building? {
-        return (buildingName ?: getBuildingNameForRoom(roomName))?.let { bName ->
+    ): Building? =
+        (buildingName ?: getBuildingNameForRoom(roomName))?.let { bName ->
             buildingRepository.findBuildingByName(bName)
                 ?: buildingRepository.save(Building(name = bName)).also {
                     logger.info { "Creating new building $bName for room name: $roomName" }
                 }
         }
-    }
 
     /**
      * Infers a building name from a given room name.
@@ -47,7 +46,5 @@ class BuildingService(
      * @param roomName The name of the room.
      * @return The inferred building name or null if no letter is found.
      */
-    private fun getBuildingNameForRoom(roomName: String): String? {
-        return roomName.firstOrNull { it.isLetter() }?.toString()
-    }
+    private fun getBuildingNameForRoom(roomName: String): String? = roomName.firstOrNull { it.isLetter() }?.toString()
 }

@@ -52,8 +52,12 @@ val OverpassResponse.roomElement: Element?
  */
 val OverpassResponse.locationPoint: Point?
     get() {
-        return roomElement?.nodes?.mapNotNull { nodeId -> elements.find { it.id == nodeId } }
-            ?.takeIf { it.isNotEmpty() }?.filter { it.lat != null && it.lon != null }?.let { nodes ->
+        return roomElement
+            ?.nodes
+            ?.mapNotNull { nodeId -> elements.find { it.id == nodeId } }
+            ?.takeIf { it.isNotEmpty() }
+            ?.filter { it.lat != null && it.lon != null }
+            ?.let { nodes ->
                 val lats = nodes.mapNotNull { it.lat }
                 val lons = nodes.mapNotNull { it.lon }
                 val centerLat = (lats.min() + lats.max()) / 2

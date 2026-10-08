@@ -38,10 +38,7 @@ export function CampusMap() {
                 zoom: 18,
             }}
             // Restricted Bounds to RO site location
-            maxBounds={[
-                [12.103541, 47.865018],
-                [12.111059, 47.869857],
-            ]}
+            maxBounds={[12.103541, 47.865018, 12.111059, 47.869857]}
             style={{ width: "100%", height: "100%" }}
             mapStyle={
                 colorScheme === "dark"
@@ -51,27 +48,12 @@ export function CampusMap() {
             attributionControl={{ compact: true }}
             onLoad={(event) => {
                 const map = event.target
-                map.addSource("highlight-room", {
-                    type: "geojson",
-                    data: {
-                        type: "FeatureCollection",
-                        features: [],
-                    },
-                })
-                map.addSource("occupancy-room", {
-                    type: "geojson",
-                    data: {
-                        type: "FeatureCollection",
-                        features: [],
-                    },
-                    promoteId: "roomName",
-                })
                 if (process.env.NEXT_PUBLIC_TEST_ENV) {
-                    import("@mapgrab/map-interface").then(
-                        ({ installMapGrab }) => {
+                    import("@mapgrab/map-interface")
+                        .then(({ installMapGrab }) => {
                             installMapGrab(map, "mainMap")
-                        }
-                    )
+                        })
+                        .catch(console.error)
                 }
                 onMapLoad?.()
             }}

@@ -14,8 +14,8 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 @Configuration
 class WebSecurityConfig {
     @Bean
-    fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
-        return http {
+    fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain =
+        http {
             authorizeExchange {
                 authorize("/actuator/health", permitAll)
                 authorize("${ControllerStruct.ROOM_CONTROLLER}/**", permitAll)
@@ -29,7 +29,6 @@ class WebSecurityConfig {
                 jwt { }
             }
         }
-    }
 
     @Bean
     fun corsConfigurationSource(): UrlBasedCorsConfigurationSource {

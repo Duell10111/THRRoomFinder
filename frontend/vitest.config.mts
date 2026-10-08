@@ -13,6 +13,12 @@ export default defineConfig({
             reporter: ["text", "lcov"],
         },
         clearMocks: true,
+        server: {
+            deps: {
+                // Package declares "type": "module" but ships its CJS build as .js, so let Vite transform its ESM build
+                inline: ["maplibre-gl-indoorequal"],
+            },
+        },
         alias: {
             "@mapgrab/map-interface": path.resolve(
                 __dirname,

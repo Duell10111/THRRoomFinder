@@ -67,7 +67,8 @@ class StarPlanService(
             rooms.associate {
                 getScheduleCacheKey(location, it.shortName, LocalDate.now()) to it.shortName
             }
-        return cache.getAllKeysPresent<SPlanScheduleList>(keyMap.keys)
+        return cache
+            .getAllKeysPresent<SPlanScheduleList>(keyMap.keys)
             // Map Cache key to the original room name back
             .mapKeys { (key, _) -> keyMap.getOrDefault(key, "") }
             .filterKeys { it !== "" }
@@ -105,7 +106,8 @@ class StarPlanService(
             val splanURL = "${properties.url}?m=getTT&sel=ro&pu=${puVar.id}&ro=$roomId&sd=true&dfc=$date&loc=${location.locationId}&sa=false&cb=o"
             logger.debug { "Fetching SPlan Schedule via url $splanURL" }
 
-            webClient.get()
+            webClient
+                .get()
                 .uri(splanURL)
                 .awaitExchange { response ->
                     val roomData = response.awaitBody<String>()
@@ -168,7 +170,13 @@ class StarPlanService(
                     // Use Tooltip information as they contain no shortcuts in names
                     timeEvent.getElementsByClass("tooltip").textNodes().let { textNodes ->
                         runCatching {
-                            val (start, end) = textNodes.last().wholeText.split("-").map { LocalTime.parse(it) }.map { day.atTime(it) }
+                            val (start, end) =
+                                textNodes
+                                    .last()
+                                    .wholeText
+                                    .split("-")
+                                    .map { LocalTime.parse(it) }
+                                    .map { day.atTime(it) }
                             RoomSchedule(
                                 location = location,
                                 name = textNodes.gett(0).wholeText,
@@ -230,20 +238,36 @@ class StarPlanService(
      */
     private fun Element.getCalendarIndex(timeBoxWidths: List<Int>): Int? {
         // Increase by one to be in style box
-        return styleLeft?.inc()?.let { position ->
-            (timeBoxWidths.indexOfFirst { it > position }.takeIf { it != -1 } ?: timeBoxWidths.size)
-                .dec() // Decrease by one to get the start index
-        }?.coerceIn(0, timeBoxWidths.size - 1)
+        return styleLeft
+            ?.inc()
+            ?.let { position ->
+                (timeBoxWidths.indexOfFirst { it > position }.takeIf { it != -1 } ?: timeBoxWidths.size)
+                    .dec() // Decrease by one to get the start index
+            }?.coerceIn(0, timeBoxWidths.size - 1)
     }
 
     private val widthExtractRegex = """width:(\d+)px;""".toRegex()
     private val leftExtractRegex = """left:(-?\d+)px;""".toRegex()
 
     private val Element.styleWidth: Int?
-        get() = attr("style").let { widthExtractRegex.find(it)?.groupValues?.get(1)?.toInt() }
+        get() =
+            attr("style").let {
+                widthExtractRegex
+                    .find(it)
+                    ?.groupValues
+                    ?.get(1)
+                    ?.toInt()
+            }
 
     private val Element.styleLeft: Int?
-        get() = attr("style").let { leftExtractRegex.find(it)?.groupValues?.get(1)?.toInt() }
+        get() =
+            attr("style").let {
+                leftExtractRegex
+                    .find(it)
+                    ?.groupValues
+                    ?.get(1)
+                    ?.toInt()
+            }
 
     /**
      * Helper fkt to allow accessing a list from the end with negative indexes
@@ -266,9 +290,7 @@ class StarPlanService(
     suspend fun getRoom(
         location: StarPlanLocation,
         room: String,
-    ): SPlanRoomResponseItem? {
-        return getAvailableRooms(location).firstOrNull { it.shortName == room }
-    }
+    ): SPlanRoomResponseItem? = getAvailableRooms(location).firstOrNull { it.shortName == room }
 
     /**
      * Retrieves the appropriate Planning Unit (PU) for a given date.
@@ -281,11 +303,10 @@ class StarPlanService(
      * @return The [SPlanPUResponseItem] representing the PU that includes the given date,
      *         or the first available PU if no matching range is found.
      */
-    suspend fun getPUForDate(date: LocalDate): SPlanPUResponseItem? {
-        return getAvailablePU().let { pus ->
+    suspend fun getPUForDate(date: LocalDate): SPlanPUResponseItem? =
+        getAvailablePU().let { pus ->
             pus.find { it.startDate <= date && date <= it.endDate } ?: pus.firstOrNull()
         }
-    }
 
     /**
      * Retrieves the list of available PU (planning units or semesters) from the StarPlan system.
@@ -296,13 +317,13 @@ class StarPlanService(
      *
      * @return A list of [SPlanPUResponseItem] representing available planning units (semesters).
      */
-    suspend fun getAvailablePU(): List<SPlanPUResponseItem> {
-        return webClient.get()
+    suspend fun getAvailablePU(): List<SPlanPUResponseItem> =
+        webClient
+            .get()
             .uri("${properties.url}?m=getpus")
             .headers { headers ->
                 headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            }
-            .awaitExchange { response ->
+            }.awaitExchange { response ->
                 // Parse byteArray manually as sever return unsupported ISO_8859_1 Charset
                 val str = response.awaitBody<ByteArrayResource>().byteArray.toString(Charsets.ISO_8859_1)
                 // Nested list
@@ -310,7 +331,6 @@ class StarPlanService(
 
                 value.firstOrNull() ?: emptyList()
             }
-    }
 
     /**
      * Retrieves a list of available rooms for the given location.
@@ -326,12 +346,12 @@ class StarPlanService(
             return it
         }
 
-        return webClient.get()
+        return webClient
+            .get()
             .uri("${properties.url}?m=getros&loc=${location.locationId}")
             .headers { headers ->
                 headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            }
-            .awaitExchange { response ->
+            }.awaitExchange { response ->
                 // Parse byteArray manually as sever return unsupported ISO_8859_1 Charset
                 val str = response.awaitBody<ByteArrayResource>().byteArray.toString(Charsets.ISO_8859_1)
                 // Nested list
@@ -352,11 +372,10 @@ class StarPlanService(
      * @param location The StarPlan location.
      * @return A list of [SPlanRoomResponseItem] or null if not cached.
      */
-    private suspend fun getAvailableRoomsFromCache(location: StarPlanLocation): List<SPlanRoomResponseItem>? {
-        return mono {
+    private suspend fun getAvailableRoomsFromCache(location: StarPlanLocation): List<SPlanRoomResponseItem>? =
+        mono {
             cache.get(location.avalRoomCacheKey, AvailableRoomsCacheEntry::class.java)?.rooms
         }.awaitSingleOrNull()
-    }
 
     /**
      * Saves the list of available rooms to cache for the given location.
@@ -422,6 +441,8 @@ data class SPlanScheduleList(
  *
  * @property locationId The numeric ID assigned by StarPlan to identify the location.
  */
-enum class StarPlanLocation(val locationId: Int) {
+enum class StarPlanLocation(
+    val locationId: Int,
+) {
     RO(3),
 }

@@ -3,5 +3,12 @@
   "extends": [
     "config:recommended",
     "group:allNonMajor"
+  ],
+  "packageRules": [
+    {
+      "description": "@mapgrab/map-interface (E2E tests) relies on MapLibre internals removed in 5.11.0",
+      "matchPackageNames": ["maplibre-gl"],
+      "allowedVersions": "<=5.10.0"
+    }
   ]
 }

@@ -13,8 +13,8 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 @Configuration
 class LocalWebSecurityConfig {
     @Bean
-    fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
-        return http {
+    fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain =
+        http {
             authorizeExchange {
                 authorize(anyExchange, permitAll)
             }
@@ -23,7 +23,6 @@ class LocalWebSecurityConfig {
             httpBasic { disable() }
             anonymous { disable() }
         }
-    }
 
     @Bean
     fun corsConfigurationSource(): UrlBasedCorsConfigurationSource {
