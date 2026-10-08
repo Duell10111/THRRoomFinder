@@ -8,6 +8,7 @@ import net.fortuna.ical4j.data.CalendarOutputter
 import net.fortuna.ical4j.model.PropertyList
 import net.fortuna.ical4j.model.component.VEvent
 import net.fortuna.ical4j.model.property.Geo
+import net.fortuna.ical4j.model.property.XProperty
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
@@ -53,6 +54,8 @@ class ICalService(
 
                             room?.let {
                                 component.propertyList = component.propertyList.add(it.iCalGeoProperty) as PropertyList
+                                component.propertyList =
+                                    component.propertyList.add(it.iCalAppleStructuredLocationProperty) as PropertyList
                             }
                             component
                         } else {
@@ -82,3 +85,6 @@ private suspend fun <K, V> MutableMap<K, V?>.getOrLoad(
 
 val RoomDTO.iCalGeoProperty: Geo
     get() = Geo("${this.location.lat};${this.location.lng}")
+
+val RoomDTO.iCalAppleStructuredLocationProperty: XProperty
+    get() = XProperty("X-APPLE-STRUCTURED-LOCATION", "geo:${this.location.lat},${this.location.lng}")

@@ -12,6 +12,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import kotlinx.coroutines.test.runTest
 import net.fortuna.ical4j.model.property.Geo
+import net.fortuna.ical4j.model.property.XProperty
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -59,6 +60,7 @@ class ICalServiceTest {
             val iCal = loadClassFileContent("splan_config.ics")
             val rtn = iCalService.enhanceICalWithLocations(iCal)
             assertThat(rtn).containsSequence("GEO:10.0;20.0")
+            assertThat(rtn).containsSequence("X-APPLE-STRUCTURED-LOCATION:geo:10.0\\,20.0")
             coVerify(exactly = 1) { roomService.getLocationForRoom("B0.07") }
         }
 
@@ -71,6 +73,7 @@ class ICalServiceTest {
             val rtn = iCalService.enhanceICalWithLocations(iCal)
 
             assertThat(rtn).doesNotContain("GEO:")
+            assertThat(rtn).doesNotContain("X-APPLE-STRUCTURED-LOCATION")
             coVerify(exactly = 1) { roomService.getLocationForRoom("B0.07") }
         }
 
@@ -78,5 +81,11 @@ class ICalServiceTest {
     fun testGeoCreation() {
         val geoProperty = RoomDTO("A0.10", LocationDTO(lat = 10.0, lng = 20.0)).iCalGeoProperty
         assertThat(geoProperty).isEqualTo(Geo(BigDecimal.valueOf(10.0), BigDecimal.valueOf(20.0)))
+    }
+
+    @Test
+    fun testAppleStructuredLocationCreation() {
+        val appleProperty = RoomDTO("A0.10", LocationDTO(lat = 10.0, lng = 20.0)).iCalAppleStructuredLocationProperty
+        assertThat(appleProperty).isEqualTo(XProperty("X-APPLE-STRUCTURED-LOCATION", "geo:10.0,20.0"))
     }
 }
