@@ -51,12 +51,11 @@ abstract class RoomMapper {
      * @param location A geographic point with x (latitude) and y (longitude).
      * @return A LocationDTO with the same coordinates.
      */
-    fun toLocationDTO(location: Point): LocationDTO {
-        return LocationDTO(
+    fun toLocationDTO(location: Point): LocationDTO =
+        LocationDTO(
             location.x,
             location.y,
         )
-    }
 
     /**
      * Converts a [LocationDTO] into a [Point] object.
@@ -64,10 +63,9 @@ abstract class RoomMapper {
      * @param location A LocationDTO containing latitude and longitude.
      * @return A Point with the same coordinates.
      */
-    fun toPoint(location: LocationDTO): Point {
-        return Point(
+    fun toPoint(location: LocationDTO): Point =
+        Point(
             location.lat,
             location.lng,
         )
-    }
 }

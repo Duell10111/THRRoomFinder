@@ -49,7 +49,8 @@ class OSMExtractorService(
 
         logger.debug { "Running query: $query" }
 
-        return webClient.post()
+        return webClient
+            .post()
             .uri(osmProperties.overPassUrl)
             .body(BodyInserters.fromValue(query))
             .awaitExchange {

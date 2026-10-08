@@ -19,8 +19,8 @@ class R2DBCConfig {
     }
 
     @Bean
-    fun connectionFactoryOptionsAdapter(): ConnectionFactoryOptionsBuilderCustomizer {
-        return ConnectionFactoryOptionsBuilderCustomizer {
+    fun connectionFactoryOptionsAdapter(): ConnectionFactoryOptionsBuilderCustomizer =
+        ConnectionFactoryOptionsBuilderCustomizer {
             it.option(
                 Option.valueOf("extensions"),
                 listOf(
@@ -28,7 +28,6 @@ class R2DBCConfig {
                 ),
             )
         }
-    }
 }
 
 class SourceConverter : EnumWriteSupport<Source>()

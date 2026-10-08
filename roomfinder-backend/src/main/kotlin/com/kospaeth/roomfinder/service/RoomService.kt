@@ -51,9 +51,7 @@ class RoomService(
      * @return A list of [RoomDTO] representing all rooms.
      */
     @Cacheable(cacheNames = ["rooms"])
-    suspend fun getAllRooms(): List<RoomDTO> {
-        return roomRepository.findAll().map { roomMapper.toDTO(it) }.toList()
-    }
+    suspend fun getAllRooms(): List<RoomDTO> = roomRepository.findAll().map { roomMapper.toDTO(it) }.toList()
 
     /**
      * Retrieves all rooms along with their building data as DTOs.
@@ -63,9 +61,12 @@ class RoomService(
      * @return A list of [ExtendedRoomDTO] with room and building information.
      */
     @Cacheable(cacheNames = ["roomsExtended"])
-    suspend fun getAllRoomsWithBuildings(): List<ExtendedRoomDTO> {
-        return roomRepository.findAllRoomsWithBuildings().map { roomMapper.toDTO(it) }.toList()
-    }
+    suspend fun getAllRoomsWithBuildings(): List<ExtendedRoomDTO> =
+        roomRepository
+            .findAllRoomsWithBuildings()
+            .map {
+                roomMapper.toDTO(it)
+            }.toList()
 
     /**
      * Retrieves the location data for a room, either from the database or from OSM if not found.
@@ -98,7 +99,8 @@ class RoomService(
 
         val cacheSchedules = starPlanService.getCachedSchedulesForCurrentWeek(location)
         val missingRooms =
-            floorRooms.filter { !cacheSchedules.containsKey(it) }
+            floorRooms
+                .filter { !cacheSchedules.containsKey(it) }
                 .associateWith { getRoomScheduleForRoom(it, LocalDate.now()) }
 
         return cacheSchedules + missingRooms
@@ -114,9 +116,7 @@ class RoomService(
     suspend fun getRoomScheduleForRoom(
         roomName: String,
         date: LocalDate = LocalDate.now(),
-    ): SPlanScheduleList {
-        return starPlanService.getScheduleForRoom(StarPlanLocation.RO, roomName, date)
-    }
+    ): SPlanScheduleList = starPlanService.getScheduleForRoom(StarPlanLocation.RO, roomName, date)
 
     /**
      * Attempts to fetch a room's location data from OpenStreetMap using building configuration.
@@ -132,31 +132,32 @@ class RoomService(
         existingRoomDBId: UUID? = null,
     ): Room? {
         logger.info { "Fetching room from OSM: $roomName" }
-        return osmProperties.buildingWayIds.find {
-            roomName.matches(it.regexObject)
-        }?.let { buildingProps ->
-            logger.debug { "Found building configuration for room: $roomName" }
-            osmExtractorService.getIndoorRoomsForBuilding(buildingProps.buildingId, roomName)?.let {
-                val room =
-                    Room(
-                        id = existingRoomDBId,
-                        name = roomName,
-                        location = it.locationPoint ?: return null,
-                        source = Source.OSM,
-                        updatedAt = LocalDateTime.now(),
-                    )
-                runCatching {
-                    saveRoom(room, buildingProps.name)
-                }.onFailure {
-                    logger.error(it) { "Failed to save room: $roomName" }
-                }.getOrDefault(room)
-                    .also {
-                        // Clear caches
-                        roomCache?.clear()
-                        roomExtendedCache?.clear()
-                    }
+        return osmProperties.buildingWayIds
+            .find {
+                roomName.matches(it.regexObject)
+            }?.let { buildingProps ->
+                logger.debug { "Found building configuration for room: $roomName" }
+                osmExtractorService.getIndoorRoomsForBuilding(buildingProps.buildingId, roomName)?.let {
+                    val room =
+                        Room(
+                            id = existingRoomDBId,
+                            name = roomName,
+                            location = it.locationPoint ?: return null,
+                            source = Source.OSM,
+                            updatedAt = LocalDateTime.now(),
+                        )
+                    runCatching {
+                        saveRoom(room, buildingProps.name)
+                    }.onFailure {
+                        logger.error(it) { "Failed to save room: $roomName" }
+                    }.getOrDefault(room)
+                        .also {
+                            // Clear caches
+                            roomCache?.clear()
+                            roomExtendedCache?.clear()
+                        }
+                }
             }
-        }
     }
 
     /**
@@ -169,11 +170,10 @@ class RoomService(
     private suspend fun saveRoom(
         room: Room,
         buildingName: String? = null,
-    ): Room {
-        return buildingService.getBuildingForRoom(room.name, buildingName)?.let { building ->
+    ): Room =
+        buildingService.getBuildingForRoom(room.name, buildingName)?.let { building ->
             roomRepository.save(room.copy(buildingId = building.id))
         } ?: room
-    }
 
     /**
      * Filters a list of room names to find those on the same floor as the specified room.
@@ -189,7 +189,8 @@ class RoomService(
         roomList: List<String>,
     ): List<String> {
         val roomPrefix = roomName.substringBeforeLast(".")
-        return roomList.filter { it.startsWith(roomPrefix) }
+        return roomList
+            .filter { it.startsWith(roomPrefix) }
             .toList()
     }
 }

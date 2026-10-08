@@ -27,17 +27,13 @@ class RoomController(
 ) {
     @Operation(summary = "Fetch all rooms stored in the database.")
     @GetMapping("/")
-    suspend fun getRooms(): List<RoomDTO> {
-        return roomService.getAllRooms()
-    }
+    suspend fun getRooms(): List<RoomDTO> = roomService.getAllRooms()
 
     @Operation(
         summary = "Fetch all rooms stored in the database associated with their building name, e.g. A0.10 -> A building, Room A0.10.",
     )
     @GetMapping("/extended")
-    suspend fun getRoomsExtended(): List<ExtendedRoomDTO> {
-        return roomService.getAllRoomsWithBuildings()
-    }
+    suspend fun getRoomsExtended(): List<ExtendedRoomDTO> = roomService.getAllRoomsWithBuildings()
 
     @Operation(summary = "Get location of the specified room.")
     @ApiResponses(
@@ -56,32 +52,31 @@ class RoomController(
     @GetMapping("/{roomName}")
     suspend fun getLocationForRoom(
         @Parameter(description = "Room name to fetch location", required = true) @PathVariable roomName: String,
-    ): ResponseEntity<RoomDTO> {
-        return roomService.getLocationForRoom(roomName)?.let {
+    ): ResponseEntity<RoomDTO> =
+        roomService.getLocationForRoom(roomName)?.let {
             ResponseEntity.ok(it)
         } ?: ResponseEntity.notFound().build()
-    }
 
     @Operation(summary = "Get schedules in the area of the room specified and all rooms available in the cache.")
     @GetMapping("/{roomName}/schedule/related")
     suspend fun getScheduleForRoomRelated(
         @Parameter(description = "Room name to use as base for related schedules", required = true) @PathVariable roomName: String,
-    ): ResponseEntity<Map<String, List<RoomSchedule>>> {
-        return roomService.getRelatedRoomScheduleForRoom(roomName = roomName)
+    ): ResponseEntity<Map<String, List<RoomSchedule>>> =
+        roomService
+            .getRelatedRoomScheduleForRoom(roomName = roomName)
             .let { ResponseEntity.ok(it.mapValues { it.value.schedule }) }
-    }
 
     @Operation(summary = "Get schedules of the room specified for the current week, starting from Monday.")
     @GetMapping("/{roomName}/schedule")
     suspend fun getScheduleForRoom(
         @Parameter(description = "Room name to fetch schedule for", required = true) @PathVariable roomName: String,
-    ): ResponseEntity<List<RoomSchedule>> {
-        return roomService.getRoomScheduleForRoom(roomName).let {
-            ResponseEntity.ok()
+    ): ResponseEntity<List<RoomSchedule>> =
+        roomService.getRoomScheduleForRoom(roomName).let {
+            ResponseEntity
+                .ok()
                 .header("Updated-At", it.updatedAt.toString())
                 .body(it.schedule)
         }
-    }
 
     @Operation(summary = "Get schedules of the room specified for the week of the specified date, starting from Monday.")
     @GetMapping("/{roomName}/schedule/{date}")
@@ -89,7 +84,5 @@ class RoomController(
         @Parameter(description = "Room name to fetch schedule for", required = true) @PathVariable roomName: String,
         @Parameter(description = "Date to fetch schedule for", required = true) @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") date:
             LocalDate,
-    ): ResponseEntity<List<RoomSchedule>> {
-        return roomService.getRoomScheduleForRoom(roomName, date).let { ResponseEntity.ok(it.schedule) }
-    }
+    ): ResponseEntity<List<RoomSchedule>> = roomService.getRoomScheduleForRoom(roomName, date).let { ResponseEntity.ok(it.schedule) }
 }

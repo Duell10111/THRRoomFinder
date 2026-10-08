@@ -36,19 +36,31 @@ class LocalWebSecurityConfigTest : DatabaseTestBase() {
 
     @Test
     fun `test actuator health accessable`() {
-        webTestClient.get().uri("/actuator/health")
-            .exchange().expectStatus().isOk
+        webTestClient
+            .get()
+            .uri("/actuator/health")
+            .exchange()
+            .expectStatus()
+            .isOk
     }
 
     @Test
     fun `test root actuator endpoint accessable on no-auth profile`() {
-        webTestClient.get().uri("/actuator")
-            .exchange().expectStatus().isOk
+        webTestClient
+            .get()
+            .uri("/actuator")
+            .exchange()
+            .expectStatus()
+            .isOk
     }
 
     @Test
     fun `test room api accessable`() {
-        webTestClient.get().uri("${ControllerStruct.ROOM_CONTROLLER}/A0.10")
-            .exchange().expectStatus().isOk
+        webTestClient
+            .get()
+            .uri("${ControllerStruct.ROOM_CONTROLLER}/A0.10")
+            .exchange()
+            .expectStatus()
+            .isOk
     }
 }

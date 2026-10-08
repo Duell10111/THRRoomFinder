@@ -11,9 +11,8 @@ import org.springframework.web.reactive.function.client.WebClient
 @ConfigurationPropertiesScan
 class AppConfig {
     @Bean
-    fun webClient(): WebClient {
-        return WebClient
+    fun webClient(): WebClient =
+        WebClient
             .builder()
             .build()
-    }
 }
