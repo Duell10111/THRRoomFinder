@@ -49,11 +49,11 @@ export function CampusMap() {
             onLoad={(event) => {
                 const map = event.target
                 if (process.env.NEXT_PUBLIC_TEST_ENV) {
-                    import("@mapgrab/map-interface").then(
-                        ({ installMapGrab }) => {
+                    import("@mapgrab/map-interface")
+                        .then(({ installMapGrab }) => {
                             installMapGrab(map, "mainMap")
-                        }
-                    )
+                        })
+                        .catch(console.error)
                 }
                 onMapLoad?.()
             }}

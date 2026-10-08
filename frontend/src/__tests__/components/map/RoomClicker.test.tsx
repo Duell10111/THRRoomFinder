@@ -36,17 +36,20 @@ vi.mock("@/components/map/MapUtils", () => {
 // Mock RoomContext
 const setRoom = vi.fn().mockResolvedValue(undefined)
 const mockRoomData = { roomData: { name: "Test Room" } }
+let mockLevel: string | undefined
 
 vi.mock("@/context/RoomContext", () => ({
     useRoomContext: () => ({
         setRoom,
         data: mockRoomData,
+        level: mockLevel,
     }),
 }))
 
 describe("RoomClicker", () => {
     beforeEach(() => {
         vi.clearAllMocks()
+        mockLevel = undefined
     })
 
     it("attaches click listener to map on indoor-polygon layer", () => {
@@ -99,5 +102,31 @@ describe("RoomClicker", () => {
         )
 
         expect(errorNotificationSpy).toHaveBeenCalled()
+    })
+
+    it("closes popup when level changes", () => {
+        const mockEvent = {
+            features: [{ properties: { id: 1 } }],
+            lngLat: { lat: 10, lng: 20 },
+        }
+        mockMap.on.mockImplementation((event, layer, callback) => {
+            callback(mockEvent)
+        })
+
+        mockLevel = "0"
+        const { rerender } = render(<RoomClicker />)
+        expect(screen.getByTestId("loader-room-popup")).toBeDefined()
+
+        // Prevent the click handler from reopening the popup on rerender
+        mockMap.on.mockReset()
+        mockLevel = "1"
+        // Same fragment structure as test-utils render, so RoomClicker keeps its state
+        rerender(
+            <>
+                <RoomClicker />
+            </>
+        )
+
+        expect(screen.queryByTestId("loader-room-popup")).toBeNull()
     })
 })
