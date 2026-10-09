@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.2](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.1...v0.2.2) (2026-10-09)
+
+
+### 🔧 Chore
+
+* **deps:** update backend and frontend dependencies ([#76](https://github.com/Duell10111/THRRoomFinder/issues/76)) ([95878bc](https://github.com/Duell10111/THRRoomFinder/commit/95878bc6303fa69d44a80934b28a1ceeec2062bb))
+* **deps:** update ESLint and Spotless ([#84](https://github.com/Duell10111/THRRoomFinder/issues/84)) ([65bb21a](https://github.com/Duell10111/THRRoomFinder/commit/65bb21afb350efd77cf697dd91633b8cf4528ab7))
+
 ## [0.2.1](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.0...v0.2.1) (2025-12-16)
 
 
