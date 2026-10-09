@@ -20,7 +20,7 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/build-frontend
         with:
           maptiler_api_key: ${{ secrets.MAPTILER_API_KEY }}
@@ -33,7 +33,7 @@ jobs:
 #    needs: Build
 #    environment: frontend-dev
 #    steps:
-#      - uses: actions/checkout@v4
+#      - uses: actions/checkout@v7
 #      - uses: ./.github/actions/gcp-deploy
 #        with:
 #          service: "frontend-dev"
