@@ -15,7 +15,7 @@ jobs:
   backend-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/build-backend
         with:
           image_tag: ${{ github.sha }}
@@ -42,14 +42,14 @@ jobs:
           SPRING_FLYWAY_URL: jdbc:postgresql://db:5432/roomFinderDB
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
-      - uses: actions/setup-node@v6
+        uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         env:
           NEXT_PUBLIC_MAPTILER_API_KEY: ${{ secrets.MAPTILER_API_KEY }}
           NEXT_PUBLIC_INDOOR_CONTROL_API_KEY: ${{ secrets.INDOOR_CONTROL_API_KEY }}
@@ -65,7 +65,7 @@ jobs:
           start: npm start
           record: true
       - name: Upload screenshots
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: cypress-screenshots
