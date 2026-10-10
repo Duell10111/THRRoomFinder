@@ -131,7 +131,7 @@ testing {
                 implementation(project())
 
                 // Add Konsist dependency
-                implementation("com.lemonappdev:konsist:0.17.3")
+                implementation("com.lemonappdev:konsist:0.18.1")
             }
         }
     }
