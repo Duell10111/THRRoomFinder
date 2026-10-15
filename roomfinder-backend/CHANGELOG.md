@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.2.2](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.1...v0.2.2) (2026-10-15)
+
+
+### 🐛 Bugfixes
+
+* **backend:** increase Gradle heap for Kotlin compilation ([#96](https://github.com/Duell10111/THRRoomFinder/issues/96)) ([eabb73f](https://github.com/Duell10111/THRRoomFinder/commit/eabb73f601b285d330c718109e2dfbb652858c95))
+
+
+### 🔧 Chore
+
+* **backend:** update Java toolchain to 25 ([#95](https://github.com/Duell10111/THRRoomFinder/issues/95)) ([09db921](https://github.com/Duell10111/THRRoomFinder/commit/09db921b4ec1417b726958f83cb024a119234496))
+* **deps:** bundle compatible Renovate updates ([#93](https://github.com/Duell10111/THRRoomFinder/issues/93)) ([57487a0](https://github.com/Duell10111/THRRoomFinder/commit/57487a0bd561a2be660d77f5361d92f6d8f91488))
+* **deps:** update backend and frontend dependencies ([#76](https://github.com/Duell10111/THRRoomFinder/issues/76)) ([95878bc](https://github.com/Duell10111/THRRoomFinder/commit/95878bc6303fa69d44a80934b28a1ceeec2062bb))
+* **deps:** update ESLint and Spotless ([#84](https://github.com/Duell10111/THRRoomFinder/issues/84)) ([65bb21a](https://github.com/Duell10111/THRRoomFinder/commit/65bb21afb350efd77cf697dd91633b8cf4528ab7))
+* **deps:** update plugin org.springframework.boot to v4 ([#66](https://github.com/Duell10111/THRRoomFinder/issues/66)) ([7bebc8b](https://github.com/Duell10111/THRRoomFinder/commit/7bebc8b196f88e6934b837d301a1aadc0858c1d4))
+
 ## [0.2.1](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.0...v0.2.1) (2025-12-16)
 
 
