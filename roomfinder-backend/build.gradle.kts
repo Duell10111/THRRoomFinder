@@ -65,7 +65,7 @@ dependencies {
     implementation("io.github.oshai:kotlin-logging-jvm:8.0.4")
 
     // Caching
-    implementation("com.github.ben-manes.caffeine:caffeine:3.3.0")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.3.1")
 
     // Tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -131,7 +131,7 @@ testing {
                 implementation(project())
 
                 // Add Konsist dependency
-                implementation("com.lemonappdev:konsist:0.17.3")
+                implementation("com.lemonappdev:konsist:0.18.1")
             }
         }
     }
