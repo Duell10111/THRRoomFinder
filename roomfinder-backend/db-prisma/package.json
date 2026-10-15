@@ -6,6 +6,6 @@
     "@prisma/client": "^7.10.0"
   },
   "overrides": {
-    "mysql2": "^3.24.5"
+    "mysql2": "^3.24.6"
   }
 }
