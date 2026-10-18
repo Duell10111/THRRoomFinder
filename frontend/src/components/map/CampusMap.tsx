@@ -45,6 +45,9 @@ export function CampusMap() {
                     ? "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
                     : `https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`
             }
+            // A diffed style swap drops the IndoorEqual layers without firing "style.load",
+            // so they would never be re-added. Rebuild the style on color scheme changes instead.
+            styleDiffing={false}
             attributionControl={{ compact: true }}
             onLoad={(event) => {
                 const map = event.target

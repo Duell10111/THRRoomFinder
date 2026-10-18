@@ -13,7 +13,11 @@ export default defineConfig({
         setupNodeEvents(on) {
             on("before:browser:launch", (browser, launchOptions) => {
                 if (browser.family === "chromium") {
-                    launchOptions.args.push("--enable-unsafe-swiftshader")
+                    launchOptions.args.push(
+                        "--enable-unsafe-swiftshader",
+                        // Same color scheme (and map style) locally as on headless CI.
+                        "--blink-settings=preferredColorScheme=1"
+                    )
                 }
                 return launchOptions
             })
