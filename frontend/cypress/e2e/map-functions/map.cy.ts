@@ -1,88 +1,73 @@
-import { MapLocator } from "@mapgrab/cypress"
-
-describe("Campus Map Tests", () => {
+describe("Campus map", () => {
     beforeEach(() => {
-        cy.viewport("macbook-16", "portrait")
-        cy.visit(
-            "http://localhost:3000",
-            mockLocation(47.867389349999996, 12.10707175)
+        cy.resetRooms()
+        cy.visit("/", {
+            onBeforeLoad(win) {
+                const position = {
+                    coords: {
+                        latitude: 47.86746,
+                        longitude: 12.10722,
+                        accuracy: 10,
+                    },
+                    timestamp: Date.now(),
+                }
+                cy.stub(
+                    win.navigator.geolocation,
+                    "getCurrentPosition"
+                ).callsFake((success) => success(position))
+                cy.stub(win.navigator.geolocation, "watchPosition").callsFake(
+                    (success) => {
+                        success(position)
+                        return 1
+                    }
+                )
+                cy.stub(win.navigator.geolocation, "clearWatch")
+            },
+        })
+    })
+
+    it("selects rooms by clicking and switching floors", () => {
+        cy.clickMapRoom("A0.04")
+        cy.get(".maplibregl-popup-content").should("be.visible")
+        cy.get('[data-testid="roomData-name"]').should(
+            "have.text",
+            "Name: A0.04"
+        )
+        cy.window().should((win) => {
+            const features = win.roomfinderMap!.queryRenderedFeatures({
+                layers: ["highlight-room-layer"],
+            })
+            expect(
+                features.some((feature) => feature.properties.name === "A0.04")
+            ).to.be.true
+        })
+        cy.contains(".maplibregl-ctrl-indoorequal button", /^5$/).click()
+        cy.get(".maplibregl-popup-content").should("not.exist")
+        cy.clickMapRoom("A5.04")
+        cy.get(".maplibregl-popup-content").should("be.visible")
+        cy.get('[data-testid="roomData-name"]').should(
+            "have.text",
+            "Name: A5.04"
         )
     })
 
-    it("general room click and floor switch works as expected", () => {
-        cy.mapController("mainMap").then((controller) => {
-            return controller.waitToMapLoaded()
-        })
-        cy.mapLocator(
-            'layer[id=indoor-name] filter["==", ["get", "name"], "A0.04"]'
-        )
-            .first<MapLocator>()
-            .then((locator) => locator.click())
-
-        // Check that popup appears - Content dynamic
-        cy.get(".maplibregl-popup-content")
-
-        cy.mapLocator(
-            'layer[id=highlight-room-layer] filter["==", ["get", "id"], "A0.04"]'
-        ).first<MapLocator>()
-
-        cy.get('[data-testid="roomData-name"]')
-            .contains("A0.04")
-            .should("be.visible")
-
-        // Switch floor to 5th
-        cy.get(".maplibregl-ctrl-indoorequal > :nth-child(1)").trigger("click")
-
-        cy.mapLocator(
-            'layer[id=indoor-name] filter["==", ["get", "name"], "A5.04"]'
-        )
-            .first<MapLocator>()
-            .then((locator) => locator.click())
-
-        // Check that popup appears - Content dynamic
-        cy.get(".maplibregl-popup-content")
-
-        cy.get('[data-testid="roomData-name"]').contains("A5.04")
-    })
-
-    it("room selection via input box", () => {
-        cy.mapController("mainMap").then((controller) => {
-            return controller.waitToMapLoaded()
-        })
+    it("selects a room and switches floors using the search field", () => {
+        cy.waitForMapRoom("A0.04")
         cy.get('[data-testid="autocomplete-input"]').type("A5.00{enter}")
-
-        cy.get('[data-testid="roomData-name"]').contains("A5.00")
-
-        cy.mapLocator(
-            'layer[id=indoor-name] filter["==", ["get", "name"], "A5.04"]'
-        ).first<MapLocator>()
+        cy.get('[data-testid="roomData-name"]').should(
+            "have.text",
+            "Name: A5.00"
+        )
+        cy.waitForMapRoom("A5.00")
+        cy.contains(".maplibregl-ctrl-indoorequal button", /^5$/).should(
+            "have.class",
+            "maplibregl-ctrl-active"
+        )
     })
 
-    it("test geolocation button works", () => {
-        cy.mapController("mainMap").then((controller) => {
-            return controller.waitToMapLoaded()
-        })
-
-        // Click geolocate me button
-        cy.get(".maplibregl-ctrl-geolocate").trigger("click")
-
-        // Check if geolocation button is shown
-        cy.get(".maplibregl-user-location-dot")
+    it("shows the user's geolocation", () => {
+        cy.waitForMapRoom("A0.04")
+        cy.get(".maplibregl-ctrl-geolocate").should("be.enabled").click()
+        cy.get(".maplibregl-user-location-dot").should("be.visible")
     })
 })
-
-function mockLocation(latitude: number, longitude: number) {
-    return {
-        onBeforeLoad(win: any) {
-            cy.stub(win.navigator.geolocation, "getCurrentPosition").callsFake(
-                (cb, err) => {
-                    if (latitude && longitude) {
-                        return cb({ coords: { latitude, longitude } })
-                    }
-
-                    throw err({ code: 1 })
-                }
-            )
-        },
-    }
-}

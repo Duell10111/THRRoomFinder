@@ -1,5 +1,6 @@
 package com.kospaeth.roomfinder.security
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
@@ -11,7 +12,10 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 
 @Profile("no-auth")
 @Configuration
-class LocalWebSecurityConfig {
+class LocalWebSecurityConfig(
+    @Value("\${room-finder.cors.allowed-origins:http://localhost:3000,http://localhost}")
+    private val allowedOrigins: List<String>,
+) {
     @Bean
     fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain =
         http {
@@ -28,7 +32,7 @@ class LocalWebSecurityConfig {
     fun corsConfigurationSource(): UrlBasedCorsConfigurationSource {
         // Allow cors for local frontend app
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf("http://localhost:3000", "http://localhost")
+        configuration.allowedOrigins = allowedOrigins
         configuration.allowedMethods = listOf("GET", "POST", "OPTIONS", "PUT", "DELETE")
         configuration.allowedHeaders = listOf("*")
         val source = UrlBasedCorsConfigurationSource()

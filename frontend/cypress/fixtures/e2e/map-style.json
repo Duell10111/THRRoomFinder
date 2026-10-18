@@ -1,0 +1,6 @@
+{
+  "version": 8,
+  "glyphs": "http://localhost:19090/fonts/{fontstack}/{range}.pbf",
+  "sources": {},
+  "layers": [{ "id": "background", "type": "background", "paint": { "background-color": "#e7ebef" } }]
+}

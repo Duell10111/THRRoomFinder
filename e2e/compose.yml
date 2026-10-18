@@ -1,0 +1,19 @@
+name: roomfinder-e2e
+services:
+  db:
+    image: postgis/postgis:15-3.3-alpine
+    # The published image is amd64-only; also works on Apple Silicon via emulation.
+    platform: linux/amd64
+    ports:
+      - "127.0.0.1:5433:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: roomFinderDB
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d roomFinderDB"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    tmpfs:
+      - /var/lib/postgresql/data

@@ -48,12 +48,9 @@ export function CampusMap() {
             attributionControl={{ compact: true }}
             onLoad={(event) => {
                 const map = event.target
-                if (process.env.NEXT_PUBLIC_TEST_ENV) {
-                    import("@mapgrab/map-interface")
-                        .then(({ installMapGrab }) => {
-                            installMapGrab(map, "mainMap")
-                        })
-                        .catch(console.error)
+                if (process.env.NEXT_PUBLIC_TEST_ENV === "true") {
+                    // Expose the public MapLibre API only in dedicated E2E builds.
+                    Object.assign(window, { roomfinderMap: map })
                 }
                 onMapLoad?.()
             }}

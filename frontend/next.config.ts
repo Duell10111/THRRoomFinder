@@ -1,6 +1,8 @@
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
+    distDir:
+        process.env.NEXT_PUBLIC_TEST_ENV === "true" ? ".next-e2e" : ".next",
     output: "standalone",
     turbopack: {
         resolveAlias: {

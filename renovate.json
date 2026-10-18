@@ -6,11 +6,6 @@
   ],
   "packageRules": [
     {
-      "description": "@mapgrab/map-interface (E2E tests) relies on MapLibre internals removed in 5.11.0",
-      "matchPackageNames": ["maplibre-gl"],
-      "allowedVersions": "<=5.10.0"
-    },
-    {
       "description": "Update the Sphinx documentation stack together, including major updates",
       "matchFileNames": ["docs/requirements.txt"],
       "groupName": "documentation dependencies",

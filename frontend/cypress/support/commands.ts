@@ -1,40 +1,61 @@
 /// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+import type { Map } from "maplibre-gl"
 
-// Prevent TypeScript from reading file as legacy script
+declare global {
+    interface Window {
+        roomfinderMap?: Map
+    }
+
+    namespace Cypress {
+        interface Chainable {
+            waitForMapRoom(roomName: string): Chainable<AUTWindow>
+            clickMapRoom(roomName: string): Chainable<void>
+            resetRooms(): Chainable<void>
+        }
+    }
+}
+
+// Bounded, retriable assertions using the public MapLibre API. Do not return
+// third-party thenables from Cypress chains (MapGrab caused recursive chains).
+Cypress.Commands.add("waitForMapRoom", (roomName) => {
+    return cy.window().should((win) => {
+        const map = win.roomfinderMap
+        expect(map, "MapLibre loaded").to.exist
+        expect(map!.isMoving(), "map animation finished").to.be.false
+        expect(map!.areTilesLoaded(), "indoor tiles loaded").to.be.true
+        expect(map!.getLayer("indoor-name"), "room name layer").to.exist
+        const rooms = map!.queryRenderedFeatures({ layers: ["indoor-name"] })
+        expect(
+            rooms.some((room) => room.properties.name === roomName),
+            roomName
+        ).to.be.true
+    })
+})
+
+Cypress.Commands.add("clickMapRoom", (roomName) => {
+    cy.waitForMapRoom(roomName).then((win) => {
+        const map = win.roomfinderMap!
+        const feature = map
+            .queryRenderedFeatures({ layers: ["indoor-name"] })
+            .find((room) => room.properties.name === roomName)!
+        expect(feature.geometry.type).to.equal("Point")
+        if (feature.geometry.type !== "Point")
+            throw new Error("Expected room point")
+        const [lng, lat] = feature.geometry.coordinates
+        const point = map.project([lng, lat])
+        cy.get(".maplibregl-canvas").click(point.x, point.y)
+    })
+})
+
+Cypress.Commands.add("resetRooms", () => {
+    // Each test owns its state, including after destructive admin tests.
+    cy.request("DELETE", "http://localhost:18080/api/v1/admin/room")
+    cy.request("DELETE", "http://localhost:18080/api/v1/admin/schedules")
+    for (const room of ["A0.04", "A5.00", "A5.04"]) {
+        cy.request(`http://localhost:18080/api/v1/room/${room}`)
+            .its("body.name")
+            .should("eq", room)
+    }
+})
+
 export {}
