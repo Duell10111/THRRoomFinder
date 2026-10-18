@@ -1,29 +1,35 @@
-import { MapLocator } from "@mapgrab/cypress"
+describe("Room URLs", () => {
+    beforeEach(() => cy.resetRooms())
 
-describe("Map URL Tests", () => {
-    it("Test Map URL with room name", () => {
-        cy.viewport("macbook-16", "portrait")
-        cy.visit("http://localhost:3000/A0.04")
-
-        cy.mapController("mainMap").then((controller) => {
-            return controller.waitToMapLoaded({ timeout: 10000 })
+    for (const room of ["A0.04", "A5.04"]) {
+        it(`selects ${room} and its floor from the URL`, () => {
+            cy.intercept(
+                "GET",
+                `http://localhost:18080/api/v1/room/${room}`
+            ).as("room")
+            cy.intercept(
+                "GET",
+                `http://localhost:18080/api/v1/room/${room}/schedule`
+            ).as("schedule")
+            cy.visit(`/${room}`)
+            cy.wait("@room").its("response.statusCode").should("eq", 200)
+            cy.wait("@schedule").then(({ response }) => {
+                expect(response?.statusCode).to.equal(200)
+                expect(response?.body).to.have.length(1)
+                expect(response?.body[0]).to.include({
+                    room,
+                    name: "E2E lecture",
+                })
+            })
+            cy.get('[data-testid="roomData-name"]').should(
+                "have.text",
+                `Name: ${room}`
+            )
+            cy.waitForMapRoom(room)
+            cy.contains(".maplibregl-ctrl-indoorequal button", room[1]).should(
+                "have.class",
+                "maplibregl-ctrl-active"
+            )
         })
-
-        cy.mapLocator(
-            'layer[id=indoor-name] filter["==", ["get", "name"], "A0.04"]'
-        ).first<MapLocator>()
-    })
-
-    it("Test Map URL with room name on different level", () => {
-        cy.viewport("macbook-16", "portrait")
-        cy.visit("http://localhost:3000/A5.04")
-
-        cy.mapController("mainMap").then((controller) => {
-            return controller.waitToMapLoaded({ timeout: 10000 })
-        })
-
-        cy.mapLocator(
-            'layer[id=indoor-name] filter["==", ["get", "name"], "A5.04"]'
-        ).first<MapLocator>()
-    })
+    }
 })

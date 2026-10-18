@@ -4,11 +4,18 @@
     "config:recommended",
     "group:allNonMajor"
   ],
+  "timezone": "Europe/Berlin",
+  "platformAutomerge": false,
+  "automergeSchedule": ["* 6-11 * * 1"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
   "packageRules": [
     {
-      "description": "@mapgrab/map-interface (E2E tests) relies on MapLibre internals removed in 5.11.0",
-      "matchPackageNames": ["maplibre-gl"],
-      "allowedVersions": "<=5.10.0"
+      "description": "Merge non-major updates once all checks (incl. E2E) pass; every merge to main deploys, so only on Monday mornings",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
     },
     {
       "description": "Update the Sphinx documentation stack together, including major updates",
@@ -22,7 +29,8 @@
       "matchManagers": ["terraform"],
       "matchPackageNames": ["hashicorp/google"],
       "groupName": "Google provider",
-      "groupSlug": "google-provider"
+      "groupSlug": "google-provider",
+      "automerge": false
     }
   ]
 }

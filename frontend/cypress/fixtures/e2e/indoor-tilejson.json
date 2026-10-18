@@ -1,0 +1,7 @@
+{
+  "tilejson": "3.0.0",
+  "tiles": ["http://localhost:19090/tiles/{z}/{x}/{y}.pbf"],
+  "minzoom": 0,
+  "maxzoom": 20,
+  "bounds": [12.103541, 47.865018, 12.111059, 47.869857]
+}

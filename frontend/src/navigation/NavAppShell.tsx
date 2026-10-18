@@ -59,7 +59,7 @@ export function NavAppShell({ children }: Readonly<NavAppShellProps>) {
                     <NavLogo />
                 </Group>
             </AppShell.Header>
-            <AppShell.Navbar p="xd">
+            <AppShell.Navbar p="xd" data-testid="room-sidebar">
                 <AppShell.Section>
                     <ScheduleDatePicker />
                 </AppShell.Section>

@@ -45,15 +45,15 @@ export function CampusMap() {
                     ? "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
                     : `https://api.maptiler.com/maps/openstreetmap/style.json?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`
             }
+            // A diffed style swap drops the IndoorEqual layers without firing "style.load",
+            // so they would never be re-added. Rebuild the style on color scheme changes instead.
+            styleDiffing={false}
             attributionControl={{ compact: true }}
             onLoad={(event) => {
                 const map = event.target
-                if (process.env.NEXT_PUBLIC_TEST_ENV) {
-                    import("@mapgrab/map-interface")
-                        .then(({ installMapGrab }) => {
-                            installMapGrab(map, "mainMap")
-                        })
-                        .catch(console.error)
+                if (process.env.NEXT_PUBLIC_TEST_ENV === "true") {
+                    // Expose the public MapLibre API only in dedicated E2E builds.
+                    Object.assign(window, { roomfinderMap: map })
                 }
                 onMapLoad?.()
             }}

@@ -66,6 +66,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Generate a token on SonarQube, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
         with:
           # Additional arguments for the sonarcloud scanner
+          # Coverage exclusions: Firebase and MapLibre setup is only exercised in the browser (E2E), not by unit tests
           args:
             # Unique key of your project. You can find it in SonarQube > [my project] > Project Information (top-right menu)
             # mandatory
@@ -73,6 +74,7 @@ jobs:
             -Dsonar.organization=duell10111
             -Dsonar.sources=frontend/src,roomfinder-backend/src/main
             -Dsonar.exclusions=frontend/src/__tests__/**,frontend/src/__mocks__/**
+            -Dsonar.coverage.exclusions=frontend/src/admin/auth.ts,frontend/src/components/map/CampusMap.tsx
             -Dsonar.tests=frontend/src/__tests__,roomfinder-backend/src/test,roomfinder-backend/src/konsistTest
             -Dsonar.coverage.jacoco.xmlReportPaths=roomfinder-backend/build/reports/jacoco/test/jacocoTestReport.xml
             -Dsonar.javascript.lcov.reportPaths=frontend/coverage/lcov.info
