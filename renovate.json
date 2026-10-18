@@ -4,7 +4,19 @@
     "config:recommended",
     "group:allNonMajor"
   ],
+  "timezone": "Europe/Berlin",
+  "platformAutomerge": false,
+  "automergeSchedule": ["* 6-11 * * 1"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
   "packageRules": [
+    {
+      "description": "Merge non-major updates once all checks (incl. E2E) pass; every merge to main deploys, so only on Monday mornings",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
     {
       "description": "Update the Sphinx documentation stack together, including major updates",
       "matchFileNames": ["docs/requirements.txt"],
@@ -17,7 +29,8 @@
       "matchManagers": ["terraform"],
       "matchPackageNames": ["hashicorp/google"],
       "groupName": "Google provider",
-      "groupSlug": "google-provider"
+      "groupSlug": "google-provider",
+      "automerge": false
     }
   ]
 }
