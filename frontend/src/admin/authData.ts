@@ -10,12 +10,18 @@ export async function removeRoomFromDatabase(
     accessToken: string,
     roomName: string
 ) {
-    await fetch(`${backendUrl}/api/v1/admin/room/${roomName}`, {
-        method: "DELETE",
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-        },
-    })
+    const response = await fetch(
+        `${backendUrl}/api/v1/admin/room/${roomName}`,
+        {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    )
+    if (!response.ok) {
+        throw new Error(`Could not delete room (HTTP ${response.status})`)
+    }
 }
 
 /**
@@ -24,12 +30,15 @@ export async function removeRoomFromDatabase(
  * @param accessToken - A valid JWT token with admin privileges.
  */
 export async function removeRoomsFromDatabase(accessToken: string) {
-    await fetch(`${backendUrl}/api/v1/admin/room`, {
+    const response = await fetch(`${backendUrl}/api/v1/admin/room`, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
     })
+    if (!response.ok) {
+        throw new Error(`Could not delete rooms (HTTP ${response.status})`)
+    }
 }
 
 /**
@@ -38,10 +47,13 @@ export async function removeRoomsFromDatabase(accessToken: string) {
  * @param accessToken - A valid JWT token with admin privileges.
  */
 export async function removeSchedulesFromCache(accessToken: string) {
-    await fetch(`${backendUrl}/api/v1/admin/schedules`, {
+    const response = await fetch(`${backendUrl}/api/v1/admin/schedules`, {
         method: "DELETE",
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
     })
+    if (!response.ok) {
+        throw new Error(`Could not clear schedules (HTTP ${response.status})`)
+    }
 }

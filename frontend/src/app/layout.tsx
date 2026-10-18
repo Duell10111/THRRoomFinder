@@ -36,6 +36,17 @@ export default function RootLayout({
     return (
         <html lang="en" {...mantineHtmlProps}>
             <head>
+                {process.env.NEXT_PUBLIC_TEST_ENV === "true" && (
+                    // Keep Cypress's injected script from changing the React tree.
+                    // https://docs.cypress.io/app/references/error-messages#React-Hydration-Errors
+                    <script
+                        data-cy-bootstrap
+                        suppressHydrationWarning
+                        dangerouslySetInnerHTML={{
+                            __html: "/* Cypress bootstrap */",
+                        }}
+                    />
+                )}
                 <ColorSchemeScript defaultColorScheme="dark" />
             </head>
             <body className={`${geistSans.variable} ${geistMono.variable}`}>

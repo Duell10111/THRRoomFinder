@@ -2,6 +2,12 @@ name: Code analysis
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  merge_group:
 
 permissions:
   contents: read
@@ -32,8 +38,8 @@ jobs:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '25'
       - name: "Unit Tests"
-        run: gradle test
+        run: ./gradlew test
         working-directory: roomfinder-backend # Run in backend folder
       - name: "Architecture Tests"
-        run: gradle konsistTest
+        run: ./gradlew konsistTest
         working-directory: roomfinder-backend # Run in backend folder
