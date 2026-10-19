@@ -177,6 +177,48 @@ describe("OccupancyControl", () => {
         const { container } = render(<OccupancyControl />)
         expect(container.firstChild).toBeNull()
     })
+
+    it("preserves occupancy geometry across worker cloning without mutating map features", async () => {
+        class RenderedFeature {
+            type = "Feature"
+            properties = { class: "room" }
+            get geometry() {
+                return {
+                    type: "Polygon",
+                    coordinates: [
+                        [
+                            [0, 0],
+                            [1, 0],
+                            [1, 1],
+                            [0, 0],
+                        ],
+                    ],
+                }
+            }
+        }
+        const feature = new RenderedFeature()
+        map.queryRenderedFeatures.mockImplementation(({ layers }) =>
+            layers.includes("indoor-name")
+                ? [
+                      {
+                          geometry: { type: "Point", coordinates: [0, 0] },
+                          properties: { name: "A0.03" },
+                      },
+                  ]
+                : [feature]
+        )
+
+        render(<OccupancyControl />)
+
+        await vi.waitFor(() => expect(mapSource.setData).toHaveBeenCalled())
+        const data = structuredClone(mapSource.setData.mock.lastCall?.[0])
+        expect(data.features[1]).toEqual({
+            type: "Feature",
+            geometry: feature.geometry,
+            properties: { class: "room", roomName: "A0.03" },
+        })
+        expect(feature.properties).toEqual({ class: "room" })
+    })
 })
 
 describe("OccupancyController", () => {

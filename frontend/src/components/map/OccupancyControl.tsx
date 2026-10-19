@@ -78,8 +78,15 @@ function setRoomOccupancyStates(
                 ) {
                     const { polygonFeature } = getRoomFeature(map, roomName)
                     if (polygonFeature) {
-                        polygonFeature.properties["roomName"] = roomName
-                        return polygonFeature
+                        // Materialize the geometry getter before worker cloning.
+                        return {
+                            type: "Feature" as const,
+                            geometry: polygonFeature.geometry,
+                            properties: {
+                                ...polygonFeature.properties,
+                                roomName,
+                            },
+                        }
                     } else {
                         console.warn(
                             `Could not find room feature for room ${roomName}`

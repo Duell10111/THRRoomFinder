@@ -51,7 +51,14 @@ export function RoomClicker() {
                         ) as GeoJSONSource
                         source.setData({
                             type: "FeatureCollection",
-                            features: [feature],
+                            // Worker cloning drops MapLibre's prototype geometry getter.
+                            features: [
+                                {
+                                    type: "Feature",
+                                    geometry: feature.geometry,
+                                    properties: feature.properties,
+                                },
+                            ],
                         })
                     }
                 }
