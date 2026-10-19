@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.3](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.2...v0.2.3) (2026-10-19)
+
+
+### 🐛 Bugfixes
+
+* make E2E tests deterministic for dependency updates ([#97](https://github.com/Duell10111/THRRoomFinder/issues/97)) ([9356606](https://github.com/Duell10111/THRRoomFinder/commit/9356606699c8d5f9d7d740d281f048f6f165e916))
+* preserve geometry in occupancy features for worker cloning ([#100](https://github.com/Duell10111/THRRoomFinder/issues/100)) ([56cf0bf](https://github.com/Duell10111/THRRoomFinder/commit/56cf0bfb720b1599ca38fafb429a5d62ba9910f3))
+
 ## [0.2.2](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.1...v0.2.2) (2026-10-15)
 
 
