@@ -1,4 +1,5 @@
 import { render, screen } from "../../test-utils"
+import { act } from "@testing-library/react"
 import { describe, it, vi, beforeEach, expect } from "vitest"
 import { RoomClicker } from "@/components/map/RoomClicker"
 import React from "react"
@@ -49,6 +50,7 @@ vi.mock("@/context/RoomContext", () => ({
 describe("RoomClicker", () => {
     beforeEach(() => {
         vi.clearAllMocks()
+        mockMap.on.mockReset()
         mockLevel = undefined
     })
 
@@ -74,6 +76,50 @@ describe("RoomClicker", () => {
         render(<RoomClicker />)
 
         expect(screen.getByTestId("loader-room-popup")).toBeDefined()
+    })
+
+    it("sends highlight geometry as plain GeoJSON to the map worker", () => {
+        // MapLibre features expose geometry through a prototype getter, which
+        // worker structured cloning does not preserve.
+        class RenderedFeature {
+            type = "Feature"
+            properties = { name: "Test Room", level: "0" }
+            get geometry() {
+                return {
+                    type: "Polygon",
+                    coordinates: [
+                        [
+                            [0, 0],
+                            [1, 0],
+                            [1, 1],
+                            [0, 0],
+                        ],
+                    ],
+                }
+            }
+        }
+        const feature = new RenderedFeature()
+        render(<RoomClicker />)
+        const onClick = mockMap.on.mock.calls[0][2]
+        act(() =>
+            onClick({
+                features: [feature],
+                lngLat: { lat: 0, lng: 0 },
+            })
+        )
+
+        const source = mockMap.getSource()
+        const data = source.setData.mock.lastCall?.[0]
+        expect(structuredClone(data)).toEqual({
+            type: "FeatureCollection",
+            features: [
+                {
+                    type: "Feature",
+                    geometry: feature.geometry,
+                    properties: feature.properties,
+                },
+            ],
+        })
     })
 
     it("renders popup if popup state is set (simulated) and closes on exception", async () => {
