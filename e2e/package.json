@@ -7,7 +7,7 @@
     "test": "node run.mjs"
   },
   "devDependencies": {
-    "firebase-tools": "15.34.0",
+    "firebase-tools": "15.34.2",
     "geojson-vt": "5.0.4",
     "vt-pbf": "3.1.3"
   }
