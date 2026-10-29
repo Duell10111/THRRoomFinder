@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm") version "2.4.21"
     kotlin("plugin.spring") version "2.4.21"
     kotlin("kapt") version "2.4.21"
-    id("org.springframework.boot") version "4.1.1"
+    id("org.springframework.boot") version "4.1.2"
     id("com.google.cloud.tools.jib") version "3.5.4"
     id("com.diffplug.spotless") version "8.10.4"
     id("jacoco")
@@ -52,7 +52,7 @@ dependencies {
     implementation("org.postgresql:r2dbc-postgresql") // Implementation needed for Config Adaptions
 
     // Springdoc
-    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:3.1.1")
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:3.2.0")
 
     // Mapping
     implementation("org.mapstruct:mapstruct:1.6.3")
