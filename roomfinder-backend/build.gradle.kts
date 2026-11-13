@@ -4,9 +4,9 @@ plugins {
     kotlin("jvm") version "2.4.21"
     kotlin("plugin.spring") version "2.4.21"
     kotlin("kapt") version "2.4.21"
-    id("org.springframework.boot") version "4.1.1"
+    id("org.springframework.boot") version "4.1.2"
     id("com.google.cloud.tools.jib") version "3.5.4"
-    id("com.diffplug.spotless") version "8.10.4"
+    id("com.diffplug.spotless") version "8.11.0"
     id("jacoco")
     id("jvm-test-suite")
 }
@@ -52,17 +52,17 @@ dependencies {
     implementation("org.postgresql:r2dbc-postgresql") // Implementation needed for Config Adaptions
 
     // Springdoc
-    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:3.1.1")
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:3.2.0")
 
     // Mapping
     implementation("org.mapstruct:mapstruct:1.6.3")
     kapt("org.mapstruct:mapstruct-processor:1.6.3")
 
     // HTML Parser
-    implementation("org.jsoup:jsoup:1.23.2")
+    implementation("org.jsoup:jsoup:1.24.1")
 
     // Logging
-    implementation("io.github.oshai:kotlin-logging-jvm:8.0.4")
+    implementation("io.github.oshai:kotlin-logging-jvm:8.0.7")
 
     // Caching
     implementation("com.github.ben-manes.caffeine:caffeine:3.3.1")
@@ -74,7 +74,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-data-r2dbc-test")
     testImplementation("org.springframework.boot:spring-boot-starter-flyway-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testImplementation("io.mockk:mockk:1.14.11")
+    testImplementation("io.mockk:mockk:1.14.12")
     testImplementation("com.ninja-squad:springmockk:5.0.1")
     testImplementation("org.wiremock:wiremock-standalone:3.13.2")
     testImplementation("io.projectreactor:reactor-test")
