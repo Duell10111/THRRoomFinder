@@ -5,7 +5,7 @@
     "group:allNonMajor"
   ],
   "timezone": "Europe/Berlin",
-  "platformAutomerge": false,
+  "platformAutomerge": true,
   "automergeSchedule": ["* 6-11 * * 1"],
   "lockFileMaintenance": {
     "enabled": true,
