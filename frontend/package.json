@@ -12,10 +12,10 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
-    "@mantine/core": "9.8.2",
-    "@mantine/dates": "9.8.2",
-    "@mantine/hooks": "9.8.2",
-    "@mantine/notifications": "9.8.2",
+    "@mantine/core": "9.8.3",
+    "@mantine/dates": "9.8.3",
+    "@mantine/hooks": "9.8.3",
+    "@mantine/notifications": "9.8.3",
     "@tabler/icons-react": "^3.49.0",
     "@turf/turf": "^7.4.0",
     "date-fns": "^4.4.0",
