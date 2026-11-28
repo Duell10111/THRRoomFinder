@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.2.3](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.2...v0.2.3) (2026-11-28)
+
+
+### 🐛 Bugfixes
+
+* **deps:** update all non-major dependencies ([#94](https://github.com/Duell10111/THRRoomFinder/issues/94)) ([3c6d5a9](https://github.com/Duell10111/THRRoomFinder/commit/3c6d5a9b8e265d243d3078d39f6a71a63cd06b90))
+* make E2E tests deterministic for dependency updates ([#97](https://github.com/Duell10111/THRRoomFinder/issues/97)) ([9356606](https://github.com/Duell10111/THRRoomFinder/commit/9356606699c8d5f9d7d740d281f048f6f165e916))
+* preserve geometry in occupancy features for worker cloning ([#100](https://github.com/Duell10111/THRRoomFinder/issues/100)) ([56cf0bf](https://github.com/Duell10111/THRRoomFinder/commit/56cf0bfb720b1599ca38fafb429a5d62ba9910f3))
+
+
+### 🔧 Chore
+
+* **deps:** lock file maintenance ([#103](https://github.com/Duell10111/THRRoomFinder/issues/103)) ([891edcd](https://github.com/Duell10111/THRRoomFinder/commit/891edcd9016f492037e5b3f80979bd77a5c58b11))
+* **deps:** update gradle to v9.9.3 ([#114](https://github.com/Duell10111/THRRoomFinder/issues/114)) ([3bf6637](https://github.com/Duell10111/THRRoomFinder/commit/3bf663765bfb5f4851b0143ced5ecd7fdd1dd2c6))
+
 ## [0.2.2](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.1...v0.2.2) (2026-10-15)
 
 
