@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.2.3](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.2...v0.2.3) (2026-11-28)
+
+
+### 🐛 Bugfixes
+
+* **deps:** update all non-major dependencies ([#94](https://github.com/Duell10111/THRRoomFinder/issues/94)) ([3c6d5a9](https://github.com/Duell10111/THRRoomFinder/commit/3c6d5a9b8e265d243d3078d39f6a71a63cd06b90))
+* **deps:** update all non-major dependencies to v9.8.3 ([#115](https://github.com/Duell10111/THRRoomFinder/issues/115)) ([644f0c2](https://github.com/Duell10111/THRRoomFinder/commit/644f0c29616dd7d3825d3c691fd2210301d8fafd))
+* make E2E tests deterministic for dependency updates ([#97](https://github.com/Duell10111/THRRoomFinder/issues/97)) ([9356606](https://github.com/Duell10111/THRRoomFinder/commit/9356606699c8d5f9d7d740d281f048f6f165e916))
+* preserve geometry in occupancy features for worker cloning ([#100](https://github.com/Duell10111/THRRoomFinder/issues/100)) ([56cf0bf](https://github.com/Duell10111/THRRoomFinder/commit/56cf0bfb720b1599ca38fafb429a5d62ba9910f3))
+
+
+### 🔧 Chore
+
+* **deps:** lock file maintenance ([#103](https://github.com/Duell10111/THRRoomFinder/issues/103)) ([891edcd](https://github.com/Duell10111/THRRoomFinder/commit/891edcd9016f492037e5b3f80979bd77a5c58b11))
+* **deps:** update all non-major dependencies ([#109](https://github.com/Duell10111/THRRoomFinder/issues/109)) ([4dfc395](https://github.com/Duell10111/THRRoomFinder/commit/4dfc39526aaadcd060718e2df2e09808fba4188a))
+* **deps:** update all non-major dependencies ([#110](https://github.com/Duell10111/THRRoomFinder/issues/110)) ([a2dc9a3](https://github.com/Duell10111/THRRoomFinder/commit/a2dc9a3cc85754bd200ae7df41beac8c806fbeb8))
+* **deps:** update all non-major dependencies ([#111](https://github.com/Duell10111/THRRoomFinder/issues/111)) ([61f1c22](https://github.com/Duell10111/THRRoomFinder/commit/61f1c221914419d0f137c82848a68b913c8756c2))
+* **deps:** update all non-major dependencies ([#113](https://github.com/Duell10111/THRRoomFinder/issues/113)) ([2e51aa1](https://github.com/Duell10111/THRRoomFinder/commit/2e51aa1d0e25d8069cea91d871def8dcaf2847a7))
+* **deps:** update dependency node to v26 ([#104](https://github.com/Duell10111/THRRoomFinder/issues/104)) ([60b21fd](https://github.com/Duell10111/THRRoomFinder/commit/60b21fd3e41cf69dec9766eaa4c6580de941d815))
+* **deps:** update dependency vite to v8.4.0 ([#112](https://github.com/Duell10111/THRRoomFinder/issues/112)) ([27cda5e](https://github.com/Duell10111/THRRoomFinder/commit/27cda5e48d576b1e58d963f41493fa150179a795))
+* **deps:** update gradle to v9.9.3 ([#114](https://github.com/Duell10111/THRRoomFinder/issues/114)) ([3bf6637](https://github.com/Duell10111/THRRoomFinder/commit/3bf663765bfb5f4851b0143ced5ecd7fdd1dd2c6))
+
 ## [0.2.2](https://github.com/Duell10111/THRRoomFinder/compare/v0.2.1...v0.2.2) (2026-10-15)
 
 
